@@ -1,0 +1,30 @@
+
+Recovery Manager: Release 9.2.0.5.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 2> 3> 4> 5> 6> 7> 8> 9> 10> 11> 
+allocated channel: c1
+channel c1: sid=74 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2003092602)
+
+Starting restore at 16/06/2004
+
+skipping datafile 212; already restored to file /o09/oradata/oraacct2/acct_mov_data_p2102.dbf
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00121 to /o09/oradata/oraacct2/acct_mov_data_p2101.dbf
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P21_ORAACCT2_20040601_144942_s2177_p1.rman tag=TAG20040601T144946 params=NULL
+channel c1: restore complete
+Finished restore at 16/06/2004
+
+sql statement: alter tablespace ACCT_MOV_DATA_P21 online
+released channel: c1
+
+RMAN> 
+
+Recovery Manager complete.

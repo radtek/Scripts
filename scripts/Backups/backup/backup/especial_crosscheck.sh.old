@@ -1,0 +1,23 @@
+IND=200
+DATA=`date +'%Y%m%d'`
+TIME=`date +'%H%M%S'`
+LOG=$ORACLE_BASE/oracledba/logs/especial_crosscheck.log.${DATA}_${TIME}
+
+{
+while [ $IND -gt 30 ] ;
+do
+IND=`expr $IND - 5 `
+echo "`date +'%Y-%m-%d %H:%M:%S'`: Crosscheck de bkps efetuados a mais de sysdate - $IND dias."
+echo "-------------------------------------------------------"
+$ORACLE_HOME/bin/rman target / catalog rman/rman@orarep <<eof
+allocate channel for maintenance type 'sbt';
+crosscheck backup completed before 'sysdate-${IND}';
+delete noprompt expired backup completed before 'sysdate-90';
+exit;
+# Final dos comandos do rman.
+eof
+echo "-------------------------------------------------------"
+echo " "
+done
+} > $LOG 2>&1
+

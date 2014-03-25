@@ -1,0 +1,301 @@
+#!/bin/sh
+#################################################################
+# Realiza backup do banco oracle com o RMAN para tape ou disk.  #
+# Gediel Luchetta (fev/2002).                                   #
+#################################################################
+
+# Chama script que verifica o parametro de entrada e o ambiente.
+
+
+dayofweek=`date +%a`
+if [ "$dayofweek" != Sun ]; then
+    echo "Backup realizado offline, somente deve ser executado no domingo";
+    exit 1
+fi
+
+
+# Deve ser passado um arquivo de configuracao como parametro.
+if [ ! $# -eq 4 ] ; then
+   echo
+   echo "Deve ser passado 4 parametros:"
+   echo "1º) Um arquivo de configuracao com as variáveis de ambientes"
+   echo "2º) Tipo do backup (FULL, CUMU, INCR)"
+   echo "3º) Nome da Classe do Netbackup."
+   echo "4º) Nome da Schedule do Netbackup."
+   echo " "
+   echo "Exemplos:"
+   echo "$0 <caminho/nome_arq_configuracao> FULL Oracle-Solaris Controle-Full"
+   echo "$0 <caminho/nome_arq_configuracao> CUMU Oracle-Solaris Controle-Cumulativo"
+   echo "$0 <caminho/nome_arq_configuracao> CUMU Retentativa-Oracle-Solaris Controle-Full"
+   echo
+   exit 1
+fi
+
+CONF=$1
+TIPOBKP=$2
+CLASSBD=$3
+SCHEDBD=$4
+export NLS_DATE_FORMAT="dd/mm/yyyy hh24:mi:ss"
+# Verifica se o arquivo de configuracao passado existe.
+if [ ! -f $CONF ]; then
+   echo
+   echo "Arquivo $CONF nao encontrado."
+   echo "Certifique-se que o arquivo existe e/ou passe o caminho completo."
+   echo
+   exit 2
+fi
+
+# Inicializa as variaveis de ambiente que estao no arquivo de configuracao
+. $CONF
+
+
+# Arquivo temporario para o email.
+ARQ_MAIL=/tmp/bkp_$ORACLE_SID.mail
+
+# Seta o prefixo do arquivo de lock que evita dois bkps simultaneos.
+ARQ_LOCK=$BASE_BKP/lock_bkp_bd_${ORACLE_SID}.pid
+
+# Testa pra ver se ja tem um bkp de archives ocorrendo nesse momento.
+if [ -f $ARQ_LOCK ]; then
+  echo " "
+  echo "Encontrado arquivo de lock do bkp:" $ARQ_LOCK
+  echo "Verifique se ja existe um bkp em andamento."
+  echo "Obs: O conteudo do arquivo de lock eh o PID do processo de bkp."
+  echo " "
+  exit 5
+else
+  # Gera um arquivo de lock contendo o PID do processo atual.
+  echo $$ > $ARQ_LOCK
+fi
+
+
+
+# Inicializa as funções genericas de backup.
+if [ ! -f ${BASE_BKP}/functions.bkp ]; then
+   echo
+   echo "Arquivo ${BASE_BKP}/functions.bkp com as funcoes genericas nao encontrado."
+   echo
+   exit 4
+else
+   . ${BASE_BKP}/functions.bkp
+fi
+
+#
+# Verifica se o repositorio do rman esta ok, caso necessite se conectar.
+# Se tiver qualquer problema de conexao com o catalog do rman, realiza backup sem catalago.
+#
+if [ ! -z "$CONEXAO_RMAN" ] ; then
+    Testa_conexao "$CONEXAO_RMAN" 2 "$ORACLE_SID"
+    if [ ! $? = 0 ] ; then # conexao falhou
+       CONEXAO_RMAN=
+    fi
+fi
+
+#
+# Se for MENSAL ou ANUAL realiza backup FULL
+# (nunca cumulativo ou incremental e de todos os datafiles, nao importa se foram pra bkp a pouco tempo)
+#
+if [ "$SCHEDBD" = "$SCHED_MENSAL"  -o "$SCHEDBD" = "$SCHED_ANUAL"  ] ; then
+   TIPOBKP="FULL"
+         export JANELA_RETENTATIVA=""
+fi
+
+
+#Seta a classe e schedule tmb para os archives
+CLASSAR=$CLASSBD
+SCHEDAR=$SCHEDBD
+
+
+# Verifica se o segundo parametro esta correto
+if [ ! "$TIPOBKP" = "FULL" ] && [ ! "$TIPOBKP" = "CUMU" ] && [ ! "$TIPOBKP" = "INCR" ] ; then
+   echo
+   echo "O segundo parametro deve ser: FULL, CUMU ou INCR"
+   echo "Indicando se o backup eh full, cumulativo ou incremental respectivamente."
+   echo
+   exit 3
+fi
+
+#
+# Verifica se esse banco sofre uma politica de backup incremental ou cumulativo em determinados dias.
+# Nesse caso, uma solicitacao para backup FULL ("$TIPOBKP" = "FULL") deve ser convertida para
+# Um cumulativo (TIPOBKP = "CUMU")  de nivel zero (NIVELBKP=0).
+#
+if [ "$POLITICA_CUMULATIVA"  =  "Y" ] ; then
+   if [ "$TIPOBKP" = "FULL" ] ; then
+      NIVELBKP=0
+   else
+      NIVELBKP=1
+   fi
+   TIPOBKP="CUMU"
+else
+   TIPOBKP="FULL"
+   NIVELBKP=0
+fi
+
+# Seta o diretorio de backup tambem no path
+PATH=$PATH:$BASE_BKP
+
+
+# Pega a Data e hora de inicio.
+INICIO=`date +'%d/%m/%Y %H:%M:%S'`
+echo "Inicio.-> "$INICIO
+echo "--------------------------------------------------------------"
+
+# Monta o nome do arquivo de log
+ARQ_LOG=$ARQ_LOG.`date +'%d%m%Y%H%M%S'`
+RMAN_LOG_BD=$DIR_LOGS/rman_bd.log.`date +'%d%m%Y%H%M%S'`
+
+#Inicia o conjunto de comandos que terao sua saida direcionada para um arquivo que sera enviado por email
+{
+
+echo
+echo "Inicio: $INICIO"
+echo "--------------------------------------------------------------------------------"
+
+echo
+echo "Gera arquivo de comando para o rman realizar bkp do banco ..."
+SKIP_READONLY="N"
+if [ ! -z "$CONEXAO_RMAN" ] ; then
+  echo "Gera_cmd_bd_rman $TIPOBKP $NIVELBKP $CLASSBD $SCHEDBD $SKIP_READONLY Y"
+  Gera_cmd_bd_rman_cold $TIPOBKP $NIVELBKP $CLASSBD $SCHEDBD $SKIP_READONLY Y
+else
+  echo "Gera_cmd_bd_rman $TIPOBKP $NIVELBKP $CLASSBD $SCHEDBD $SKIP_READONLY N"
+fi
+echo
+echo "Executa o rman para realizar o backup do banco:"
+} >$ARQ_LOG 2>&1
+
+# Verifica de deve ou nao usar um catalog do rman
+if [ -z "$CONEXAO_RMAN" ] ; then
+   CALL_RMAN="$ORACLE_HOME/bin/rman target / nocatalog"
+else
+   CALL_RMAN="$ORACLE_HOME/bin/rman target / catalog $CONEXAO_RMAN"
+fi
+
+# Executa o rman usando os comandos de bkp de banco gerados.
+$CALL_RMAN cmdfile $ARQ_CMD_RMAN_BD msglog $RMAN_LOG_BD
+RET_RMAN_BD=$?
+
+if [ $RET_RMAN_BD = 0 ] ; then
+  {
+   echo " "
+   echo "Final do rman (BD) com SUCESSO:`date +'%d/%m/%Y %H:%M:%S'`"
+   echo " "
+  } >>$ARQ_LOG
+else
+  {
+   echo " "
+   echo "Final do rman (BD) com ERRO:`date +'%d/%m/%Y %H:%M:%S'`"
+   echo "Retorno:$RET_RMAN_BD"
+   echo "ERRO: "
+   echo "-------------------------------------------------"
+   cat $RMAN_LOG_BD
+   echo "--------------------------------------------------"
+   echo "Sera disparada uma retentativa....                "
+  } >>$ARQ_LOG
+  RMAN_LOG_BD2=$DIR_LOGS/rman_bd_retentativa.log.`date +'%d%m%Y%H%M%S'`
+  $CALL_RMAN cmdfile $ARQ_CMD_RMAN_BD msglog $RMAN_LOG_BD2
+  RET_RMAN_BD=$?
+  {
+   echo "--------------------------------------------------"
+   echo "Log da retentativa:"
+   echo "--------------------------------------------------"
+   cat $RMAN_LOG_BD2
+  } >>$ARQ_LOG
+fi
+
+
+{
+echo
+echo "Realiza backup do controlfile no S.O (trace e binario):"
+echo "Bkp_control $BKPUSER $BKPPASS $DIR_DEST_CTL"
+Bkp_control $BKPUSER $BKPPASS $DIR_DEST_CTL
+
+echo
+echo "Copia dos arquivos de configuracao do sqlnet:"
+echo "Bkp_conf $ORACLE_SID $DIR_DEST_CONF"
+Bkp_conf $ORACLE_SID $DIR_DEST_CONF
+
+echo
+echo "Remove traces, logs ou archives que são muito antigos:"
+echo "Remove_antigos \"$LISTA_REMOVE_ANTIGOS\" $DIAS_REMOVE_ANTIGOS $DIR_LOGS/remove_antigos.log"
+Remove_antigos "$LISTA_REMOVE_ANTIGOS" $DIAS_REMOVE_ANTIGOS $DIR_LOGS/remove_antigos.log
+
+# Pega a Data e hora de termino.
+DATA=`date +'%d/%m/%Y'`
+HORA=`date +'%H:%M:%S'`
+
+echo
+echo "--------------------------------------------------------------------------------"
+echo "Termino: $DATA $HORA"
+
+# Finaliza o conjunto de comandos
+} >>$ARQ_LOG 2>&1
+
+MSG1="`date '+%d/%m/%Y %H:%M:%S'` - Backup Diario HOST:`hostname` DB:${ORACLE_SID} "
+MSG2="`date '+%d/%m/%Y %H:%M:%S'` - Redisparo Automatico HOST:`hostname` DB:${ORACLE_SID} "
+
+if [ ! $RET_RMAN_BD = 0 ]; then
+   RET=$RET_RMAN_BD
+   MSG0="Erro encontrado no backup do banco."
+   MSG1="${MSG1} [ERRO]"
+   MSG2="${MSG2} [ERRO]"
+else
+   if [ ! -z "$RMAN_LOG_BD2" ] ; then
+   if [ ! -z "$RMAN_LOG_BD2" ] ; then
+      MSG1="${MSG1} [ERRO]"
+      MSG2="${MSG2} [OK]"
+   else
+      MSG1="${MSG1} [OK]"
+      MSG2=""
+   fi
+
+fi
+
+if [ ! $RET = 0 ] ; then
+   SUBJECT="Subject: ERRO... BACKUP (Maq:`hostname`  SID:$ORACLE_SID)"
+else
+   if [ ! -z "$RMAN_LOG_BD2" ] ; then
+      SUBJECT="Subject: RETENTATIVA BACKUP (Maq:`hostname`  SID:$ORACLE_SID)"
+   else
+      SUBJECT=""
+   fi
+fi
+
+#
+# Manda email notificando somente quando deu erro ou houve retentativa.
+#
+FINAL=`date +'%d/%m/%Y %H:%M:%S'`
+
+if [ ! -z "$SUBJECT" ] ; then
+   {
+    echo $SUBJECT
+    echo "To: $LISTA_EMAILS"
+    echo " "
+    echo "############################################################"
+    echo "Inicio.............:$INICIO"
+    echo "Final..............:$FINAL"
+    echo "CLASSE.............:$CLASSBD"
+    echo "Schedule...........:$SCHEDBD"
+    echo "POLITICA_CUMULATIVA:$POLITICA_CUMULATIVA"
+    echo "Tipo...............:$TIPOBKP"
+    echo "Nivel..............:$NIVELBKP"
+    echo "############################################################"
+    echo " "
+    cat $ARQ_LOG
+   } > $ARQ_MAIL
+   Send_mail "$SUBJECT" "$LISTA_EMAILS" $ARQ_MAIL
+fi
+
+# Remove o arquivo de lock.
+rm $ARQ_LOCK
+
+echo "--------------------------------------------------------------"
+echo "$MSG0"
+echo "*****"
+echo "$MSG1"
+echo "$MSG2"
+echo "*****"
+echo "--------------------------------------------------------------"
+echo "`date '+%d/%m/%Y %H:%M:%S'` - Codigo de retorno:"$RET
+exit $RET

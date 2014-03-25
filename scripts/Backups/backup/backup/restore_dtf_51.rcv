@@ -1,0 +1,8 @@
+run {
+allocate channel c1 type 'sbt_tape';
+allocate channel c2 type 'sbt_tape';
+allocate channel c3 type 'sbt_tape';
+restore datafile 51;
+recover datafile 51;
+}
+

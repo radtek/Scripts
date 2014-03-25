@@ -1,0 +1,15 @@
+16:57:37 orausdw>set echo on
+16:57:37 orausdw>set timing on
+16:57:37 orausdw>set pages 1000
+16:57:37 orausdw>set lines 20000
+16:57:37 orausdw>
+16:57:37 orausdw>alter session set current_schema=bipub;
+
+Sessão alterada.
+
+Decorrido: 00:00:00.26
+16:57:37 orausdw>
+16:57:37 orausdw>
+16:57:37 orausdw>
+16:57:37 orausdw>
+16:57:37 orausdw>spool off

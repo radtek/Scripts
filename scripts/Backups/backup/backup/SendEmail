@@ -1,0 +1,1248 @@
+#!/usr/bin/perl -w
+##############################################################################
+##  sendEmail
+##  Written by: Brandon Zehm <caspian@dotconf.net>
+##  
+##  License:
+##  
+##  *** The use of this software for sending spam ***
+##  *** or unsolicited email is explicitly denied ***
+##  
+##  sendEmail (hereafter referred to as "program") is free software;
+##    you can redistribute it and/or modify it under the terms of the GNU General
+##    Public License as published by the Free Software Foundation; either version
+##    2 of the License, or (at your option) any later version.
+##  Note that when redistributing modified versions of this source code, you
+##    must ensure that this disclaimer and the above coder's names are included
+##    VERBATIM in the modified code.
+##  
+##  Disclaimer:
+##    This program is provided with no warranty of any kind, either expressed or
+##    implied.  It is the responsibility of the user (you) to fully research and
+##    comprehend the usage of this program.  As with any tool, it can be misused,
+##    either intentionally (you're a vandal) or unintentionally (you're a moron).
+##    THE AUTHOR(S) IS(ARE) NOT RESPONSIBLE FOR ANYTHING YOU DO WITH THIS PROGRAM
+##    or anything that happens because of your use (or misuse) of this program,
+##    including but not limited to anything you, your lawyers, or anyone else
+##    can dream up.  And now, a relevant quote directly from the GPL:
+##    
+##    NO WARRANTY
+##    
+##    11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+##    FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
+##    OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+##    PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED
+##    OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+##    MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS
+##    TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
+##    PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
+##    REPAIR OR CORRECTION.
+##    
+##  ---
+##    
+##    Whee, that was fun, wasn't it?  Now let's all get together and think happy
+##    thoughts - and remember, the same class of people who made all the above
+##    legal spaghetti necessary are the same ones who are stripping your rights
+##    away with DVD CCA, DMCA, stupid software patents, and retarded legal
+##    challenges to everything we've come to hold dear about our internet.
+##    So enjoy your dwindling "freedom" while you can, because 1984 is coming
+##    sooner than you think.  :(
+## 
+##############################################################################
+use strict;
+use Socket qw (:DEFAULT :crlf);
+
+
+########################
+##  Global Variables  ##
+########################
+
+my %conf = (
+    "programName"          => $0,                                  ## The name of this program
+    "version"              => '1.40',                              ## The version of this program
+    "authorName"           => 'Brandon Zehm',                      ## Author's Name
+    "authorEmail"          => 'caspian@dotconf.net',               ## Author's Email Address
+    "timezone"             => tz_offset(),                         ## Get the local time zone
+    "debug"                => 0,                                   ## Default debug level
+    "quiet"                => 0,                                   ## Quiet mode
+    
+    ## The following entries are used later in the program
+    "server"               => 'localhost',                         ## Default SMTP server
+    "port"                 => 25,                                  ## Default port
+    "alarm"                => 60,                                  ## Default timeout for connects and reads
+    "logging"              => 0,                                   ## If this is true the printmsg function prints to the log file
+    "logFile"              => '',                                  ## Log file
+    "delimiter"            => "----MIME delimiter for sendEmail-"  ## Default MIME Delimiter
+                              . rand(1000000),                     ## Add some randomness to the delimiter
+    
+);
+$conf{'programName'} =~ s/(.)*[\/,\\]//;                           ## Remove path from filename
+$0 = "$conf{'programName'}";
+
+
+## More variables used later in the program
+my $subject     = '';
+my $message     = '';
+my $from        = '';
+my @to          = ();
+my @cc          = ();
+my @bcc         = ();
+my @attachments = ();
+my @attachments_names = ();
+
+
+
+
+
+#############################
+##
+##      MAIN PROGRAM
+##
+#############################
+
+
+## Initialize
+initialize();
+
+
+## Process Command Line
+processCommandLine();
+
+
+## Abort program after $conf{'alarm'} seconds to avoid infinite hangs
+alarm($conf{'alarm'}) if ($^O !~ /win/i);  ## alarm() doesn't work in win32
+
+
+
+
+###################################################
+##  Read $message from STDIN if -m was not used  ##
+###################################################
+
+if (!($message)) {
+    alarm($conf{'alarm'}) if ($^O !~ /win/i);  ## alarm() doesn't work in win32
+    unless ($conf{'quiet'}) {
+        print "Reading message body from STDIN because the '-m' option was not used.\n";
+        print "If you are manually typing in a message:\n";
+        print "  - First line must be received within $conf{'alarm'} seconds.\n" if ($^O !~ /win/i);
+        print "  - End manual input with a CTRL-D on its own line.\n\n" if ($^O !~ /win/i);
+        print "  - End manual input with a CTRL-Z on its own line.\n\n" if ($^O =~ /win/i);
+    }
+    while (<STDIN>) {                 ## Read STDIN into $message
+        $message .= $_;
+        alarm(0) if ($^O !~ /win/i);  ## Disable the alarm since at least one line was received
+    }
+    printmsg("Message input complete.", 0);
+    $message =~ s/([^\015])(\012)/$1\015\012/g;    ## Fix lines with bare LF's (\012 should always have \015 with it)
+}
+
+
+## Check message for bare periods and encode them
+$message =~ s/(^|\012)(\.{1,})(\015|\012)/$1.$2$3/;
+
+## Get the current date for the email header
+my ($sec,$min,$hour,$mday,$mon,$year,$day) = localtime(time);
+$year += 1900; $mon = return_month($mon); $day = return_day($day);
+my $date = sprintf("%s, %s %s %d %.2d:%.2d:%.2d %s",$day, $mday, $mon, $year, $hour, $min, $sec, $conf{'timezone'});
+
+
+
+
+#############################
+##  Connect to the server  ##
+#############################
+printmsg("Connecting to $conf{'server'}:$conf{'port'}", 1);
+if (connectTo($conf{'server'}, $conf{'port'})) { 
+    quit($conf{'error'}, 1);
+}
+if (readServerResponse()) { quit("EXITING - The remote server returned the error: $conf{'error'}", 1); }
+
+
+
+
+#################################################
+##  Chat with the server and send the message  ##
+#################################################
+printmsg("Sending mail commands: ", 1);
+
+printmsg("Sending:\tHELO", 1);                     ## Helo
+print SERVER "HELO $conf{'server'}$CRLF";
+if (readServerResponse()) { quit("EXITING - The remote server returned the error: $conf{'error'}", 1); }
+printmsg("Received:\tOK", 1);
+
+printmsg("Sending:\tMAIL FROM", 1);                ## Mail From
+print SERVER "MAIL FROM: <$from>$CRLF";
+if (readServerResponse()) { quit("EXITING - The remote server returned the error: $conf{'error'}", 1); }
+printmsg("Received:\tOK", 1);
+
+printmsg("Sending:\tRCPT TO", 1);                   ## RCPT To
+for ($a = 0; $a < scalar(@to); $a++) {               ## To
+    print SERVER "RCPT TO: <$to[$a]>$CRLF";
+    if (readServerResponse()) { quit("EXITING - The remote server returned the error: $conf{'error'}", 1); }
+}
+for ($a = 0; $a < scalar(@cc); $a++) {               ## Cc
+    print SERVER "RCPT TO: <$cc[$a]>$CRLF";
+    if (readServerResponse()) { quit("EXITING - The remote server returned the error: $conf{'error'}", 1); }
+}
+for ($a = 0; $a < scalar(@bcc); $a++) {              ## Bcc
+    print SERVER "RCPT TO: <$bcc[$a]>$CRLF";
+    if (readServerResponse()) { quit("EXITING - The remote server returned the error: $conf{'error'}", 1); }
+}
+printmsg("Received:\tOK", 1);
+
+printmsg("Sending:\tDATA", 1);                      ## DATA (the body of the email)
+print SERVER "DATA$CRLF";
+if (readServerResponse()) { quit("EXITING - The remote server returned the error: $conf{'error'}", 1); } 
+                                                    ## EMAIL HEADERS ##
+print SERVER "From: <$from>$CRLF";                     ## From
+
+print SERVER "To:";                                    ## To
+for ($a = 0; $a < scalar(@to); $a++) {                   
+    if (($a + 1) != scalar(@to)) {
+        print SERVER " <$to[$a]>,$CRLF";
+    } else {
+        print SERVER " <$to[$a]>$CRLF";
+    }
+}
+
+if (scalar(@cc) > 0) {                                    ## Cc
+    print SERVER "Cc:";
+    for ($a = 0; $a < scalar(@cc); $a++) {                   
+        if (($a + 1) != scalar(@cc)) {
+            print SERVER " <$cc[$a]>,$CRLF";
+        } else {
+            print SERVER " <$cc[$a]>$CRLF";
+        }
+    }
+}
+
+print SERVER "Subject: $subject$CRLF";                         ## Subject
+print SERVER "Date: $date$CRLF";                               ## Date
+print SERVER "X-Mailer: sendEmail-$conf{'version'}$CRLF";      ## X-Mailer
+                                                            
+## END MAIN HEADERS ##
+                                                            
+## IF ATTACHMENTS, send special headers
+if ($attachments[0]) {
+    ## Disable the alarm so people on modems can send big attachments
+    alarm(0) if ($^O !~ /win/i);  ## alarm() doesn't work in win32
+    
+    ## Append these lines to the header
+    print SERVER "Content-Type: multipart/mixed; boundary=\"$conf{'delimiter'}\"$CRLF";
+    print SERVER "$CRLF";
+    print SERVER "This is a multi-part message in MIME format.$CRLF";
+    print SERVER "$CRLF";
+    print SERVER "--$conf{'delimiter'}$CRLF";
+}
+
+
+## MIME format the message
+## If the message contains HTML change the Contetn-Type
+if ($message =~ /\<html\>/i) {
+    printmsg("Message is in HTML format", 2);
+    print SERVER "Content-Type: text/html;$CRLF";
+}
+
+## Otherwise it's a normal text email
+else {
+    print SERVER "Content-Type: text/plain;$CRLF";
+}
+
+## Send the message body
+print SERVER "        charset=\"iso-8859-1\"$CRLF";
+print SERVER "Content-Transfer-Encoding: 7bit$CRLF";
+print SERVER "$CRLF";
+print SERVER "$message$CRLF";
+print SERVER "$CRLF";
+
+
+## IF ATTACHMENTS
+if ($attachments[0]) {
+    ## Send the attachments
+    foreach my $filename (@attachments) {
+        ## FIXME: should this be done earlier and abort the whole email?
+        if ( ! -f $filename ) {
+            printmsg("ERROR - The file [$filename] doesn't exist!  Email will be sent, but without that attachment.");
+        }
+        elsif ( ! -r $filename ) {
+            printmsg("ERROR - Couldn't open the file [$filename] for reading: $!   Email will be sent, but without that attachment.");
+        }
+        else {
+            printmsg("DEBUG - Sending the attachment [$filename]", 1);
+            send_attachment($filename);
+        }
+    }
+    print SERVER "$CRLF--$conf{'delimiter'}--$CRLF";  ## Terminate mime message
+}
+
+## Tell the server we are done sending the email
+print SERVER "$CRLF.$CRLF";
+if (readServerResponse()) { quit("EXITING - The remote server returned the error: $conf{'error'}", 1); }
+printmsg("Received:\tOK", 1);
+
+
+
+####################
+#  We are done!!!  #
+####################
+
+printmsg("Disconnecting", 1);
+disconnect();
+
+
+
+
+
+
+#######################################
+##  Generate exit message/log entry  ##
+#######################################
+
+if ($conf{'debug'} or $conf{'logging'}) {
+    printmsg("Generating a detailed exit message", 3);
+    
+    ## Put the message together
+    my $output = "Email was sent successfully!  From: [$from] To: ";
+    for ($a = 0; $a < scalar(@to); $a++) {
+        $output .= "[$to[$a]] ";
+    }
+    if (scalar(@cc) > 0) {
+        $output .= "Cc: ";
+        for ($a = 0; $a < scalar(@cc); $a++) {
+            $output .= "[$cc[$a]] ";
+        }
+    }
+    if (scalar(@bcc) > 0) {
+        $output .= "Bcc: ";
+        for ($a = 0; $a < scalar(@bcc); $a++) {
+            $output .= "[$bcc[$a]] ";
+        }
+    }
+    $output .= "Subject: [$subject] " if ($subject);
+    if (scalar(@attachments_names) > 0) { 
+        $output .= "Attachment(s): ";
+        foreach(@attachments_names) {
+            $output .= "[$_] ";
+        }
+    }
+    $output .= "Server: [$conf{'server'}:$conf{'port'}]";
+    
+    
+######################
+#  Exit the program  #
+######################
+    
+    ## Print / Log the detailed message
+    quit($output, 0);
+}
+else {
+    ## Or the standard message
+    printmsg("Exiting the program", 3);
+    quit("Email was sent successfully!", 0);
+}
+quit("ERROR - I should never exit the program here..  strange!  Please report this bug to $conf{'authorEmail'}", 1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################
+## Function:    help ()
+##
+## Description: For all those newbies ;) 
+##              Prints a help message and exits the program.
+## 
+###############################################################################################
+sub help {
+exit(1) if ($conf{'quiet'});
+print <<EOM;
+
+$conf{'programName'}-$conf{'version'} by $conf{'authorName'} <$conf{'authorEmail'}>
+
+Usage:  $conf{'programName'} [options]   or   command | sendEmail [options]
+
+  Required:
+    -f <from>            from email address
+    -t <to> [<to>]       to email address(es) (space separated list)
+  
+  Common:
+    -u <subject>         (this will soon be -s, and -s will become -h[ost])
+    -m <message>         if -m is absent the message is read from STDIN
+    -s <server[:port]>   default is $conf{'server'}:$conf{'port'}
+  
+  Optional:
+    -a <file> [<file>]   file attachment(s)
+    -cc  <to> [<to>]     cc  email address(es)
+    -bcc <to> [<to>]     bcc email address(es)
+  
+  Paranormal:
+    -l <logfile>         log to the specified file
+    -v                   verbosity - use multiple times for greater effect
+    -q                   be quiet (no stdout output)
+
+EOM
+exit(1);
+}
+
+
+
+
+
+
+
+
+
+###############################################################################################
+##  Function: initialize ()
+##  
+##  Does all the script startup jibberish.
+##  
+###############################################################################################
+sub initialize {
+
+  ## Set STDOUT to flush immediatly after each print  
+  $| = 1;
+
+  ## Intercept signals
+  $SIG{'QUIT'}  = sub { quit("EXITING: Received SIG$_[0]", 1); };
+  $SIG{'INT'}   = sub { quit("EXITING: Received SIG$_[0]", 1); };
+  $SIG{'KILL'}  = sub { quit("EXITING: Received SIG$_[0]", 1); };
+  $SIG{'TERM'}  = sub { quit("EXITING: Received SIG$_[0]", 1); };
+  
+  ## ALARM and HUP signals are not supported in Win32
+  unless ($^O =~ /win/i) {
+      $SIG{'HUP'}   = sub { quit("EXITING: Received SIG$_[0]", 1); };
+      $SIG{'ALRM'}  = sub { quit("EXITING: Received SIG$_[0]", 1); };
+  }
+  
+  return(1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################
+##  Function: processCommandLine ()
+##  
+##  Processes command line storing important data in global vars (usually %conf)
+##  
+###############################################################################################
+sub processCommandLine {
+    
+    
+    ############################
+    ##  Process command line  ##
+    ############################
+    
+    my @ARGS = @ARGV;  ## This is so later we can re-parse the command line args if we need to
+    my $numargv = @ARGS;
+    help() unless ($numargv);
+    my $counter = 0;
+    
+    for ($counter = 0; $counter < $numargv; $counter++) {
+  
+        if ($ARGS[$counter] =~ /^-h$|^--help$/i) {           ## Help ##
+            help();
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-f$/) {                  ## From ##
+            $counter++;
+            if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) { $from = $ARGS[$counter]; }
+            else { printmsg("WARNING - The argument after -f was not an email address!", 0); $counter--; }
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-t$/) {                  ## To ##
+            $counter++;
+            while ($ARGS[$counter] && ($ARGS[$counter] !~ /^-/)) {
+                push (@to,$ARGS[$counter]);
+                $counter++;
+            }   $counter--;
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-m$/) {                  ## Message ##
+            $counter++;
+            if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) { $message = $ARGS[$counter]; }
+            else { printmsg("WARNING - The argument after -m was not the message!", 0); $counter--; }
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-u$/) {                  ## Subject ##
+            $counter++;
+            if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) { $subject = $ARGS[$counter]; }
+            else { printmsg("WARNING - The argument after -u was not the subject!", 0); $counter--; }
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-s$/) {                  ## Server ##
+            $counter++;
+            if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) {
+                $conf{'server'} = $ARGS[$counter];
+                if ($conf{'server'} =~ /:/) {                ## Port ##
+                    ($conf{'server'},$conf{'port'}) = split(":",$conf{'server'});
+                }
+            }
+            else { printmsg("WARNING - The argument after -s was not the server!", 0); $counter--; }
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-a$/) {                  ## Attachments ##
+            $counter++;
+            while ($ARGS[$counter] && ($ARGS[$counter] !~ /^-/)) {
+                push (@attachments,$ARGS[$counter]);
+                $counter++;
+            }   $counter--;
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-cc$/) {                 ## Cc ##
+            $counter++;
+            while ($ARGS[$counter] && ($ARGS[$counter] !~ /^-/)) {
+                push (@cc,$ARGS[$counter]);
+                $counter++;
+            }   $counter--;
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-bcc$/) {                ## Bcc ##
+            $counter++;
+            while ($ARGS[$counter] && ($ARGS[$counter] !~ /^-/)) {
+                push (@bcc,$ARGS[$counter]);
+                $counter++;
+            }   $counter--;
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-l$/) {                  ## Logging ##
+            $counter++;
+            $conf{'logging'} = 1;
+            if ($ARGS[$counter] && $ARGS[$counter] !~ /^-/) { $conf{'logFile'} = $ARGS[$counter]; }
+            else { printmsg("WARNING - The argument after -l was not the log file!", 0); $counter--; }
+        }
+        
+        elsif ($ARGS[$counter] =~ s/^-v+//i) {               ## Verbosity ##
+            my $tmp = (length($&) - 1);
+            $conf{'debug'} += $tmp;
+        }
+        
+        elsif ($ARGS[$counter] =~ /^-q$/) {                  ## Quiet ##
+            $conf{'quiet'} = 1;
+        }
+        
+        else {
+            printmsg("Error: \"$ARGS[$counter]\" is not a recognised option!", 0);
+            help();
+        }
+        
+    }
+
+
+
+
+
+
+    
+    
+    ###################################################
+    ##  Verify required variables are set correctly  ##
+    ###################################################
+
+    if (!$conf{'server'}) {
+        $conf{'server'} = 'localhost';
+    }
+    if (!$conf{'port'}) {
+        $conf{'port'} = 25;
+    }
+    if (!$from) {
+        quit("ERROR - You must specify a 'from' field!  Try --help.", 1);
+    }
+    if (!$to[0]) {
+        quit("ERROR - You must specify a 'to' field!  Try --help.", 1);
+    }
+    
+    if ($conf{'logging'} and (!$conf{'logFile'})) {
+        quit("ERROR - You used -l to enable logging but didn't specify a log file!", 1);
+    }    
+    
+    
+    ## Return 0 errors
+    return(0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################
+## FUNCTION: connectTo($server, $port)
+##
+##
+## DESCRIPTION: 
+##   Does a TCP/IP network connect to $server:$port and attaches that connection handle to
+##   the socket SOCKET.   If the port is left blank port 25 is assumed.  Returns zero on
+##   success and non-zero on failure.  If an error occurs the corrosponding error message
+##   will get stored in $conf{'error'}
+##   
+##   
+## EXAMPLE: 
+##   connectTo ("mail.server.com", 25);
+##   
+###############################################################################################
+sub connectTo {
+    ## Get incoming variables
+    my %incoming = ();
+    ( 
+        $incoming{'server'},
+        $incoming{'port'}
+    ) = @_;
+    
+    printmsg("connectTo() - function entry", 3);
+    
+    
+    ## Check incoming variables
+    $incoming{'port'} = 80 if ($incoming{'port'} eq "");
+    if ($incoming{'server'} eq "") {
+        $conf{'error'} = "ERROR: connectTo() Incoming \$server variable was empty.";
+        return(1);
+    }
+    
+    
+    ## Open a IP socket in stream mode with tcp protocol
+    printmsg("connectTo() - requesting a streaming tcp/ip socket from the system", 3);
+    socket(SERVER, PF_INET, SOCK_STREAM, getprotobyname('tcp')) || block {
+        $conf{'error'} = "$$ - ERROR:  Problem opening a tcp/ip socket with the system.";
+        return(2);
+    };
+    
+    
+    ## Translating the hostname (or IP) into a socket address structure
+    printmsg("connectTo() - translating the hostname (or IP) into a socket address structure", 3);
+    my $inet_aton = inet_aton($incoming{'server'}) || block {
+        $conf{'error'} = "ERROR: DNS resolution failed for [$incoming{'server'}]";
+        return(3);
+    };
+    
+    
+    ## Create the data structure $dest by calling sockaddr_in(port, 32bit IP)
+    printmsg("connectTo() - packing the port and socket address structure into a single data structure", 3);
+    my $dest = sockaddr_in ($incoming{'port'}, $inet_aton) || block {
+        $conf{'error'} = "ERROR: Calling sockaddr_in() returned the error: $!";
+        return(4);
+    };
+    
+    
+    ## Connect our socket to SERVER
+    printmsg("connectTo() - connecting the socket to the server", 3);
+    connect(SERVER, $dest) || block {
+        $conf{'error'} = "ERROR:  Connection attempt to [$incoming{'server'}:$incoming{'port'}] failed: $!";
+        return(5);
+    };
+    printmsg("connectTo() - successfully connected to $incoming{'server'}:$incoming{'port'}", 3);
+    
+    
+    ## Force our output to flush immediatly after a print.
+    printmsg("connectTo() - setting non-buffering mode on the network connection", 3);
+    select(SERVER);
+    $| = 1;
+    select(STDOUT);
+    
+    
+    ## Return no errors
+    printmsg("connectTo() - sub exit: returning a 0 error-level", 3);
+    return(0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################
+## FUNCTION: disconnect()
+##
+##
+## DESCRIPTION: 
+##   Sends a SMTP QUIT command, and then closes the SERVER socket.  Returns zero on
+##   success and non-zero on failure.  If an error occurs the corrosponding error message
+##   will get stored in $conf{'error'}
+##   
+##   
+## EXAMPLE: 
+##   disconnect ();
+##   
+###############################################################################################
+sub disconnect {
+    
+    ## Send Quit command and read response
+    print SERVER "QUIT$CRLF";        
+    if (readServerResponse()) { return(1); }
+    
+    ## Close the connection
+    if (!(close SERVER)) {
+        $conf{'error'} = "ERROR - There was an error disconnecting form the server: $!";
+        ## Return an error code if we didn't disconnect correctly
+        return(2);
+    }
+    printmsg("disconnect() - disconnected from the server successfully", 3);
+    
+    ## Return 0 errors
+    return(0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################
+## FUNCTION: readServerResponse()
+##
+##
+## DESCRIPTION: 
+##   Reads a single line from the SERVER socket.
+##   It then analyzes that response to see if it's a success or error code.  
+##   This function returns zero on success and non-zero on failure.  If an error occurs the 
+##   corrosponding error code will be returned and the actual message received from the 
+##   server will be stored in $conf{'error'}.
+##   
+##   
+## EXAMPLE: 
+##   if (readServerResponse()) { quit("The server failed to respond correctly - it said: $conf{'error'}"); }
+##   
+###############################################################################################
+sub readServerResponse {
+    
+    ## Read a line from the remote server
+    printmsg("readServerResponse() - Reading a line from the server", 3);
+    my $string = <SERVER>;
+    printmsg("readServerResponse() - The server returned: $string", 3);
+    
+    ## It might be wrong, but we'll always put the servers full message into $conf{'error'} just because.
+    $conf{'error'} = $string;
+    
+    ## Is it a positive SMTP response?
+    if ($string =~ /^211|^220|^221|^250|^354/) {
+        printmsg("readServerResponse() - SUCCESS - The server returned the success code: $&", 2);
+        ## Return 0 errors
+        return(0);
+    }
+    
+    ## Or is it a negative SMTP response?
+    elsif ($string =~ /^500|^501|^502|^503|^504|^214|^421|^450|^550|^451|^551|^452|^552|^553|^554/) {
+        printmsg("readServerResponse() - ERROR - The server returned the following error code: $&", 1);
+        ## Return the error code
+        return($&);
+    }
+    
+    ## What happened? Something went wrong.
+    else {
+        $conf{'error'} = "readServerResponse() - The server response didn't have a valid SMTP success or error code.  The message it returned was: $string";
+        printmsg($conf{'error'}, 0);
+        return(256);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#########################################################
+# SUB: &return_month(0,1,etc)
+#  returns the name of the month that corrosponds
+#  with the number.  returns 0 on error.
+#########################################################
+sub return_month {
+    my $x = $_[0];
+    if ($x == 0)  { return 'Jan'; }
+    if ($x == 1)  { return 'Feb'; }
+    if ($x == 2)  { return 'Mar'; }
+    if ($x == 3)  { return 'Apr'; }
+    if ($x == 4)  { return 'May'; }
+    if ($x == 5)  { return 'Jun'; }
+    if ($x == 6)  { return 'Jul'; }
+    if ($x == 7)  { return 'Aug'; }
+    if ($x == 8)  { return 'Sep'; }
+    if ($x == 9)  { return 'Oct'; }
+    if ($x == 10) { return 'Nov'; }
+    if ($x == 11) { return 'Dec'; }
+    return (0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#########################################################
+# SUB: &return_day(0,1,etc)
+#  returns the name of the day that corrosponds
+#  with the number.  returns 0 on error.
+#########################################################
+sub return_day {
+    my $x = $_[0];
+    if ($x == 0)  { return 'Sun'; }
+    if ($x == 1)  { return 'Mon'; }
+    if ($x == 2)  { return 'Tue'; }
+    if ($x == 3)  { return 'Wed'; }
+    if ($x == 4)  { return 'Thu'; }
+    if ($x == 5)  { return 'Fri'; }
+    if ($x == 6)  { return 'Sat'; }
+    return (0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#########################################################
+# SUB: send_attachment("/path/filename")
+# Sends the mime headers and base64 encoded file
+# to the email server.
+#########################################################
+sub send_attachment {
+    my ($filename) = @_;                             ## Get filename passed
+## FIXME -- should check to see if the file exists with a -e and -r here.. (temporary fix: I did it above)
+    my (@fields, $y, $filename_name, $encoding,      ## Local variables
+        @attachlines, $content_type);
+    my $bin = 1;
+    
+    @fields = split(/\/|\\/, $filename);             ## Get the actual filename without the path  
+    $filename_name = pop(@fields);       
+    push @attachments_names, $filename_name;         ## FIXME: This is only used later for putting in the log file
+    
+    ##########################
+    ## Autodetect Mime Type ##
+    ##########################
+      
+    @fields = split(/\./, $filename_name);
+    $encoding = $fields[$#fields];
+    
+    if ($encoding =~ /txt|text|log|conf|^c$|cpp|^h$|inc|m3u/i) {   $content_type = 'text/plain';                      }
+    elsif ($encoding =~ /html|htm|shtml|shtm|asp|php|cfm/i) {      $content_type = 'text/html';                       }
+    elsif ($encoding =~ /sh$/i) {                                  $content_type = 'application/x-sh';                }
+    elsif ($encoding =~ /tcl/i) {                                  $content_type = 'application/x-tcl';               }
+    elsif ($encoding =~ /pl$/i) {                                  $content_type = 'application/x-perl';              }
+    elsif ($encoding =~ /js$/i) {                                  $content_type = 'application/x-javascript';        }
+    elsif ($encoding =~ /man/i) {                                  $content_type = 'application/x-troff-man';         }
+    elsif ($encoding =~ /gif/i) {                                  $content_type = 'image/gif';                       }
+    elsif ($encoding =~ /jpg|jpeg|jpe|jfif|pjpeg|pjp/i) {          $content_type = 'image/jpeg';                      }
+    elsif ($encoding =~ /tif|tiff/i) {                             $content_type = 'image/tiff';                      }
+    elsif ($encoding =~ /xpm/i) {                                  $content_type = 'image/x-xpixmap';                 }
+    elsif ($encoding =~ /bmp/i) {                                  $content_type = 'image/x-MS-bmp';                  }
+    elsif ($encoding =~ /pcd/i) {                                  $content_type = 'image/x-photo-cd';                }
+    elsif ($encoding =~ /png/i) {                                  $content_type = 'image/png';                       }
+    elsif ($encoding =~ /aif|aiff/i) {                             $content_type = 'audio/x-aiff';                    }
+    elsif ($encoding =~ /wav/i) {                                  $content_type = 'audio/x-wav';                     }
+    elsif ($encoding =~ /mp2|mp3|mpa/i) {                          $content_type = 'audio/x-mpeg';                    }
+    elsif ($encoding =~ /ra$|ram/i) {                              $content_type = 'audio/x-pn-realaudio';            }
+    elsif ($encoding =~ /mpeg|mpg/i) {                             $content_type = 'video/mpeg';                      }
+    elsif ($encoding =~ /mov|qt$/i) {                              $content_type = 'video/quicktime';                 }
+    elsif ($encoding =~ /avi/i) {                                  $content_type = 'video/x-msvideo';                 }
+    elsif ($encoding =~ /zip/i) {                                  $content_type = 'application/x-zip-compressed';    }
+    elsif ($encoding =~ /tar/i) {                                  $content_type = 'application/x-tar';               }
+    elsif ($encoding =~ /jar/i) {                                  $content_type = 'application/java-archive';        }
+    elsif ($encoding =~ /exe|bin/i) {                              $content_type = 'application/octet-stream';        }
+    elsif ($encoding =~ /ppt|pot|ppa|pps|pwz/i) {                  $content_type = 'application/vnd.ms-powerpoint';   }
+    elsif ($encoding =~ /mdb|mda|mde/i) {                          $content_type = 'application/vnd.ms-access';       }
+    elsif ($encoding =~ /xls|xlt|xlm|xld|xla|xlc|xlw|xll/i) {      $content_type = 'application/vnd.ms-excel';        }
+    elsif ($encoding =~ /doc|dot/i) {                              $content_type = 'application/msword';              }
+    elsif ($encoding =~ /rtf/i) {                                  $content_type = 'application/rtf';                 }
+    elsif ($encoding =~ /pdf/i) {                                  $content_type = 'application/pdf';                 }
+    elsif ($encoding =~ /tex/i) {                                  $content_type = 'application/x-tex';               }
+    elsif ($encoding =~ /latex/i) {                                $content_type = 'application/x-latex';             }
+    elsif ($encoding =~ /vcf/i) {                                  $content_type = 'application/x-vcard';             }
+    else { $content_type = 'base64';  }
+  
+  
+  ############################
+  ## Process the attachment ##
+  ############################
+    
+    #####################################
+    ## Generate and print MIME headers ##
+    #####################################
+    
+    $y  = "--$conf{'delimiter'}$CRLF";
+    $y .= "Content-Type: $content_type;$CRLF";
+    $y .= "        name=\"$filename_name\"$CRLF";
+    $y .= "Content-Transfer-Encoding: base64$CRLF";
+    $y .= "Content-Disposition: attachment; filename=\"$filename_name\"$CRLF";
+    $y .= "$CRLF";
+    print SERVER $y;
+    
+    
+    ###########################################################
+    ## Convert the file to base64 and print it to the server ##
+    ###########################################################
+    
+    open (FILETOATTACH, $filename) || do { 
+        printmsg("ERROR - Opening the file [$filename] for attachment failed with the error: $!", 0);
+        return(1);
+    };
+    binmode(FILETOATTACH);                 ## Hack to make Win32 work
+    
+    my $res = "";
+    my $tmp = "";
+    my $base64 = "";
+    while (<FILETOATTACH>) {               ## Read a line from the (binary) file
+        $res .= $_;
+        
+        ###################################
+        ## Convert binary data to base64 ##
+        ###################################
+        while ($res =~ s/(.{45})//s) {         ## Get 45 bytes from the binary string
+            $tmp = substr(pack('u', $&), 1);   ## Convert the binary to uuencoded text
+            chop($tmp);
+            $tmp =~ tr|` -_|AA-Za-z0-9+/|;     ## Translate from uuencode to base64
+            $base64 .= $tmp;
+        }
+        
+        ################################
+        ## Print chunks to the server ##
+        ################################
+        while ($base64 =~ s/(.{76})//s) {
+            print SERVER "$1$CRLF";
+        }
+      
+    }
+    
+    ###################################
+    ## Encode and send the leftovers ##
+    ###################################
+    my $padding = "";
+    if ( ($res) and (length($res) >= 1) ) {
+        $padding = (3 - length($res) % 3) % 3;  ## Set flag if binary data isn't divisible by 3
+        $res = substr(pack('u', $res), 1);         ## Convert the binary to uuencoded text
+        chop($res);
+        $res =~ tr|` -_|AA-Za-z0-9+/|;             ## Translate from uuencode to base64
+    }
+    
+    ############################
+    ## Fix padding at the end ##
+    ############################
+    $res = $base64 . $res;                                  ## Get left overs from above
+    $res =~ s/.{$padding}$/'=' x $padding/e if $padding;    ## Fix the end padding if flag (from above) is set
+    if ($res) {
+        while ($res =~ s/(.{1,76})//s) {                        ## Send it to the email server.
+            print SERVER "$1$CRLF";
+        }
+    }
+    
+    close (FILETOATTACH) || do {
+        printmsg("ERROR - Closing the filehandle for file [$filename] failed with the error: $!", 0);
+        return(2);
+    };
+    
+    ## Return 0 errors
+    return(0);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################
+##  Function:    printmsg (string $message, int $level)
+##
+##  Description: Handles all messages - printing them to the screen only if the messages
+##               $level is >= the global debug level.  If $conf{'logFile'} is defined it
+##               will also log the message to that file.
+##
+##  Input:       $message          A message to be printed, logged, etc.
+##               $level            The debug level of the message. If
+##                                 not defined 0 will be assumed.  0 is
+##                                 considered a normal message, 1 and 
+##                                 higher is considered a debug message.
+##  
+##  Output:      Prints to STDOUT
+##  
+##  Example:     printmsg("WARNING: We believe in generic error messages... NOT!", 0);
+###############################################################################################
+sub printmsg {
+    my %incoming = ();
+    (
+        $incoming{'message'},
+        $incoming{'level'}
+    ) = @_;
+    ## Clean up the input
+    $incoming{'level'} = 0 if (!defined($incoming{'level'}));
+    $incoming{'message'} =~ s/\r|\n/ /sg;
+    $incoming{'message'} =~ s/\s*$//sg;
+    
+    ## Continue on if the debug level is >= the incoming message level
+    if ($conf{'debug'} >= $incoming{'level'}) {
+        
+        ## Print to STDOUT
+        print localtime() . " - $$ - $conf{'programName'} - $incoming{'message'}\n" unless ($conf{'quiet'});
+        
+        ## Print to the log file if a logFile is defined
+        if ( ($conf{'logging'}) and ($conf{'logFile'}) ) {
+            if (openLogFile($conf{'logFile'})) { $conf{'logFile'} = ""; printmsg("ERROR - Opening the file [$conf{'logFile'}] for appending returned the error: $!", 1); }
+            else {
+                print LOGFILE localtime() . " - $$ - $conf{'programName'} - $incoming{'message'}\n";
+                close LOGFILE;
+            }
+        }
+    
+    }
+    
+    ## Return 0 errors
+    return(0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################
+## FUNCTION:    
+##   openLogFile ( $filename )
+## 
+## 
+## DESCRIPTION: 
+##   Opens the file $filename and attaches it to the filehandle "LOGFILE".  Returns 0 on success
+##   and non-zero on failure.  Error codes are listed below, and the error message gets set in
+##   global variable $!.
+##   
+##   
+## Example: 
+##   openFile ("/var/log/sendEmail.log");
+##
+###############################################################################################
+sub openLogFile {
+    ## Get the incoming filename
+    my $filename = $_[0];
+    
+    ## Make sure our file exists, and if the file doesn't exist then create it
+    if ( ! -f $filename ) {
+        print STDERR "NOTICE: The log file [$filename] does not exist.  Creating it now with mode [0600].\n" unless ($conf{'quiet'});
+        open (LOGFILE, ">>$filename");
+        close LOGFILE;
+        chmod (0600, $filename);
+    }
+    
+    ## Now open the file and attach it to a filehandle
+    open (LOGFILE,">>$filename") or return (1);
+    
+    ## Put the file into non-buffering mode
+    select LOGFILE;
+    $| = 1;
+    select STDOUT;
+    
+    ## Return success
+    return(0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################
+## FUNCTION:    
+##   tz_offset ()
+## 
+## 
+## DESCRIPTION: 
+##   Returns the timezone offset in +0200 format.
+##
+##   This function works by using perl's localtime and gmtime functions and comparing 
+##   the output of each.
+##   
+##   This function was submitted by Reidar Johansen (Thanks!)
+##   
+## Example: 
+##   my $timezone = tz_offset();
+##
+###############################################################################################
+sub tz_offset {
+    my $sign = '+';
+    my $now = time();
+    my ($l_min, $l_hour, $l_year, $l_yday) = (localtime $now)[1, 2, 5, 7];
+    my ($g_min, $g_hour, $g_year, $g_yday) = (gmtime $now)[1, 2, 5, 7];
+    my $tzoffset = ($l_min - $g_min)/60 + $l_hour - $g_hour + 24 * ($l_year - $g_year || $l_yday - $g_yday);
+    
+    ## Move minus sign from tzoffset scalar to sign scalar
+    if (index($tzoffset,"-") > -1) {
+        $sign = '-';
+        $tzoffset = $tzoffset * -1;
+    }
+    
+    ## Format tzoffset scalar
+    my $hr = substr($tzoffset,0,index($tzoffset,".")) || $tzoffset;
+    my $min = ($tzoffset - $hr) * 60;
+    
+    $tzoffset = sprintf ('%02d%02d',$hr,$min);
+    return "$sign$tzoffset";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################################
+##  Function:    quit (string $message, int $errorLevel)
+##  
+##  Description: Exits the program, optionally printing $message.  It 
+##               returns an exit error level of $errorLevel to the 
+##               system  (0 means no errors, and is assumed if empty.)
+##
+##  Example:     quit("Exiting program normally", 0);
+###############################################################################################
+sub quit {
+    my %incoming = ();
+    (
+      $incoming{'message'},
+      $incoming{'errorLevel'}
+    ) = @_;
+    $incoming{'errorLevel'} = 0 if (!defined($incoming{'errorLevel'}));
+    
+    ## Print exit message
+    if ($incoming{'message'}) { 
+        printmsg($incoming{'message'}, 0);
+    }
+    
+    ## Exit
+    exit($incoming{'errorLevel'});
+}
+

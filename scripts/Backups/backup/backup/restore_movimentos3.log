@@ -1,0 +1,53 @@
+
+Recovery Manager: Release 9.2.0.5.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 2> 3> 4> 5> 6> 7> 8> 9> 10> 11> 12> 13> 14> 15> 16> 17> 18> 19> 
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+allocated channel: c1
+channel c1: sid=74 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2003092602)
+
+allocated channel: c2
+channel c2: sid=39 devtype=SBT_TAPE
+channel c2: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2003092602)
+
+allocated channel: c3
+channel c3: sid=71 devtype=SBT_TAPE
+channel c3: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2003092602)
+
+allocated channel: c4
+channel c4: sid=56 devtype=SBT_TAPE
+channel c4: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2003092602)
+
+Starting restore at 14/07/2004
+
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00009 to /o05/oradata/res_oraacct2/acct_mov_data_p601.dbf
+channel c2: starting datafile backupset restore
+channel c2: specifying datafile(s) to restore from backup set
+restoring datafile 00309 to /o05/oradata/res_oraacct2/acct_mov_data_p602.dbf
+channel c3: starting datafile backupset restore
+channel c3: specifying datafile(s) to restore from backup set
+restoring datafile 00057 to /o05/oradata/res_oraacct2/acct_mov_data_p803.dbf
+channel c4: starting datafile backupset restore
+channel c4: specifying datafile(s) to restore from backup set
+restoring datafile 00014 to /o05/oradata/res_oraacct2/acct_mov_data_p802.dbf

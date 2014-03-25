@@ -1,0 +1,6 @@
+        'Breakdown of SGA           '||round((2,1090E+10/1024/1024),2)||'M   ',
+                                               *
+ERRO na linha 6:
+ORA-00907: missing right parenthesis 
+
+

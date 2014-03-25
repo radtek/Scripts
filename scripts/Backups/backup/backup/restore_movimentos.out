@@ -1,0 +1,126 @@
+
+Recovery Manager: Release 9.2.0.6.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 2> 3> 4> 5> 6> 7> 8> 9> 10> 11> 12> 13> 14> 15> 16> 17> 18> 19> 
+allocated channel: c1
+channel c1: sid=52 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2004102519)
+
+allocated channel: c2
+channel c2: sid=38 devtype=SBT_TAPE
+channel c2: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2004102519)
+
+allocated channel: c3
+channel c3: sid=25 devtype=SBT_TAPE
+channel c3: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2004102519)
+
+allocated channel: c4
+channel c4: sid=19 devtype=SBT_TAPE
+channel c4: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2004102519)
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+Starting restore at 17/11/2005
+
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00237 to /o10/oradata/res_oraacct2/acct_mov_data_p39_4.dbf
+channel c2: starting datafile backupset restore
+channel c2: specifying datafile(s) to restore from backup set
+restoring datafile 00234 to /o09/oradata/res_oraacct2/acct_mov_data_p39_1.dbf
+channel c3: starting datafile backupset restore
+channel c3: specifying datafile(s) to restore from backup set
+restoring datafile 00235 to /o09/oradata/res_oraacct2/acct_mov_data_p39_2.dbf
+channel c4: starting datafile backupset restore
+channel c4: specifying datafile(s) to restore from backup set
+restoring datafile 00236 to /o10/oradata/res_oraacct2/acct_mov_data_p39_3.dbf
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P39_ORAACCT2_20050419_102236_s45146_p1.rman tag=TAG20050419T102305 params=NULL
+channel c1: restore complete
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00220 to /o10/oradata/res_oraacct2/acct_mov_data_p40_3.dbf
+channel c3: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P39_ORAACCT2_20050419_102236_s45149_p1.rman tag=TAG20050419T102305 params=NULL
+channel c3: restore complete
+channel c3: starting datafile backupset restore
+channel c3: specifying datafile(s) to restore from backup set
+restoring datafile 00221 to /o10/oradata/res_oraacct2/acct_mov_data_p40_4.dbf
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P40_ORAACCT2_20050423_140000_s45764_p1.rman tag=TAG20050423T140017 params=NULL
+channel c1: restore complete
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00218 to /o09/oradata/res_oraacct2/acct_mov_data_p40_1.dbf
+channel c2: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P39_ORAACCT2_20050419_102236_s45148_p1.rman tag=TAG20050419T102305 params=NULL
+channel c2: restore complete
+channel c2: starting datafile backupset restore
+channel c2: specifying datafile(s) to restore from backup set
+restoring datafile 00219 to /o09/oradata/res_oraacct2/acct_mov_data_p40_2.dbf
+channel c4: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P39_ORAACCT2_20050419_102236_s45150_p1.rman tag=TAG20050419T102305 params=NULL
+channel c4: restore complete
+channel c3: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P40_ORAACCT2_20050423_140000_s45768_p1.rman tag=TAG20050423T140017 params=NULL
+channel c3: restore complete
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P40_ORAACCT2_20050423_140000_s45766_p1.rman tag=TAG20050423T140017 params=NULL
+channel c1: restore complete
+channel c2: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P40_ORAACCT2_20050423_140000_s45767_p1.rman tag=TAG20050423T140017 params=NULL
+channel c2: restore complete
+starting full resync of recovery catalog
+full resync complete
+Finished restore at 17/11/2005
+
+datafile 234 switched to datafile copy
+input datafilecopy recid=1226 stamp=574619185 filename=/o09/oradata/res_oraacct2/acct_mov_data_p39_1.dbf
+datafile 235 switched to datafile copy
+input datafilecopy recid=1227 stamp=574619186 filename=/o09/oradata/res_oraacct2/acct_mov_data_p39_2.dbf
+datafile 236 switched to datafile copy
+input datafilecopy recid=1228 stamp=574619186 filename=/o10/oradata/res_oraacct2/acct_mov_data_p39_3.dbf
+datafile 237 switched to datafile copy
+input datafilecopy recid=1229 stamp=574619186 filename=/o10/oradata/res_oraacct2/acct_mov_data_p39_4.dbf
+datafile 218 switched to datafile copy
+input datafilecopy recid=1230 stamp=574619186 filename=/o09/oradata/res_oraacct2/acct_mov_data_p40_1.dbf
+datafile 219 switched to datafile copy
+input datafilecopy recid=1231 stamp=574619186 filename=/o09/oradata/res_oraacct2/acct_mov_data_p40_2.dbf
+datafile 220 switched to datafile copy
+input datafilecopy recid=1232 stamp=574619186 filename=/o10/oradata/res_oraacct2/acct_mov_data_p40_3.dbf
+datafile 221 switched to datafile copy
+input datafilecopy recid=1233 stamp=574619186 filename=/o10/oradata/res_oraacct2/acct_mov_data_p40_4.dbf
+starting full resync of recovery catalog
+full resync complete
+
+sql statement: alter tablespace ACCT_MOV_DATA_P39 online
+
+sql statement: alter tablespace ACCT_MOV_DATA_P40 online
+released channel: c1
+released channel: c2
+released channel: c3
+released channel: c4
+
+RMAN> 
+
+Recovery Manager complete.
+Restore finalizado com sucesso.

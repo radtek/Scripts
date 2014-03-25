@@ -1,0 +1,11 @@
+EXECUTE sys.DBMS_LOGMNR.ADD_LOGFILE(LogFileName => '/archive03/oradata/orasig/archive/orasig_0000987256_1_459571493.arc', Options => sys.dbms_logmnr.NEW);
+EXECUTE sys.DBMS_LOGMNR.ADD_LOGFILE(LogFileName => '/archive03/oradata/orasig/archive/orasig_0000987257_1_459571493.arc', Options => sys.dbms_logmnr.ADDFILE);
+EXECUTE sys.DBMS_LOGMNR.START_LOGMNR(options=>sys.dbms_logmnr.DICT_FROM_ONLINE_CATALOG);
+
+select sql_redo from v$LOGMNR_CONTENTS
+
+
+
+
+
+

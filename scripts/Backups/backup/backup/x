@@ -1,0 +1,27 @@
+BUSCA_PARTICAO ()
+{
+#
+# Funcao que busca o partition name com base num parametro de tablespace
+#
+TBS=$1
+OWN="ACCT"
+TAB="TRR_MOVIMENTOS"
+
+pega_do_banco ()
+{
+# Executa o plus para pegar o destino dinamicamente
+sqlplus /nolog  <<EOF
+connect / as sysdba
+select 'PART='|| Partition_name  Alias
+  from dba_segments
+ where owner = '${OWN}'
+   and segment_name = '${TAB}'
+   and tablespace_name = '${TBS}'
+   and segment_type = 'TABLE PARTITION';
+exit;
+EOF
+}
+echo `pega_do_banco | grep PART= | awk -F= '{print $2}'`
+}
+
+

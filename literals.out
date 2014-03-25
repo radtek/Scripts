@@ -1,0 +1,6 @@
+select inst_id,hash_value,SQL_FULLTEXT
+       *
+ERRO na linha 1:
+ORA-00904: "INST_ID": invalid identifier
+
+

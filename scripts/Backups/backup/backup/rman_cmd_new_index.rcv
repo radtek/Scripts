@@ -1,0 +1,23 @@
+run
+{
+sql 'alter system archive log current';
+allocate channel c1 type 'sbt_tape';
+allocate channel c2 type 'sbt_tape';
+allocate channel c3 type 'sbt_tape';
+send 'NB_ORA_CLASS=TRR_RETENTATIVA-Linux-Oracle-Base_Unica';
+send 'NB_ORA_SCHED=Controle-Full';
+backup tablespace bd_central_trr_senhas_index, mail_trr_remetentes_index
+include current controlfile
+filesperset 1
+skip offline
+skip readonly
+not backed up since time 'sysdate - 0.5'
+format 'bkp_new_tbl_index_%d_s%s_p%p.rman';
+sql 'alter system archive log current';
+sql 'alter database backup controlfile to trace';
+release channel c1;
+release channel c2;
+release channel c3;
+}
+resync catalog;
+exit;

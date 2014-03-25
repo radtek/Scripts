@@ -1,0 +1,6 @@
+select * from DBA_JOBS;
+
+prompt 
+prompt ********* FALHAS **********
+select * from DBA_JOBS
+where failures > 0;

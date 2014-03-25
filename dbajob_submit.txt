@@ -1,0 +1,94 @@
+
+VARIABLE jobno NUMBER 
+BEGIN
+ 	DBMS_JOB.SUBMIT(:jobno, 
+ 		&PLSQLCODE, 
+ 		SYSDATE, 
+ 		&INTERVAL); 
+ 		COMMIT;
+END;
+/
+PRINT jobno
+
+
+
+
+VARIABLE jobno NUMBER 
+BEGIN
+ 	DBMS_JOB.SUBMIT(:jobno, 
+ 		' declare
+			col date;
+		  begin 
+			SELECT sysdate into col from dual;
+		  end;', 
+ 		SYSDATE, 
+ 		'sysdate + (1 / 24 / 60 * 10)'); 
+ 	COMMIT;
+END;
+/
+PRINT jobno
+
+
+
+
+--- não vai
+VARIABLE jobno NUMBER 
+BEGIN
+ 	sys.DBMS_IJOB.SUBMIT(JOB=> :jobno, 
+		LUSER=> 'VIDEOSTORE',
+		PUSER=> 'VIDEOSTORE',
+		CUSER=> 'VIDEOSTORE',
+		NEXT_DATE=> to_date('15/06/2012 15:50:00', 'DD/MM/YYYY HH24:MI:SS'), 
+		INTERVAL=> 'sysdate + (1 / 24 * 6)',		
+		BROKEN=> false, 
+		WHAT=> 'UPDATE_SOURCES_MMEDIAS;'); 
+ 	COMMIT;
+END;
+/
+PRINT jobno
+
+
+
+----> ok
+VARIABLE jobno NUMBER 
+BEGIN
+ 	DBMS_JOB.SUBMIT(JOB=> :jobno, 
+		WHAT=> 'UPDATE_SOURCES_MMEDIAS;',
+		NEXT_DATE=> to_date('15/06/2012 15:50:00', 'DD/MM/YYYY HH24:MI:SS'), 
+		INTERVAL=> 'sysdate + (1 / 24 * 6)'					
+		); 
+ 	COMMIT;
+END;
+/
+PRINT jobno
+
+
+---- ok 
+VARIABLE jobno NUMBER 
+BEGIN
+ 	DBMS_JOB.SUBMIT(JOB=> :jobno, 
+		WHAT=> 'begin delete from DASHTTV where DATA <= sysdate-365; end;',
+		NEXT_DATE=> to_date('14/07/2012 04:00:00', 'DD/MM/YYYY HH24:MI:SS'), 
+		INTERVAL=> 'trunc(sysdate)+1+4/24'		
+		); 
+ 	COMMIT;
+END;
+/
+PRINT jobno
+ 
+ 
+
+ 
+ 
+--- semon 
+VARIABLE jobno NUMBER 
+BEGIN
+ 	DBMS_JOB.SUBMIT(JOB=> :jobno, 
+		WHAT=> 'begin delete from dashttv_sinais where data < sysdate-1.5; end;',
+		NEXT_DATE=> to_date('24/07/2012 05:00:00','DD/MM/YYYY HH:MI:SS'), 
+		INTERVAL=> 'trunc(sysdate)+1+5/24'		
+		); 
+ 	COMMIT;
+END;
+/
+PRINT jobno

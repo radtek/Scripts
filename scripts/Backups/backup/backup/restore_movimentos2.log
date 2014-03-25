@@ -1,0 +1,63 @@
+
+Recovery Manager: Release 9.2.0.2.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1229201917)
+connected to recovery catalog database
+
+RMAN> 2> 3> 4> 5> 6> 7> 8> 9> 10> 11> 12> 13> 
+executing command: SET NEWNAME
+starting full resync of recovery catalog
+full resync complete
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+allocated channel: c1
+channel c1: sid=33 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle8 - Release 3.4GA (030800)
+
+allocated channel: c3
+channel c3: sid=246 devtype=SBT_TAPE
+channel c3: VERITAS NetBackup for Oracle8 - Release 3.4GA (030800)
+
+allocated channel: c4
+channel c4: sid=40 devtype=SBT_TAPE
+channel c4: VERITAS NetBackup for Oracle8 - Release 3.4GA (030800)
+
+Starting restore at 07/05/2004
+
+skipping datafile 219; already restored to file /f03/oradata/res_oraacct2/acct_mov_data_p26_2.dbf
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00220 to /f03/oradata/res_oraacct2/acct_mov_data_p26_3.dbf
+channel c3: starting datafile backupset restore
+channel c3: specifying datafile(s) to restore from backup set
+restoring datafile 00218 to /f03/oradata/res_oraacct2/acct_mov_data_p26_1.dbf
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P26_ORAACCT2_20040209_160226_s18517_p1.rman tag=TAG20040209T160421 params=NULL
+channel c1: restore complete
+channel c3: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P26_ORAACCT2_20040209_160226_s18519_p1.rman tag=TAG20040209T160421 params=NULL
+channel c3: restore complete
+Finished restore at 07/05/2004
+
+datafile 218 switched to datafile copy
+input datafilecopy recid=1694 stamp=525547770 filename=/f03/oradata/res_oraacct2/acct_mov_data_p26_1.dbf
+datafile 219 switched to datafile copy
+input datafilecopy recid=1695 stamp=525547774 filename=/f03/oradata/res_oraacct2/acct_mov_data_p26_2.dbf
+datafile 220 switched to datafile copy
+input datafilecopy recid=1696 stamp=525547777 filename=/f03/oradata/res_oraacct2/acct_mov_data_p26_3.dbf
+starting full resync of recovery catalog
+full resync complete
+
+sql statement: alter tablespace ACCT_MOV_DATA_P26 online
+released channel: c1
+released channel: c3
+released channel: c4
+
+RMAN> 
+
+Recovery Manager complete.

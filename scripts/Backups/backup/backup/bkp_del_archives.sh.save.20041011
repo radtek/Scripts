@@ -1,0 +1,242 @@
+##################################################################
+# Realiza backup dos archives pelo rman e exclui se foi com      #
+# sucesso.                                                       #
+# Se a variavel de ambiente DIR_DEST_ARC estiver setada, realiza #
+# um backup de seguranca para disco antes.                       #
+# Opcionalmente pode receber como parametro um numero de archives#
+# mais antigos que se deseja processar.                          #
+# Se nao receber nada executa bkp/delete de todos os arquives.   #
+# Gediel Luchetta (fev/2002).                                    #
+##################################################################
+
+# Deve ser passado um arquivo de configuracao como parametro.
+if [ ! $# = 2 ] &&  [ ! $# = 3 ] ; then
+   echo
+   echo "Deve ser passado 2 parametros:"
+   echo "1) Arquivo com as variaveis de configuracao;"
+   echo "2) Nro de archives que devem ser processados (bkp/delete)."
+   echo "3) Realiza bkp de seguranca p/ disco. (OPCIONAL, DEFAULT = Y)"
+   echo "$0 <caminho/nome_arq_configuracao> 10"
+   echo " "
+   exit 1
+fi
+
+CONF=$1
+NROARC=$2
+BKPDISCO=$3
+
+
+if [ -z "$BKPDISCO" ] ; then
+   BKPDISCO="Y"
+fi
+
+
+# Verifica se o arquivo de configuracao passado existe.
+if [ ! -f $CONF ]; then
+   echo
+   echo "Arquivo $CONF nao encontrado."
+   echo "Certifique-se que o arquivo existe e/ou passe o caminho completo."
+   echo
+   exit 2
+fi
+
+# Inicializa as variaveis de ambiente que estao no arquivo de configuracao
+. $CONF
+
+# Seta o diretorio de backup tambem no path
+PATH=$PATH:$BASE_BKP
+
+# Seta o prefixo do arquivo de lock que evita dois bkps simultaneos.
+ARQ_LOCK=$BASE_BKP/lock_bkp_arc_${ORACLE_SID}.pid
+
+# Inicializa as funcoes genericas de backup.
+if [ ! -f ${BASE_BKP}/functions.bkp ]; then
+   echo
+   echo "Arquivo ${BASE_BKP}/functions.bkp com as funcoes genericas nao encontrado."
+   echo
+   exit 3
+else
+   . ${BASE_BKP}/functions.bkp
+fi
+
+# Pega a Data e hora de inicio.
+DATA=`date +'%d/%m/%Y'`
+HORA=`date +'%H:%M:%S'`
+
+# Testa pra ver se ja tem um bkp de archives ocorrendo nesse momento.
+if [ -f $ARQ_LOCK ]; then
+  echo " "
+  echo "Encontrado arquivo de lock do bkp:" $ARQ_LOCK
+  echo "Verifique se ja existe um bkp em andamento."
+  echo "Obs: O conteudo do arquivo de lock eh o PID do processo de bkp."
+  echo " "
+  exit 4
+else
+  # Gera um arquivo de lock contendo o PID do processo atual.
+  echo $$ > $ARQ_LOCK
+fi
+
+#
+# Verifica se o repositorio do rman esta ok, caso necessite se conectar.
+# Se tiver qualquer problema de conexao com o catalog do rman, realiza backup sem catalago.
+#
+if [ ! -z "$CONEXAO_RMAN" ] ; then
+    Testa_conexao "$CONEXAO_RMAN" 2
+    if [ ! $? = 0 ] ; then # conexao falhou
+       CONEXAO_RMAN=
+    fi
+fi
+
+
+# Monta o nome do arquivo de log
+ARQ_LOG=$ARQ_LOG.ARC.`date +'%d%m%Y%H%M%S'`
+RMAN_LOG_AR=$DIR_LOGS/rman_ar.log.`date +'%d%m%Y%H%M%S'`
+SUBJECT="Subject: Backup ARC Maq:`hostname`  SID:$ORACLE_SID"
+
+#Inicia o conjunto de comandos que terao sua saida direcionada para um arquivo que sera enviado por email
+{
+
+# Monta um cabecalho pro email.
+echo $SUBJECT
+echo "To: $LISTA_EMAILS"
+
+echo
+echo "Inicio: $DATA $HORA"
+echo "--------------------------------------------------------------------------------"
+
+echo
+echo "Pega diretorio corrente de destino dos archives:"
+echo "DIR_ARC=`Busca_log_dest`"
+DIR_ARC=`Busca_log_dest`
+
+#
+# Se a variável DIR_DEST_ARC estiver setada significa que deve-se realizar
+# uma copia dos archives também pra disco como segurança.
+# Mas antes deve remover a qtd de archives especificada no segundo parametro recebido.
+#
+if [ ! -z "$DIR_DEST_ARC" ] ; then
+  echo
+  echo "Removendo os $NROARC archive(s) mais antigos de:$DIR_DEST_ARC..."
+  echo "Remove_top_n_antigos $DIR_DEST_ARC $NROARC"
+  Remove_top_n_antigos $DIR_DEST_ARC $NROARC
+
+  if [ "$BKPDISCO" = "Y" ] ; then
+    echo
+    echo "Executa uma copia/compress de seguranca dos arquives para disco."
+    echo "Bkp_comp_arc $DIR_ARC $DIR_DEST_ARC $BASE_BKP $COMPACTA_ARC"
+    ULTLOG=`Bkp_comp_arc $DIR_ARC $DIR_DEST_ARC $BASE_BKP $COMPACTA_ARC $NROARC`
+    echo " "
+    echo "Final da copia de seguranca pra disco dos arquives:`date +'%d/%m/%Y %H:%M:%S'`"
+    echo " "
+
+  else
+    echo " "
+    echo "Busca o archive limite para ser processado ...."
+    echo "Busca_arquivo_n $DIR_ARC $NROARC"
+    ULTLOG=`Busca_arquivo_n $DIR_ARC $NROARC`
+    echo " "
+    echo "Apenas apaga do disco. Nao realiza copia de seguranca."
+    echo " "
+
+  fi
+else
+  echo " "
+  echo "Busca o archive limite para ser processado ...."
+  echo "Busca_arquivo_n $DIR_ARC $NROARC"
+  ULTLOG=`Busca_arquivo_n $DIR_ARC $NROARC`
+fi
+echo " "
+echo "Archive limite para ser processado:$ULTLOG"
+
+echo " "
+echo "Buscando sequencia para o archive ..."
+echo "Busca_logseq $BKPUSER $BKPPASS $ULTLOG"
+ULTSEQ=`Busca_logseq $BKPUSER $BKPPASS $ULTLOG`
+echo "Ultima sequencia de archive a ser processado:$ULTSEQ"
+
+echo "Backup dos archives com o rman ..."
+echo "Gera comando para o rman ..."
+if [ ! -z "$CONEXAO_RMAN" ] ; then
+  Gera_cmd_arc_rman $CLASS_AR_DEF $SCHED_AR_DEF Y $ULTSEQ
+else
+  Gera_cmd_arc_rman $CLASS_AR_DEF $SCHED_AR_DEF N $ULTSEQ
+fi
+
+################################################################
+#### Nesse ponto o script foi personalizado para a basedb
+#### Antes de fazer a copia e remover os archives chama o
+#### rsync para mandar os archives para outra maquina.
+#### Gediel, 05/09/2003
+################################################################
+if [ "`hostname`" = "cedral.terra.com.br" ] ; then
+   DESTINO="imbe"
+else
+   if [ "`hostname`" = "imbe.terra.com.br" ] ; then
+      DESTINO="cedral"
+   else
+      DESTINO=""
+   fi
+fi
+
+if [ ! -z "$DESTINO" ] ; then
+  /usr/bin/rsync -av --size-only /o03/oradata/oradb1/archive/ORA* ${DESTINO}.terra.com.br::archives_backup/ >>/Backup_Archives/rsync.log 2>&1
+fi
+
+echo
+echo "Executa o rman para realizar dos archives:"
+} >$ARQ_LOG 2>&1
+if [ ! -z "$CONEXAO_RMAN" ] ; then
+  $ORACLE_HOME/bin/rman target / catalog $CONEXAO_RMAN cmdfile $ARQ_CMD_RMAN_AR msglog $RMAN_LOG_AR
+else
+  $ORACLE_HOME/bin/rman target / nocatalog cmdfile $ARQ_CMD_RMAN_AR msglog $RMAN_LOG_AR
+fi
+
+RET_RMAN_AR=$?
+
+if [ $RET_RMAN_AR = 0 ] ; then
+  {
+   echo " "
+   echo "Final do rman (ARC) com SUCESSO:`date +'%d/%m/%Y %H:%M:%S'`"
+   echo " "
+  } >>$ARQ_LOG
+else
+  {
+   echo " "
+   echo "Final do rman (ARC) com ERRO:`date +'%d/%m/%Y %H:%M:%S'`"
+   echo "Retorno:$RET_RMAN_AR"
+   echo "ERRO: "
+   echo "-------------------------------------------------"
+  } >>$ARQ_LOG
+  cat $RMAN_LOG_AR >>$ARQ_LOG
+  echo "-------------------------------------------------" >>$ARQ_LOG
+fi
+
+# Pega a Data e hora de termino.
+DATA=`date +'%d/%m/%Y'`
+HORA=`date +'%H:%M:%S'`
+
+{
+
+echo
+echo "--------------------------------------------------------------------------------"
+echo "Termino: $DATA $HORA"
+
+# Finaliza o conjunto de comandos
+} >>$ARQ_LOG 2>&1
+
+
+if [ $RET_RMAN_AR = 0 ] ; then
+  echo "Backup dos archives realizado com sucesso."
+else
+  echo "ERRO na realizacao do backup (cod ret = $RET_RMAN_AR). Detalhes no arquivo $RMAN_LOG_AR"
+  #
+  # Manda email notificando, somente em caso de erro.
+  #
+  Send_mail "$SUBJECT" "$LISTA_EMAILS" $ARQ_LOG
+
+fi
+
+# Remove o arquivo de lock.
+rm $ARQ_LOCK
+
+exit $RET_RMAN_AR

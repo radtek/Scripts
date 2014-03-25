@@ -1,0 +1,6 @@
+and a.snap_id=b.snap_id
+*
+ERRO na linha 30:
+ORA-00936: missing expression
+
+

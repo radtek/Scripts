@@ -1,0 +1,1011 @@
+###########################################################################
+# Esse arquivo contem uma serie de funcoes que sao necessarias para
+# configuracao de backup em ambiente UNIX.
+# Para conseguir utilizar essas funcoes esse arquivo deve ser chamado
+# dentro de outro script: . functions.bkp ou simplesmente instanciado no
+# proprio shell do usuario (. functions.bkp).
+#
+###########################################################################
+
+# **********************************************************************
+
+Busca_log_dest ()
+{
+#
+# Funcao que busca do banco o diretorio de destino dos archives
+#
+
+pega_do_banco ()
+{
+# Executa o plus para pegar o destino dinamicamente
+sqlplus /nolog  <<EOF
+connect / as sysdba
+select replace(replace('LOG_DEST='||NVL(MAX(value),'NOARCHIVELOG'),'location='),'LOCATION=') LOG_DEST
+ from v\$parameter
+where ((name = 'log_archive_dest'   and value is not null)
+   or  (name = 'log_archive_dest_1' and value is not null))
+  and exists (select 1 from v\$database where log_mode = 'ARCHIVELOG');
+exit;
+EOF
+}
+echo `pega_do_banco | grep DEST= | awk -F= '{print $2}'`
+}
+# **********************************************************************
+Send_mail ()
+{
+# Recebe a lista de emails e o arquivo que deve ser enviando.
+
+if [ $# != 3 ] ; then
+   echo
+   echo "Send_mail"
+   echo "Deve ser passado 3 parametros:"
+   echo "1) Subject "
+   echo "2) Lista de emails (entre aspas duplas e separados por)"
+   echo "3) Arquivo para enviar no email"
+   echo "Exemplo: Send_mail \"Backup Banco\" \"backup@company.com, adm@company.com\" /tmp/log_bkp.log"
+   echo
+else
+SUB=$1
+LISTAMAIL=$2
+ARQ=$3
+
+# Descobre qual plataforma
+PLATAFORMA=`uname`
+
+# Manda email confirmando a operacao
+case "$PLATAFORMA" in
+Linux)
+      mail -s "$SUB" $LISTAMAIL < $ARQ
+      ;;
+SunOS)
+      mail -tw $LISTAMAIL < $ARQ
+      ;;
+    *)
+      echo "Plataforma <$PLATAFORMA> nao preparada para envio de email".
+      ;;
+esac
+fi
+}
+# **********************************************************************
+Bkp_control ()
+{
+#
+# Recebe como parametro usuario , senha  e
+# o diretorio para a copia binaria do control_file.
+# Gera um backup do controlfile para trace e uma copia
+# binaria com o nome bkp_control_$SID.ctl
+#
+if [ $# != 3 ] ; then
+   echo
+   echo "Bkp_control"
+   echo "Deve ser passado 3 parametros:"
+   echo "1) Usuario no banco"
+   echo "2) Senha do usuario no banco"
+   echo "3) Diretorio destino da copia binaria do controlfile"
+   echo
+else
+SID=$ORACLE_SID
+echo "Backup controlfile do banco:"$SID
+USUARIO=$1
+SENHA=$2
+DIR_BKP=$3
+# Chama o plus
+sqlplus $USUARIO/$SENHA <<EOF
+alter database backup controlfile to trace;
+alter database backup controlfile to '$DIR_BKP/bkp_control_$SID.ctl' reuse;
+exit;
+EOF
+fi
+}
+# **********************************************************************
+Archive_current ()
+{
+##############################################################
+# Executa um comando para que o banco arquive o log corrente
+# e devolve a ultima sequencia de log que foi arquivado.
+# Recebe 2 parametros:
+# 1) Usuario do banco
+# 2) Senha do usuario
+##############################################################
+chama_plus ()
+{
+sqlplus /nolog <<EOF
+connect / as sysdba
+alter system archive log current;
+exit;
+EOF
+}
+
+# A variavel ORACLE_SID deve estar setada
+if [ $# != 2 ] ; then
+   USUARIO=bkp
+   SENHA=bkp$ORACLE_SID
+else
+   USUARIO=$1
+   SENHA=$2
+fi
+chama_plus
+}
+# **********************************************************************
+Busca_logseq ()
+{
+chama_plus ()
+{
+sqlplus /nolog  <<EOF
+connect / as sysdba
+select 'ULTSEQ='||TO_CHAR(MAX(SEQUENCE#)) as ULTSEQ
+ from v\$archived_log
+where archived = 'YES'
+  and name like '%${ARC}%';
+exit;
+EOF
+}
+
+# A variavel ORACLE_SID deve estar setada
+if [ $# != 3 ] ; then
+   echo " "
+   echo "Busca_logseq"
+   echo "Deve ser passado 3 parametros:"
+   echo "1) Usuario do banco;"
+   echo "2) Senha;"
+   echo "3) Nome do archivelog."
+   echo "Exemplo:"
+   echo "Busca_logseq bkp bkporc1 ORC1_0000000223.arc"
+   echo " "
+else
+   USUARIO=$1
+   SENHA=$2
+   ARC=$3
+   echo `chama_plus | grep ULTSEQ= | awk -F= '{print $2}'`
+fi
+}
+# **********************************************************************
+Busca_arquivo_n ()
+{
+if [ $# != 2 ] ; then
+   echo " "
+   echo "Recebe como parametro:"
+   echo "1) Diretorio;"
+   echo "2) Posicao desejada."
+   echo " "
+   echo "Retorna: o arquivo na posicao do parametro 2 segundo sua data de modificacao."
+   echo "Exemplo: Busca_arquivo_n /tmp 5"
+   echo "Vai retornar o quinto arquivo mais antigo do diretorio /tmp."
+   echo " "
+else
+   DIR=$1
+   NRO=$2
+
+   echo `ls -tr $DIR | head -$NRO | tail -1`
+fi
+}
+# **********************************************************************
+Bkp_comp_arc ()
+{
+#
+# Copia e compacta (compress) arquivos
+# do diretorio do primeiro parametro para o
+# diretorio do segundo parametro.
+#
+
+PARMS=$#
+
+if [ $PARMS != 4 ] && [ $PARMS != 5 ] ; then
+   echo
+   echo "Bkp_comp_arc"
+   echo "Deve ser passado 4 ou 5 parametros:"
+   echo "1) Diretorio origem dos archives"
+   echo "2) Diretorio destino"
+   echo "3) Diretorio base dos scripts de backup (ORACLE_BASE/oracledba/backup)"
+   echo "4) Y se deve compactar os archives ou N se somente copia"
+   echo "5) Especifica um nro maximo de arquivos para processar (Opcional)"
+   echo
+   return 1
+else
+   # Parametros (diretorio dos archives e diretorio de destino)
+   DIR_ARC=$1
+   DIR_TRA=$2
+   BASE_BKP=$3
+   COMP=$4
+   TOP=$5
+
+   if [ ! -d "$DIR_ARC" ] ; then
+     echo "Diretorio inexistente:$DIR_ARC"
+     return 2
+   fi
+
+   if [ ! -d "$DIR_TRA" ] ; then
+     echo "Diretorio inexistente:$DIR_TRA"
+     return 3
+   fi
+
+   if [ ! -d "$BASE_BKP" ] ; then
+     echo "Diretorio inexistente:$BASE_BKP"
+     return 4
+   fi
+
+   #Arquivo de log da operacao
+   if [ -z "$DIR_LOGS" ] ; then
+      LOG=/tmp/copia_comp_arc.log
+   else
+      LOG=$DIR_LOGS/copia_comp_arc.log
+   fi
+
+   # data e hora atual
+   HOJE=`date +'%d/%m/%Y'`
+   HORA=`date +'%H:%M:%S'`
+
+   # Inicia conjunto de comandos que terao sua saida para o log
+   {
+        echo " "
+        echo $HOJE $HORA
+        echo "Executando backup/compress dos archives do banco:"$ORACLE_SID
+
+        # Executa um comando para que o banco arquive o log corrente
+        echo "Arquivando o redolog corrente ..."
+        Archive_current $BKPUSER $BKPPASS
+   } >> $LOG 2>&1
+
+   # Pega a lista de arquivos para processar
+   if [ -z "$TOP" ] ; then
+      LIST=`ls -tr $DIR_ARC`
+   else
+      LIST=`ls -tr $DIR_ARC | head -$TOP`
+   fi
+
+   {
+        # Inicia o log
+        echo "Inicio da copia e compactacao dos archives:$HOJE $HORA"
+        echo "Origem  = $DIR_ARC"
+        echo "Destino = $DIR_TRA"
+        echo "---------------------------------------------------"
+   } >> $LOG 2>&1
+   # Loop para processar os arquivos
+   for L in $LIST
+   do
+     #
+     # Verifica se archive compactado (.Z) ja existe no diretorio de destino (-f ...).
+     # Se ja existir (&&) apenas gera um log .
+     # Se nao existir (||) copia e compacta (compress) o archive
+     #
+     if [ "$COMP" = "Y" -o "$COMP" = "y" -o "$COMP" = "S" -o "$COMP" = "s" ] ; then
+        echo "Copiando e compactando archive: $L"   >> $LOG 2>&1
+        [ -f $DIR_TRA/$L.Z ] && ( echo "$L.Z ja existe em $DIR_TRA" >> $LOG 2>&1 ) ||
+                                ( cp -p $DIR_ARC/$L $DIR_TRA; compress $DIR_TRA/$L ) >> $LOG 2>&1
+     else
+        echo "Copiando archive: $L"     >> $LOG 2>&1
+        [ -f $DIR_TRA/$L ] && ( echo "$L ja existe em $DIR_TRA"  >> $LOG 2>&1) ||
+                              ( cp -p $DIR_ARC/$L $DIR_TRA )   >> $LOG 2>&1
+     fi
+     #
+   done
+
+   # Finaliza o log
+   HOJE=`date +'%d/%m/%Y'`
+   HORA=`date +'%H:%M:%S'`
+   echo "Final da operacao:$HOJE $HORA"                                >> $LOG 2>&1
+   echo "---------------------------------------------------"          >> $LOG 2>&1
+   # Mostra o ultimo arquivo processado.
+   echo $L
+   return 0
+fi
+}
+# **********************************************************************
+Remove_antigos ()
+########################################################################
+# Script que limpa arquivos antigos.
+# Recebe 3 parametros:
+# 1) Lista dos diretorios separadas por espaco
+# 2) Nro de dias sem alterar o status que os arquivos ja pode ser apagados
+# 3) Arquivo de log das exclusoes (opcional)
+# Exemplo: Remove_antigos "/o01/app/oracle/log /o01/admin/bdump" 4
+# Vai limpar os arquivos mais antigos que 4 dias nos dois diretorios
+########################################################################
+{
+case "$#" in
+  2)
+    DIRLIST=$1
+    DIAS=$2
+    if [ -d $ORACLE_BASE/oracledba/logs ] ; then
+       LOG=$ORACLE_BASE/oracledba/logs/remove_antigos.log
+    else
+       LOG=remove_antigos.log
+    fi
+    PAR=OK
+    ;;
+  3)
+    DIRLIST=$1
+    DIAS=$2
+    LOG=$3
+    PAR=OK
+    ;;
+  *)
+    PAR=NOOK
+    ;;
+esac
+if [ "$PAR" = "OK" ] ; then
+
+  # Pega a Data e hora de inicio.
+  DATA=`date +'%d/%m/%Y'`
+  HORA=`date +'%H:%M:%S'`
+
+  echo "---------------------------------------------------------------------" >> $LOG
+  echo "$DATA - $HORA :Limpando arquivos que nao foram alterados nos ultimos $DIAS dia(s)." >> $LOG
+  for D in $DIRLIST
+  do
+    echo "Processando limpeza do diretorio:" $D >> $LOG
+    find $D -ctime +$DIAS -exec echo Removendo {} >> $LOG \;
+    find $D -mtime +$DIAS -exec echo Removendo {} >> $LOG \;
+    find $D -ctime +$DIAS -exec rm {} \;
+    find $D -mtime +$DIAS -exec rm {} \;
+  done
+  echo "---------------------------------------------------------------------" >> $LOG
+else
+  #
+  echo
+  echo "Remove_antigos"
+  echo "Parametros:"
+  echo "1) Lista de diretorios para limpeza (entre aspas duplas separados por espaco)"
+  echo "2) Dias mais antigos para limpar"
+  echo "3) Arquivo de log das exclusoes (opcional)"
+  echo
+fi
+}
+# **********************************************************************
+Remove_top_n_antigos ()
+########################################################################
+# Script que limpa os arquivos mais antigos.
+# Recebe 2 parametros:
+# 1) Diretorio onde os arquivos se encontram.
+# 2) Numero do top n (exe: 10 => limpa os 10 mais antigos).
+# 3) Arquivo de log das exclusoes (opcional)
+# Exemplo: Remove_top_n_antigos /o01/app/oracle/log 10
+# Vai limpar os 10 arquivos mais antigos no diretorio
+########################################################################
+{
+case "$#" in
+  2)
+    DIR=$1
+    TOP=$2
+    if [ -d $ORACLE_BASE/oracledba/logs ] ; then
+       LOG=$ORACLE_BASE/oracledba/logs/remove_top_n_antigos.log
+    else
+       LOG=remove_top_n_antigos.log
+    fi
+    PAR=OK
+    ;;
+  3)
+    DIR=$1
+    TOP=$2
+    LOG=$3
+    PAR=OK
+    ;;
+  *)
+    PAR=NOOK
+    ;;
+esac
+if [ "$PAR" = "OK" ] ; then
+
+  # Pega a Data e hora de inicio.
+  DATA=`date +'%d/%m/%Y'`
+  HORA=`date +'%H:%M:%S'`
+
+  LISTDEL=`ls -t $DIR | tail -$TOP`
+  echo "---------------------------------------------------------------------" >> $LOG
+  echo "$DATA - $HORA :Removendo os $TOP arquivos mais antigos do diretorio:$DIR" >> $LOG
+  for L in $LISTDEL
+  do
+    echo "Removendo arquivo: $L" >> $LOG
+    rm $DIR/$L
+  done
+  echo "---------------------------------------------------------------------" >> $LOG
+  #
+else
+  #
+  echo
+  echo "Remove_top_n_antigos"
+  echo "Parametros:"
+  echo "1) Diretorios para limpeza"
+  echo "2) Numero do top N antigos (ex: 10 => vai remover os 10 mais antigos)"
+  echo "3) Arquivo de log das exclusoes (opcional)"
+  echo
+fi
+}
+# **********************************************************************
+Bkp_conf ()
+{
+##########################################################
+# SCRIPT QUE REALIZA BACKUP DOS ARQUIVOS DE CONFIGURACAO:
+# - init.ora
+# - listener.ora
+# - sqlnet.ora
+# - tnsnames.ora
+# Recebe como parametro o sid do banco (nome) e o diretorio de destino do bkp.
+###########################################################
+
+if [ $# != 2 ] ; then
+   echo
+   echo "Bkp_conf"
+   echo "Deve ser passado 2 parametros:"
+   echo "1) ORACLE_SID"
+   echo "2) Diretorio destino"
+   echo
+else
+   # Nome do banco
+   SID=$1
+
+   # Diretorio de destino
+   DIR_BKP=$2
+
+   # Diretorios que devem ser copiados
+   DIR_LIST="$ORACLE_BASE/admin/$SID/pfile $ORACLE_HOME/network/admin"
+
+   echo "Copia dos arquivos de conf"
+   echo "Destino:$DIR_BKP"
+
+   for D in $DIR_LIST
+   do
+     echo "Copiando diretorio:$D"
+     cp -pr $D/* $DIR_BKP
+   done
+   echo "Final da copia."
+fi
+}
+# **********************************************************************
+Gera_cmd_bd_rman ()
+{
+     ###########################################################################
+     # Script que gera o arquivo de comandos do rman para backup do banco.
+     # Recebe 5 parâmetros:
+     #  Primeiro: INCR = incremental
+     #            CUMU = cumulative
+     #            FULL = completo (default, se nao receber nada).
+     #  Segundo.: nível do backup (default 0 (zero) se nao receber nada).
+     #  Terceiro: Classe do NBU para realizacao do backup.
+     #  Quarto..: Schedule do NBU para realizacao do backup.
+     #  Quinto..: Variavel indicando se deve (Y) ou nao (N) ignorar as tablespace read only.
+     ###########################################################################
+     TIPO_BKP=$1
+     NIVEL=$2
+     CLASSEBD=$3
+     SCHEDBD=$4
+     SKIP_READONLY=$5
+     USE_CATALOG=$6
+
+     # Atribui valores default para as variaveis quando nao foram setadas.
+     if [ -z "$TIPO_BKP" ] ; then
+        TIPO_BKP=FULL
+     fi
+     if [ -z "$NRO_CANAIS_BD" ] ; then
+        NRO_CANAIS_BD=1
+     fi
+     if [ -z "$TIPO_CANAL_BD" ] ; then
+        TIPO_CANAL_BD=disk
+     fi
+     if [ -z "$NIVEL" ] ; then
+        NIVEL=0
+     fi
+     if [ -z "$SKIP_OFFLINE" ] ; then
+        SKIP_OFFLINE=Y
+     fi
+     if [ -z "$SKIP_READONLY" ] ; then
+        SKIP_READONLY=N
+     fi
+
+     if [ -z "$USE_CATALOG" ] ; then
+        USE_CATALOG=N
+     fi
+
+
+     if [ -z "$ARQ_CMD_RMAN_BD" ] ; then
+        ARQ_CMD_RMAN_BD=$ORACLE_BASE/oracledba/backup/rman_cmd_bd.rcv
+     fi
+     DATA=`date +'%Y%m%d'`
+     TIME=`date +'%H%M%S'`
+     FORMATO_BD=\'bkp_${TIPO_BKP}${NIVEL}_${DATA}_${TIME}_%d_s%s_p%p.rman\'
+     FORMATO_CF=\'bkp_ctl_${DATA}_${TIME}_%d_s%s_p%p.rman\'
+
+     # Inicio da geracao do arquivo de comandos do rman.
+     {
+        # Mostra as variaveis de ambiente
+        echo "##########################################################################"
+        echo "# TIPO_BKP           = $TIPO_BKP                                          "
+        echo "# CLASSEBD           = $CLASSEBD                                          "
+        echo "# SCHEDBD            = $SCHEDBD                                           "
+        echo "# NRO_CANAIS_BD      = $NRO_CANAIS_BD                                     "
+        echo "# TIPO_CANAL_BD      = $TIPO_CANAL_BD                                     "
+        echo "# LIMITE_TAM_CANAL   = $LIMITE_TAM_CANAL                                  "
+        echo "# NIVEL              = $NIVEL                                             "
+        echo "# SKIP_OFFLINE       = $SKIP_OFFLINE                                      "
+        echo "# SKIP_READONLY      = $SKIP_READONLY                                     "
+        echo "# FORMATO_BD         = $FORMATO_BD                                        "
+        echo "# ARQ_CMD_RMAN_BD    = $ARQ_CMD_RMAN_BD                                   "
+        echo "# JANELA_RETENTATIVA = $JANELA_RETENTATIVA                                "
+        echo "# USE_CATALOG        = $USE_CATALOG                                       "
+        echo "##########################################################################"
+        if [ "$USE_CATALOG" = "Y" ] ; then
+           echo "resync catalog;"
+        fi
+        echo "run"
+        echo "{"
+        #
+        # Forca que o redo corrente seja arquivado.
+        #
+        echo "sql 'alter system archive log current';"
+        #
+        # Aloca os canais do bkp
+        #
+        IND=0
+        while [ $IND -lt $NRO_CANAIS_BD ] ;
+        do
+           IND=`expr $IND + 1 `
+           echo "allocate channel c$IND type $TIPO_CANAL_BD;"
+        done
+
+        # Verifica se deve enviar alguma variavel para o software de backup.
+        if [ ! -z "$CLASSEBD" ] ; then
+           echo "send 'NB_ORA_CLASS=${CLASSEBD}';"
+        fi
+        if [ ! -z "$SCHEDBD" ] ; then
+           echo "send 'NB_ORA_SCHED=${SCHEDBD}';"
+        fi
+
+
+	#
+	# Adcionado conforme TKT 6976 para consolidacao dos datacenters
+	# Hermes Pimentel 
+	#
+	
+	echo "crosscheck archivelog until time 'sysdate -1' ;"
+       
+ 	#
+        # Se for necessario setar um limite para o tamanho de arquivo gerado descomentar a proxima linha.
+        #
+        # Essa parte foi comentada porque foi incluido filesperset (Gediel,30/10/2003)
+        #  setlimit channel t1 kbytes 2097150;
+        #if [ ! -z "$LIMITE_TAM_CANAL" ] ; then
+        #   IND=0
+        #   while [ $IND -lt $NRO_CANAIS_BD ] ;
+        #   do
+        #     IND=`expr $IND + 1 `
+        #     echo "setlimit channel c$IND kbytes $LIMITE_TAM_CANAL;"
+        #   done
+        #fi
+
+        #
+        # Executa um backup do banco conforma o tipo solicitado
+        # INCR = incremental
+        # CUMU = cumulative
+        # FULL = full
+        #
+        if [ "$TIPO_BKP" = "INCR" ] ; then
+           echo "backup incremental level $NIVEL database include current controlfile"
+        else
+           if [ "$TIPO_BKP" = "CUMU" ] ; then
+              echo "backup incremental level $NIVEL cumulative database include current controlfile"
+           else
+              echo "backup full database include current controlfile"
+           fi
+        fi
+        # Apenas 1 datafile por backup set, pra agilizar o restore.
+        echo "filesperset 1"
+
+        #
+        # Quando for preciso ignorar arquivos que estejam offline;
+        #
+        if [ "$SKIP_OFFLINE" = "Y" -o "$SKIP_OFFLINE" = "y" -o "$SKIP_OFFLINE" = "S" -o "$SKIP_OFFLINE" = "s" ] ; then
+           echo "skip offline"
+        fi
+
+        #
+        # Não realiza backup das tablespaces que estao read-only.
+        #
+        if [ "$SKIP_READONLY" = "Y" -o "$SKIP_READONLY" = "y" -o "$SKIP_READONLY" = "S" -o "$SKIP_READONLY" = "s" ] ; then
+           echo "skip readonly"
+        fi
+
+        # Realiza Backup apenas dos datafiles que nao foram pra backup na ultima janela de retentativa.
+        # Por exemplo, se $JANELA_RETENTATIVA = 1 entao realiza backup somente dos datafiles que nao foram pra backup
+        # no ultimo dia (nas ultimas 24 horas).
+        #
+        if [ ! -z "$JANELA_RETENTATIVA" ] ; then
+           echo "not backed up since time 'sysdate - $JANELA_RETENTATIVA'"
+        fi
+
+
+        #
+        # Formato do(s) arquivos gerados.
+        #
+        if [ ! -z "$FORMATO_BD" ] ; then
+           echo "format $FORMATO_BD;"
+        else
+           echo ";"
+        fi
+
+        #
+        # Forca que o redo corrente seja arquivado.
+        #
+        echo "sql 'alter system archive log current';"
+
+        #
+        # Realiza backup do controlfile p/ texto (udump)
+        #
+        echo "sql 'alter database backup controlfile to trace';"
+        #
+        # Comando de backup do controlfile p/ fita
+        #
+        echo "Backup current controlfile format $FORMATO_CF;"
+
+        #
+        # Libera o canal de fita que tinha alocado.
+        # Comentado, pq nao eh necessario (ele desaloca automaticamente) e gerava erro em alguns casos onde o canal tinha sido desalocado antes.
+	# (Gediel - ilegra - 2009-jun-01).
+        #IND=0
+        #while [ $IND -lt $NRO_CANAIS_BD ] ;
+        #do
+        #   IND=`expr $IND + 1 `
+        #   echo "release channel c$IND;"
+        #done
+        echo "}"
+        if [ "$USE_CATALOG" = "Y" ] ; then
+           echo "resync catalog;"
+        fi
+        echo "exit;"
+     }  > $ARQ_CMD_RMAN_BD
+}
+# **********************************************************************
+Gera_cmd_arc_rman ()
+{
+     ###########################################################################
+     # Função que gera comando para backup/delete dos archives pelo rman.
+     # Opcionalmente pode-se passar como parametro um logseq. Nesse caso
+     # O comando gerado fará backup dos arquives until logseq recebida.
+     ###########################################################################
+     CLASSEAR=$1
+     SCHEDAR=$2
+     USE_CATALOG=$3
+     ULTSEQ=$4
+     DATA=`date +'%Y%m%d'`
+     TIME=`date +'%H%M%S'`
+
+
+     # Atribui valores default para as variaveis quando nao foram setadas.
+     if [ -z "$NRO_CANAIS_AR" ] ; then
+        NRO_CANAIS_AR=1
+     fi
+     if [ -z "$TIPO_CANAL_AR" ] ; then
+        TIPO_CANAL_AR=disk
+     fi
+
+     if [ -z "$FORMATO_AR" ] ; then
+        FORMATO_AR=\'bkp_arc_${DATA}_${TIME}_%d_s%s_p%p.rman\'
+     fi
+
+     if [ -z "$FORMATO_CF" ] ; then
+        FORMATO_CF=\'bkp_ctl_${DATA}_${TIME}_%d_s%s_p%p.rman\'
+     fi
+
+     if [ -z "$USE_CATALOG" ] ; then
+        USE_CATALOG=N
+     fi
+
+     if [ -z "$ARQ_CMD_RMAN_AR" ] ; then
+        ARQ_CMD_RMAN_AR=$ORACLE_BASE/oracledba/backup/rman_cmd_ar.rcv
+     fi
+
+     # Inicio da geracao do arquivo de comandos do rman.
+     {
+        # Mostra as variaveis de ambiente
+        echo "##########################################################################"
+        echo "# ULTSEQ           = $ULTSEQ                                              "
+        echo "# CLASSAR          = $CLASSAR                                             "
+        echo "# SCHEDAR          = $SCHEDAR                                             "
+        echo "# NRO_CANAIS_AR    = $NRO_CANAIS_AR                                       "
+        echo "# TIPO_CANAL_AR    = $TIPO_CANAL_AR                                       "
+        echo "# LIMITE_TAM_CANAL = $LIMITE_TAM_CANAL                                    "
+        echo "# FORMATO_AR       = $FORMATO_AR                                          "
+        echo "# ARC_POR_SET      = $ARC_POR_SET                                         "
+        echo "# ARQ_CMD_RMAN_AR  = $ARQ_CMD_RMAN_AR                                     "
+        echo "# USE_CATALOG      = $USE_CATALOG                                         "
+        echo "##########################################################################"
+        if [ "$USE_CATALOG" = "Y" ] ; then
+           echo "resync catalog;"
+        fi
+        echo "run"
+        echo "{"
+        #
+        # Aloca os canais do bkp
+        #
+        IND=0
+        while [ $IND -lt $NRO_CANAIS_AR ] ;
+        do
+           IND=`expr $IND + 1 `
+           echo "allocate channel c$IND type $TIPO_CANAL_AR;"
+        done
+
+        # Verifica se deve enviar alguma variavel para o software de backup.
+        if [ ! -z "$CLASSEAR" ] ; then
+           echo "send 'NB_ORA_CLASS=${CLASSEAR}';"
+        fi
+        if [ ! -z "$SCHEDAR" ] ; then
+           echo "send 'NB_ORA_SCHED=${SCHEDAR}';"
+        fi
+
+        #
+        # Se for necessario setar um limite para o tamanho de arquivo gerado descomentar a proxima linha.
+        #
+        #  setlimit channel t1 kbytes 2097150;
+        if [ ! -z "$LIMITE_TAM_CANAL" ] ; then
+           IND=0
+           while [ $IND -lt $NRO_CANAIS_AR ] ;
+           do
+             IND=`expr $IND + 1 `
+             echo "setlimit channel c$IND kbytes $LIMITE_TAM_CANAL;"
+           done
+        fi
+
+	#
+	#Adcionado conforme TKT 6976 para consolidacao dos datacenters
+	#Hermes Pimentel 
+	#
+	echo "crosscheck archivelog until time 'sysdate -1' ;"
+
+
+        #
+        # Comando de backup
+        #
+        echo "backup "
+        if [ ! -z "$ARC_POR_SET" ] ; then
+           echo "filesperset $ARC_POR_SET"
+        fi
+        if [ ! -z "$FORMATO_AR" ] ; then
+           echo "format $FORMATO_AR"
+        fi
+        echo "archivelog"
+        if [ -z "$ULTSEQ" ] ; then
+           echo "all delete input;"
+        else
+           echo "until logseq $ULTSEQ delete input;"
+        fi
+        #
+        # Comando de backup do controlfile
+        #
+        echo "Backup current controlfile format $FORMATO_CF;"
+        #
+        # Libera o canal de fita que tinha alocado.
+        # Comentado, pq nao eh necessario (ele desaloca automaticamente) e gerava erro em alguns casos onde o canal tinha sido desalocado antes.
+	# (Gediel - ilegra - 2009-jun-01).
+        #
+        #IND=0
+        #while [ $IND -lt $NRO_CANAIS_AR ] ;
+        #do
+        #   IND=`expr $IND + 1 `
+        #   echo "release channel c$IND;"
+        #done
+        echo "}"
+        if [ "$USE_CATALOG" = "Y" ] ; then
+           echo "resync catalog;"
+        fi
+        echo "exit;"
+     }  > $ARQ_CMD_RMAN_AR
+}
+# **********************************************************************
+Gera_cmd_tbl_rman ()
+{
+     ###########################################################################
+     # Função que gera comando para backup/delete dos archives pelo rman.
+     # Opcionalmente pode-se passar como parametro um logseq. Nesse caso
+     # O comando gerado fará backup dos arquives until logseq recebida.
+     ###########################################################################
+     CLASSETB=$1
+     SCHEDTB=$2
+     TBL=$3
+
+     if [ -z "$NRO_CANAIS_BD" ] ; then
+        NRO_CANAIS_BD=1
+     fi
+     if [ -z "$TIPO_CANAL_BD" ] ; then
+        TIPO_CANAL_BD=disk
+     fi
+
+
+     # Atribui valores default para as variaveis quando nao foram setadas.
+     DATA=`date +'%Y%m%d'`
+     TIME=`date +'%H%M%S'`
+     FORMATO_TB=\'bkp_tbl_${TBL}_%d_${DATA}_${TIME}_s%s_p%p.rman\'
+     ARQ_CMD_RMAN_TB=$ORACLE_BASE/oracledba/backup/rman_cmd_tb.rcv
+
+
+     # Inicio da geracao do arquivo de comandos do rman.
+     {
+        # Mostra as variaveis de ambiente
+        echo "##########################################################################"
+        echo "# TABLESPACE       = $TBL                                                 "
+        echo "# CLASSTB          = $CLASSETB                                            "
+        echo "# SCHEDTB          = $SCHEDTB                                             "
+        echo "# FORMATO_TB       = $FORMATO_TB                                          "
+        echo "# ARQ_CMD_RMAN_TB  = $ARQ_CMD_RMAN_TB                                     "
+        echo "##########################################################################"
+        echo "resync catalog;"
+        echo "run"
+        echo "{"
+        #
+        # Aloca os canais do bkp
+        #
+        IND=0
+        while [ $IND -lt $NRO_CANAIS_BD ] ;
+        do
+           IND=`expr $IND + 1 `
+           echo "allocate channel c$IND type $TIPO_CANAL_BD;"
+        done
+
+
+        # Verifica se deve enviar alguma variavel para o software de backup.
+        if [ ! -z "$CLASSETB" ] ; then
+           echo "send 'NB_ORA_CLASS=${CLASSETB}';"
+        fi
+        if [ ! -z "$SCHEDTB" ] ; then
+           echo "send 'NB_ORA_SCHED=${SCHEDTB}';"
+        fi
+
+        #
+        # Se for necessario setar um limite para o tamanho de arquivo gerado descomentar a proxima linha.
+        #
+        #  setlimit channel t1 kbytes 2097150;
+        if [ ! -z "$LIMITE_TAM_CANAL" ] ; then
+           IND=0
+           while [ $IND -lt $NRO_CANAIS_BD ] ;
+           do
+             IND=`expr $IND + 1 `
+             echo "setlimit channel c$IND kbytes $LIMITE_TAM_CANAL;"
+           done
+        fi
+        #
+        # Comando de backup
+        #
+        echo "backup tablespace ${TBL} include current controlfile"
+        if [ ! -z "$FORMATO_TB" ] ; then
+           echo "format $FORMATO_TB"
+        fi
+        echo ";"
+
+        #
+        # Realiza backup do controlfile p/ texto (udump)
+        #
+        echo "sql 'alter database backup controlfile to trace';"
+
+
+        #
+        # Libera o canal de fita que tinha alocado.
+        # Comentado, pq nao eh necessario (ele desaloca automaticamente) e gerava erro em alguns casos onde o canal tinha sido desalocado antes.
+	# (Gediel - ilegra - 2009-jun-01).
+        #
+        #IND=0
+        #while [ $IND -lt $NRO_CANAIS_BD ] ;
+        #do
+        #   IND=`expr $IND + 1 `
+        #   echo "release channel c$IND;"
+        #done
+        echo "}"
+        echo "resync catalog;"
+        echo "exit;"
+     }  > $ARQ_CMD_RMAN_TB
+}
+# **********************************************************************
+Trata_data ()
+{
+#
+# Função para verificar se a data atual esta incluso em
+# um grupo de datas pre definidas, onde serao tomadas as
+# devidas acoes.
+# Finalidade: uso junto aos scripts de backup das bases oracle,
+# quando deve haver um backup diferente conforme determinada data.
+# Por exemplo: todo dia 1 executar backup completo do banco inclusive das
+# tablespace read-only.
+#
+
+# Essa funcao utiliza 2 variaveis de ambiente:
+#
+# DIA_MES_ANUAL = variavel que tem o formato ddmm e indica o dia e mes do backup anual
+#
+# DIA_MENSAL    = variavel que indica o dia do mes que deve-se executar um bkp mensal.
+#
+
+diames_anual=$DIA_MES_ANUAL
+dia_mensal=$DIA_MENSAL
+
+# determina o dia e mes atual
+dia_atual=`date +%d`
+diames_atual=`date +%d%m`
+
+if [ "$diames_atual" = "$diames_anual" ] ; then
+   echo "ANUAL"
+else
+   if [ "$dia_atual" = "$dia_mensal" ] ; then
+      echo "MENSAL"
+   else
+      echo "DIARIO"
+   fi
+fi
+}
+
+# **********************************************************************
+Testa_conexao ()
+{
+# Essa funcao recebe 3 parametros:
+# 1) String de conexao: pode ser na forma de user/senha ou user/senha@banco
+# 2) Nivel de teste...: pode ser 1, apenas conecta e faz um select na dual ou 2 conecta e cria/dropa uma tabela temporaria.
+# 3) ORACLE_SID para criar tabela no catalogo e nao conflitar com tabelas de outras instances no teste de nivel 2
+if [ ! $# = 3 ] ; then
+   echo " "
+   echo "Essa funcao recebe 3 parametros:"
+   echo "1) String de conexao: pode ser na forma de user/senha ou user/senha@banco"
+   echo "2) Nivel de teste...: pode ser 1, apenas conecta e faz um select na dual ou 2 conecta e cria/dropa uma tabela temporaria."
+   echo "3) ORACLE_SID para criar tabela no catalogo e nao conflitar com tabelas de outras instances"
+   echo " "
+   echo "Exemplo: Testa_conexao rman/rman@orarep 2 base04"
+   echo " "
+   return -1
+fi
+STRING_CONE=$1
+NIVEL=$2
+ORACLE_SID=$3
+DT_ATUAL=`date +'%d%m%Y%H%M%S'`
+LOG=/tmp/Testa_conexao_${DT_ATUAL}.log
+
+{
+echo "DATA       = `date`"
+echo "STRING_CONE=${STRING_CONE}"
+echo "NIVEL      =${NIVEL}"
+echo "ORACLE_SID =${ORACLE_SID}"
+} > $LOG 2>&1
+
+teste_nivel_1 ()
+{
+sqlplus -s $STRING_CONE <<EOF
+SET ECHO OFF
+SET TERMOUT OFF
+SET TRIMS ON
+SET PAGESIZE 0
+SET FEEDBACK OFF
+SET VERIFY OFF
+SET LINESIZE 1000
+whenever sqlerror exit 1
+whenever oserror exit 2
+select sysdate from dual;
+exit;
+EOF
+}
+
+teste_nivel_2 ()
+{
+sqlplus -s $STRING_CONE <<EOF
+SET ECHO OFF
+SET TERMOUT OFF
+SET TRIMS ON
+SET PAGESIZE 0
+SET FEEDBACK OFF
+SET VERIFY OFF
+SET LINESIZE 1000
+whenever sqlerror exit 1
+whenever oserror exit 2
+create table tmp_${DT_ATUAL}_${ORACLE_SID} as select * from dual;
+drop table tmp_${DT_ATUAL}_${ORACLE_SID};
+exit;
+EOF
+}
+
+
+if [ $NIVEL = 1 ] ; then
+   teste_nivel_1 >> $LOG 2>&1
+elif [ $NIVEL = 2 ] ; then
+   teste_nivel_2 >> $LOG 2>&1
+else
+   echo " "
+   echo "Nivel (parametro 2) deve ser 1 ou 2."
+   echo "2) Nivel de teste...: pode ser 1, apenas conecta e faz um select na dual ou 2 conecta e cria/dropa uma tabela temporaria."
+   echo " "
+   return -1
+fi
+
+}

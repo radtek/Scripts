@@ -1,0 +1,234 @@
+
+Recovery Manager: Release 10.2.0.3.0 - Production on Fri Jun 15 17:01:18 2007
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 
+executing command: SET parallelmediarestore
+
+RMAN> 2> 3> 4> 5> 6> 7> 
+allocated channel: c1
+channel c1: sid=518 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 5.1 (2004043014)
+
+executing command: SET NEWNAME
+
+Starting restore at 20070615170120
+
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00618 to /b17/oradata/res_oraacct2/acct_mov_data_p38b_01.dbf
+channel c1: reading from backup piece bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75917_p1.rman
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75917_p1.rman tag=TAG20051117T151144
+channel c1: restore complete, elapsed time: 00:08:16
+Finished restore at 20070615170945
+
+datafile 618 switched to datafile copy
+input datafile copy recid=3414 stamp=625338591 filename=/b17/oradata/res_oraacct2/acct_mov_data_p38b_01.dbf
+starting full resync of recovery catalog
+full resync complete
+released channel: c1
+
+RMAN> 
+
+Recovery Manager complete.
+Restore finalizado com sucesso.
+
+Recovery Manager: Release 10.2.0.3.0 - Production on Fri Jun 15 17:27:47 2007
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 
+executing command: SET parallelmediarestore
+
+RMAN> 2> 3> 4> 5> 6> 7> 
+allocated channel: c1
+channel c1: sid=518 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 5.1 (2004043014)
+
+executing command: SET NEWNAME
+
+Starting restore at 20070615172749
+
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00619 to /b17/oradata/res_oraacct2/acct_mov_data_p38b_02.dbf
+channel c1: reading from backup piece bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75915_p1.rman
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75915_p1.rman tag=TAG20051117T151144
+channel c1: restore complete, elapsed time: 00:08:06
+Finished restore at 20070615173602
+
+datafile 619 switched to datafile copy
+input datafile copy recid=3416 stamp=625340168 filename=/b17/oradata/res_oraacct2/acct_mov_data_p38b_02.dbf
+starting full resync of recovery catalog
+full resync complete
+released channel: c1
+
+RMAN> 
+
+Recovery Manager complete.
+Restore finalizado com sucesso.
+
+Recovery Manager: Release 10.2.0.3.0 - Production on Fri Jun 15 17:37:38 2007
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 
+executing command: SET parallelmediarestore
+
+RMAN> 2> 3> 4> 5> 6> 7> 
+allocated channel: c1
+channel c1: sid=518 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 5.1 (2004043014)
+
+executing command: SET NEWNAME
+
+Starting restore at 20070615173741
+
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00620 to /b17/oradata/res_oraacct2/acct_mov_data_p38b_03.dbf
+channel c1: reading from backup piece bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75916_p1.rman
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75916_p1.rman tag=TAG20051117T151144
+channel c1: restore complete, elapsed time: 00:08:27
+Finished restore at 20070615174614
+
+datafile 620 switched to datafile copy
+input datafile copy recid=3418 stamp=625340778 filename=/b17/oradata/res_oraacct2/acct_mov_data_p38b_03.dbf
+starting full resync of recovery catalog
+full resync complete
+released channel: c1
+
+RMAN> 
+
+Recovery Manager complete.
+Restore finalizado com sucesso.
+
+Recovery Manager: Release 10.2.0.3.0 - Production on Fri Jun 15 17:48:11 2007
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 
+executing command: SET parallelmediarestore
+
+RMAN> 2> 3> 4> 5> 6> 7> 
+allocated channel: c1
+channel c1: sid=526 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 5.1 (2004043014)
+
+executing command: SET NEWNAME
+
+Starting restore at 20070615174814
+
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00621 to /b17/oradata/res_oraacct2/acct_mov_data_p38b_04.dbf
+channel c1: reading from backup piece bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75913_p1.rman
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75913_p1.rman tag=TAG20051117T151144
+channel c1: restore complete, elapsed time: 00:08:27
+Finished restore at 20070615175648
+
+datafile 621 switched to datafile copy
+input datafile copy recid=3420 stamp=625341413 filename=/b17/oradata/res_oraacct2/acct_mov_data_p38b_04.dbf
+starting full resync of recovery catalog
+full resync complete
+released channel: c1
+
+RMAN> 
+
+Recovery Manager complete.
+Restore finalizado com sucesso.
+
+Recovery Manager: Release 10.2.0.3.0 - Production on Fri Jun 15 18:04:28 2007
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 
+executing command: SET parallelmediarestore
+
+RMAN> 2> 3> 4> 5> 6> 7> 
+allocated channel: c1
+channel c1: sid=518 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 5.1 (2004043014)
+
+executing command: SET NEWNAME
+
+Starting restore at 20070615180430
+
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00622 to /b17/oradata/res_oraacct2/acct_mov_data_p38b_05.dbf
+channel c1: reading from backup piece bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75914_p1.rman
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75914_p1.rman tag=TAG20051117T151144
+channel c1: restore complete, elapsed time: 00:08:16
+Finished restore at 20070615181254
+
+datafile 622 switched to datafile copy
+input datafile copy recid=3422 stamp=625342379 filename=/b17/oradata/res_oraacct2/acct_mov_data_p38b_05.dbf
+starting full resync of recovery catalog
+full resync complete
+released channel: c1
+
+RMAN> 
+
+Recovery Manager complete.
+Restore finalizado com sucesso.
+
+Recovery Manager: Release 10.2.0.3.0 - Production on Fri Jun 15 18:13:24 2007
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 
+executing command: SET parallelmediarestore
+
+RMAN> 2> 3> 4> 5> 6> 7> 
+allocated channel: c1
+channel c1: sid=532 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 5.1 (2004043014)
+
+executing command: SET NEWNAME
+
+Starting restore at 20070615181326
+
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00623 to /b17/oradata/res_oraacct2/acct_mov_data_p38b_06.dbf
+channel c1: reading from backup piece bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75918_p1.rman
+channel c1: restored backup piece 1
+piece handle=bkp_tbl_ACCT_MOV_DATA_P38B_ORAACCT2_20051117_151120_s75918_p1.rman tag=TAG20051117T151144
+channel c1: restore complete, elapsed time: 00:05:36
+Finished restore at 20070615181909
+
+datafile 623 switched to datafile copy
+input datafile copy recid=3424 stamp=625342754 filename=/b17/oradata/res_oraacct2/acct_mov_data_p38b_06.dbf
+starting full resync of recovery catalog
+full resync complete
+released channel: c1
+
+RMAN> 
+
+Recovery Manager complete.
+Restore finalizado com sucesso.

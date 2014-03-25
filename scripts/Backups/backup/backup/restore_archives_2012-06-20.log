@@ -1,0 +1,109 @@
+Wed Jun 20 16:40:48 BRT 2012
+
+Recovery Manager: Release 10.2.0.4.0 - Production on Wed Jun 20 16:40:48 2012
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 2> 3> 4> 5> 6> 7> 
+allocated channel: c1
+channel c1: sid=402 devtype=SBT_TAPE
+channel c1: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+allocated channel: c2
+channel c2: sid=225 devtype=SBT_TAPE
+channel c2: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+allocated channel: c3
+channel c3: sid=462 devtype=SBT_TAPE
+channel c3: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+allocated channel: c4
+channel c4: sid=455 devtype=SBT_TAPE
+channel c4: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+Starting restore at 20/06/2012 16:40:52
+
+archive log thread 1 sequence 378010 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378010_1_524165804.arc
+archive log thread 1 sequence 378011 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378011_1_524165804.arc
+archive log thread 1 sequence 378012 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378012_1_524165804.arc
+archive log thread 1 sequence 378013 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378013_1_524165804.arc
+archive log thread 1 sequence 378014 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378014_1_524165804.arc
+archive log thread 1 sequence 378015 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378015_1_524165804.arc
+archive log thread 1 sequence 378016 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378016_1_524165804.arc
+archive log thread 1 sequence 378017 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378017_1_524165804.arc
+archive log thread 1 sequence 378018 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378018_1_524165804.arc
+archive log thread 1 sequence 378019 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378019_1_524165804.arc
+archive log thread 1 sequence 378020 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378020_1_524165804.arc
+archive log thread 1 sequence 378021 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378021_1_524165804.arc
+archive log thread 1 sequence 378022 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378022_1_524165804.arc
+archive log thread 1 sequence 378023 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378023_1_524165804.arc
+archive log thread 1 sequence 378024 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378024_1_524165804.arc
+archive log thread 1 sequence 378025 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378025_1_524165804.arc
+archive log thread 1 sequence 378026 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378026_1_524165804.arc
+archive log thread 1 sequence 378027 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378027_1_524165804.arc
+archive log thread 1 sequence 378028 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378028_1_524165804.arc
+archive log thread 1 sequence 378029 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378029_1_524165804.arc
+archive log thread 1 sequence 378030 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378030_1_524165804.arc
+archive log thread 1 sequence 378031 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378031_1_524165804.arc
+archive log thread 1 sequence 378032 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378032_1_524165804.arc
+archive log thread 1 sequence 378033 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378033_1_524165804.arc
+archive log thread 1 sequence 378034 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378034_1_524165804.arc
+archive log thread 1 sequence 378035 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378035_1_524165804.arc
+archive log thread 1 sequence 378036 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378036_1_524165804.arc
+archive log thread 1 sequence 378037 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378037_1_524165804.arc
+archive log thread 1 sequence 378038 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378038_1_524165804.arc
+archive log thread 1 sequence 378039 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378039_1_524165804.arc
+archive log thread 1 sequence 378040 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378040_1_524165804.arc
+archive log thread 1 sequence 378041 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378041_1_524165804.arc
+archive log thread 1 sequence 378042 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378042_1_524165804.arc
+archive log thread 1 sequence 378043 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378043_1_524165804.arc
+archive log thread 1 sequence 378044 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378044_1_524165804.arc
+archive log thread 1 sequence 378045 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378045_1_524165804.arc
+archive log thread 1 sequence 378046 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378046_1_524165804.arc
+archive log thread 1 sequence 378047 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378047_1_524165804.arc
+archive log thread 1 sequence 378048 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378048_1_524165804.arc
+archive log thread 1 sequence 378049 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378049_1_524165804.arc
+archive log thread 1 sequence 378050 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378050_1_524165804.arc
+archive log thread 1 sequence 378051 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378051_1_524165804.arc
+archive log thread 1 sequence 378052 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378052_1_524165804.arc
+archive log thread 1 sequence 378053 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378053_1_524165804.arc
+archive log thread 1 sequence 378054 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378054_1_524165804.arc
+archive log thread 1 sequence 378055 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378055_1_524165804.arc
+archive log thread 1 sequence 378056 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378056_1_524165804.arc
+archive log thread 1 sequence 378057 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378057_1_524165804.arc
+archive log thread 1 sequence 378058 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378058_1_524165804.arc
+archive log thread 1 sequence 378059 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378059_1_524165804.arc
+archive log thread 1 sequence 378060 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378060_1_524165804.arc
+archive log thread 1 sequence 378061 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378061_1_524165804.arc
+archive log thread 1 sequence 378062 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378062_1_524165804.arc
+archive log thread 1 sequence 378063 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378063_1_524165804.arc
+archive log thread 1 sequence 378064 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378064_1_524165804.arc
+archive log thread 1 sequence 378065 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378065_1_524165804.arc
+archive log thread 1 sequence 378070 is already on disk as file /archive01/oradata/oraacct2/archive/oraacct2_378070_1_524165804.arc
+channel c1: starting archive log restore to default destination
+channel c1: restoring archive log
+archive log thread=1 sequence=378066
+channel c1: restoring archive log
+archive log thread=1 sequence=378067
+channel c1: restoring archive log
+archive log thread=1 sequence=378068
+channel c1: restoring archive log
+archive log thread=1 sequence=378069
+channel c1: reading from backup piece bkp_arc_20120620_160006_ORAACCT2_s497993_p1.rman
+channel c1: restored backup piece 1
+piece handle=bkp_arc_20120620_160006_ORAACCT2_s497993_p1.rman tag=TAG20120620T160031
+channel c1: restore complete, elapsed time: 00:01:36
+Finished restore at 20/06/2012 16:42:41
+released channel: c1
+released channel: c2
+released channel: c3
+released channel: c4
+
+RMAN> 
+
+Recovery Manager complete.
+Restore finalizado com sucesso.
+Wed Jun 20 16:42:44 BRT 2012

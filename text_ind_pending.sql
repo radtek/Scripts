@@ -1,0 +1,1 @@
+SELECT pnd_index_name, pnd_rowid, to_char(pnd_timestamp, 'dd-mon-yyyy hh24:mi:ss') timestamp FROM ctx_user_pending;

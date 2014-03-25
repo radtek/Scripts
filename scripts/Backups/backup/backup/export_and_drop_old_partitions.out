@@ -1,0 +1,503 @@
+Fri Mar  5 13:45:51 BRT 2010 => Inicio do Script. OWNER:ACCT TABLE:TRR_MOVIMENTO_ERROS
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 13:45:51 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL>   2    3    4    5    6    7    8    9  
+PL/SQL procedure successfully completed.
+
+SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Antes do Loop das Particoes
+file:/usr/local/oracle/oracledba/logs/lista_part_export.20100305134551
+Antes do List
+Lista:MENORQ_20090101
+MENORQ_20090201
+MENORQ_20090301
+MENORQ_20090401
+MENORQ_20090501
+MENORQ_20090601
+MENORQ_20090701
+MENORQ_20090801
+MENORQ_20090901
+Fri Mar  5 13:45:54 BRT 2010 => Processando Particao MENORQ_20090101..
+Fri Mar  5 13:45:54 BRT 2010 => Realiza bkp via export:
+
+Export: Release 10.2.0.4.0 - Production on Fri Mar 5 13:45:54 2010
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Export done in WE8ISO8859P1 character set and AL16UTF16 NCHAR character set
+
+About to export specified tables via Direct Path ...
+Current user changed to ACCT
+. . exporting table            TRR_MOVIMENTO_ERROS
+. . exporting partition                MENORQ_20090101
+                                                        33477 rows exported
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+Export terminated successfully with warnings.
+Fri Mar  5 13:45:57 BRT 2010 => Compacta o arquivo gerado
+Fri Mar  5 13:45:58 BRT 2010 => Copia o arquivo pra fita e remove do disco
+Fri Mar  5 13:45:58 BRT 2010 -> Inicio bkp fita...
+--------------------------------------------------
+PARAM_DIR.......:/home/oracle/bkp/dmp/enviando_pra_fita_20100305134551
+PARAM_DES.......:ORAEXP ACCT TRR_MOVIMENTO_ERROS-MENORQ_20090101
+NETBACKUP_CLIENT:/usr/openv/netbackup/bin/bparchive
+NETBACKUP_POLICY:MORTO-Oracle
+NETBACKUP_SCHED.:Morto
+NETBACKUP_SERVER:brasilia.terra.com.br
+NETBACKUP_TYPE..:0
+NETBACKUP_LOG...:/usr/local/oracle/oracledba/logs/BkpToNetbackup_20100305_134558.log
+DTATUAL.........:20100305_134558
+--------------------------------------------------
+....
+Fri Mar  5 13:48:13 BRT 2010 -> Retorno:0
+Backup pra fita com sucesso.
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 13:48:13 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 13:48:13 SQL> 13:48:13 SQL> 13:48:13 SQL> 13:48:13   2  13:48:13   3  13:48:13   4  13:48:13   5  13:48:13   6  13:48:13   7  13:48:13   8  
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:02:20.63
+13:50:33 SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Procedimento executado com sucesso.
+Fri Mar  5 13:50:33 BRT 2010 => Processando Particao MENORQ_20090201..
+Fri Mar  5 13:50:33 BRT 2010 => Realiza bkp via export:
+
+Export: Release 10.2.0.4.0 - Production on Fri Mar 5 13:50:33 2010
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Export done in WE8ISO8859P1 character set and AL16UTF16 NCHAR character set
+
+About to export specified tables via Direct Path ...
+Current user changed to ACCT
+. . exporting table            TRR_MOVIMENTO_ERROS
+. . exporting partition                MENORQ_20090201
+                                                        81704 rows exported
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+Export terminated successfully with warnings.
+Fri Mar  5 13:50:35 BRT 2010 => Compacta o arquivo gerado
+Fri Mar  5 13:50:36 BRT 2010 => Copia o arquivo pra fita e remove do disco
+Fri Mar  5 13:50:36 BRT 2010 -> Inicio bkp fita...
+--------------------------------------------------
+PARAM_DIR.......:/home/oracle/bkp/dmp/enviando_pra_fita_20100305134551
+PARAM_DES.......:ORAEXP ACCT TRR_MOVIMENTO_ERROS-MENORQ_20090201
+NETBACKUP_CLIENT:/usr/openv/netbackup/bin/bparchive
+NETBACKUP_POLICY:MORTO-Oracle
+NETBACKUP_SCHED.:Morto
+NETBACKUP_SERVER:brasilia.terra.com.br
+NETBACKUP_TYPE..:0
+NETBACKUP_LOG...:/usr/local/oracle/oracledba/logs/BkpToNetbackup_20100305_135036.log
+DTATUAL.........:20100305_135036
+--------------------------------------------------
+....
+Fri Mar  5 13:52:18 BRT 2010 -> Retorno:0
+Backup pra fita com sucesso.
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 13:52:18 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 13:52:23 SQL> 13:52:23 SQL> 13:52:23 SQL> 13:52:23   2  13:52:23   3  13:52:23   4  13:52:23   5  13:52:23   6  13:52:23   7  13:52:23   8  
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:02:19.62
+13:54:43 SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Procedimento executado com sucesso.
+Fri Mar  5 13:54:43 BRT 2010 => Processando Particao MENORQ_20090301..
+Fri Mar  5 13:54:43 BRT 2010 => Realiza bkp via export:
+
+Export: Release 10.2.0.4.0 - Production on Fri Mar 5 13:54:43 2010
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Export done in WE8ISO8859P1 character set and AL16UTF16 NCHAR character set
+
+About to export specified tables via Direct Path ...
+Current user changed to ACCT
+. . exporting table            TRR_MOVIMENTO_ERROS
+. . exporting partition                MENORQ_20090301
+                                                         4948 rows exported
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+Export terminated successfully with warnings.
+Fri Mar  5 13:54:43 BRT 2010 => Compacta o arquivo gerado
+Fri Mar  5 13:54:43 BRT 2010 => Copia o arquivo pra fita e remove do disco
+Fri Mar  5 13:54:43 BRT 2010 -> Inicio bkp fita...
+--------------------------------------------------
+PARAM_DIR.......:/home/oracle/bkp/dmp/enviando_pra_fita_20100305134551
+PARAM_DES.......:ORAEXP ACCT TRR_MOVIMENTO_ERROS-MENORQ_20090301
+NETBACKUP_CLIENT:/usr/openv/netbackup/bin/bparchive
+NETBACKUP_POLICY:MORTO-Oracle
+NETBACKUP_SCHED.:Morto
+NETBACKUP_SERVER:brasilia.terra.com.br
+NETBACKUP_TYPE..:0
+NETBACKUP_LOG...:/usr/local/oracle/oracledba/logs/BkpToNetbackup_20100305_135443.log
+DTATUAL.........:20100305_135443
+--------------------------------------------------
+....
+Fri Mar  5 13:56:35 BRT 2010 -> Retorno:0
+Backup pra fita com sucesso.
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 13:56:35 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 13:56:35 SQL> 13:56:35 SQL> 13:56:35 SQL> 13:56:35   2  13:56:35   3  13:56:35   4  13:56:35   5  13:56:35   6  13:56:35   7  13:56:35   8  
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:02:03.52
+13:58:39 SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Procedimento executado com sucesso.
+Fri Mar  5 13:58:39 BRT 2010 => Processando Particao MENORQ_20090401..
+Fri Mar  5 13:58:39 BRT 2010 => Realiza bkp via export:
+
+Export: Release 10.2.0.4.0 - Production on Fri Mar 5 13:58:39 2010
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Export done in WE8ISO8859P1 character set and AL16UTF16 NCHAR character set
+
+About to export specified tables via Direct Path ...
+Current user changed to ACCT
+. . exporting table            TRR_MOVIMENTO_ERROS
+. . exporting partition                MENORQ_20090401
+                                                       156063 rows exported
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+Export terminated successfully with warnings.
+Fri Mar  5 13:58:41 BRT 2010 => Compacta o arquivo gerado
+Fri Mar  5 13:58:44 BRT 2010 => Copia o arquivo pra fita e remove do disco
+Fri Mar  5 13:58:44 BRT 2010 -> Inicio bkp fita...
+--------------------------------------------------
+PARAM_DIR.......:/home/oracle/bkp/dmp/enviando_pra_fita_20100305134551
+PARAM_DES.......:ORAEXP ACCT TRR_MOVIMENTO_ERROS-MENORQ_20090401
+NETBACKUP_CLIENT:/usr/openv/netbackup/bin/bparchive
+NETBACKUP_POLICY:MORTO-Oracle
+NETBACKUP_SCHED.:Morto
+NETBACKUP_SERVER:brasilia.terra.com.br
+NETBACKUP_TYPE..:0
+NETBACKUP_LOG...:/usr/local/oracle/oracledba/logs/BkpToNetbackup_20100305_135844.log
+DTATUAL.........:20100305_135844
+--------------------------------------------------
+....
+Fri Mar  5 14:01:11 BRT 2010 -> Retorno:0
+Backup pra fita com sucesso.
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 14:01:11 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 14:01:11 SQL> 14:01:11 SQL> 14:01:11 SQL> 14:01:11   2  14:01:11   3  14:01:11   4  14:01:11   5  14:01:11   6  14:01:11   7  14:01:11   8  
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:02:29.55
+14:03:40 SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Procedimento executado com sucesso.
+Fri Mar  5 14:03:40 BRT 2010 => Processando Particao MENORQ_20090501..
+Fri Mar  5 14:03:40 BRT 2010 => Realiza bkp via export:
+
+Export: Release 10.2.0.4.0 - Production on Fri Mar 5 14:03:40 2010
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Export done in WE8ISO8859P1 character set and AL16UTF16 NCHAR character set
+
+About to export specified tables via Direct Path ...
+Current user changed to ACCT
+. . exporting table            TRR_MOVIMENTO_ERROS
+. . exporting partition                MENORQ_20090501
+                                                         9809 rows exported
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+Export terminated successfully with warnings.
+Fri Mar  5 14:03:44 BRT 2010 => Compacta o arquivo gerado
+Fri Mar  5 14:03:44 BRT 2010 => Copia o arquivo pra fita e remove do disco
+Fri Mar  5 14:03:44 BRT 2010 -> Inicio bkp fita...
+--------------------------------------------------
+PARAM_DIR.......:/home/oracle/bkp/dmp/enviando_pra_fita_20100305134551
+PARAM_DES.......:ORAEXP ACCT TRR_MOVIMENTO_ERROS-MENORQ_20090501
+NETBACKUP_CLIENT:/usr/openv/netbackup/bin/bparchive
+NETBACKUP_POLICY:MORTO-Oracle
+NETBACKUP_SCHED.:Morto
+NETBACKUP_SERVER:brasilia.terra.com.br
+NETBACKUP_TYPE..:0
+NETBACKUP_LOG...:/usr/local/oracle/oracledba/logs/BkpToNetbackup_20100305_140344.log
+DTATUAL.........:20100305_140344
+--------------------------------------------------
+....
+Fri Mar  5 14:05:35 BRT 2010 -> Retorno:0
+Backup pra fita com sucesso.
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 14:05:35 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 14:05:35 SQL> 14:05:35 SQL> 14:05:35 SQL> 14:05:35   2  14:05:35   3  14:05:35   4  14:05:35   5  14:05:35   6  14:05:35   7  14:05:35   8  
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:02:05.49
+14:07:41 SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Procedimento executado com sucesso.
+Fri Mar  5 14:07:41 BRT 2010 => Processando Particao MENORQ_20090601..
+Fri Mar  5 14:07:41 BRT 2010 => Realiza bkp via export:
+
+Export: Release 10.2.0.4.0 - Production on Fri Mar 5 14:07:41 2010
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Export done in WE8ISO8859P1 character set and AL16UTF16 NCHAR character set
+
+About to export specified tables via Direct Path ...
+Current user changed to ACCT
+. . exporting table            TRR_MOVIMENTO_ERROS
+. . exporting partition                MENORQ_20090601
+                                                       573274 rows exported
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+Export terminated successfully with warnings.
+Fri Mar  5 14:07:49 BRT 2010 => Compacta o arquivo gerado
+Fri Mar  5 14:08:00 BRT 2010 => Copia o arquivo pra fita e remove do disco
+Fri Mar  5 14:08:00 BRT 2010 -> Inicio bkp fita...
+--------------------------------------------------
+PARAM_DIR.......:/home/oracle/bkp/dmp/enviando_pra_fita_20100305134551
+PARAM_DES.......:ORAEXP ACCT TRR_MOVIMENTO_ERROS-MENORQ_20090601
+NETBACKUP_CLIENT:/usr/openv/netbackup/bin/bparchive
+NETBACKUP_POLICY:MORTO-Oracle
+NETBACKUP_SCHED.:Morto
+NETBACKUP_SERVER:brasilia.terra.com.br
+NETBACKUP_TYPE..:0
+NETBACKUP_LOG...:/usr/local/oracle/oracledba/logs/BkpToNetbackup_20100305_140800.log
+DTATUAL.........:20100305_140800
+--------------------------------------------------
+....
+Fri Mar  5 14:10:17 BRT 2010 -> Retorno:0
+Backup pra fita com sucesso.
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 14:10:17 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 14:10:17 SQL> 14:10:17 SQL> 14:10:17 SQL> 14:10:17   2  14:10:17   3  14:10:17   4  14:10:17   5  14:10:17   6  14:10:17   7  14:10:17   8  
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:02:48.85
+14:13:06 SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Procedimento executado com sucesso.
+Fri Mar  5 14:13:06 BRT 2010 => Processando Particao MENORQ_20090701..
+Fri Mar  5 14:13:06 BRT 2010 => Realiza bkp via export:
+
+Export: Release 10.2.0.4.0 - Production on Fri Mar 5 14:13:06 2010
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Export done in WE8ISO8859P1 character set and AL16UTF16 NCHAR character set
+
+About to export specified tables via Direct Path ...
+Current user changed to ACCT
+. . exporting table            TRR_MOVIMENTO_ERROS
+. . exporting partition                MENORQ_20090701
+                                                      1359990 rows exported
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+Export terminated successfully with warnings.
+Fri Mar  5 14:13:26 BRT 2010 => Compacta o arquivo gerado
+Fri Mar  5 14:13:53 BRT 2010 => Copia o arquivo pra fita e remove do disco
+Fri Mar  5 14:13:53 BRT 2010 -> Inicio bkp fita...
+--------------------------------------------------
+PARAM_DIR.......:/home/oracle/bkp/dmp/enviando_pra_fita_20100305134551
+PARAM_DES.......:ORAEXP ACCT TRR_MOVIMENTO_ERROS-MENORQ_20090701
+NETBACKUP_CLIENT:/usr/openv/netbackup/bin/bparchive
+NETBACKUP_POLICY:MORTO-Oracle
+NETBACKUP_SCHED.:Morto
+NETBACKUP_SERVER:brasilia.terra.com.br
+NETBACKUP_TYPE..:0
+NETBACKUP_LOG...:/usr/local/oracle/oracledba/logs/BkpToNetbackup_20100305_141353.log
+DTATUAL.........:20100305_141353
+--------------------------------------------------
+....
+Fri Mar  5 14:16:11 BRT 2010 -> Retorno:0
+Backup pra fita com sucesso.
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 14:16:11 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 14:16:11 SQL> 14:16:11 SQL> 14:16:11 SQL> 14:16:11   2  14:16:11   3  14:16:11   4  14:16:11   5  14:16:11   6  14:16:11   7  14:16:11   8  
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:03:06.40
+14:19:18 SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Procedimento executado com sucesso.
+Fri Mar  5 14:19:18 BRT 2010 => Processando Particao MENORQ_20090801..
+Fri Mar  5 14:19:18 BRT 2010 => Realiza bkp via export:
+
+Export: Release 10.2.0.4.0 - Production on Fri Mar 5 14:19:18 2010
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Export done in WE8ISO8859P1 character set and AL16UTF16 NCHAR character set
+
+About to export specified tables via Direct Path ...
+Current user changed to ACCT
+. . exporting table            TRR_MOVIMENTO_ERROS
+. . exporting partition                MENORQ_20090801
+                                                      1565444 rows exported
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+Export terminated successfully with warnings.
+Fri Mar  5 14:19:41 BRT 2010 => Compacta o arquivo gerado
+Fri Mar  5 14:20:10 BRT 2010 => Copia o arquivo pra fita e remove do disco
+Fri Mar  5 14:20:10 BRT 2010 -> Inicio bkp fita...
+--------------------------------------------------
+PARAM_DIR.......:/home/oracle/bkp/dmp/enviando_pra_fita_20100305134551
+PARAM_DES.......:ORAEXP ACCT TRR_MOVIMENTO_ERROS-MENORQ_20090801
+NETBACKUP_CLIENT:/usr/openv/netbackup/bin/bparchive
+NETBACKUP_POLICY:MORTO-Oracle
+NETBACKUP_SCHED.:Morto
+NETBACKUP_SERVER:brasilia.terra.com.br
+NETBACKUP_TYPE..:0
+NETBACKUP_LOG...:/usr/local/oracle/oracledba/logs/BkpToNetbackup_20100305_142010.log
+DTATUAL.........:20100305_142010
+--------------------------------------------------
+....
+Fri Mar  5 14:22:03 BRT 2010 -> Retorno:0
+Backup pra fita com sucesso.
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 14:22:03 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 14:22:03 SQL> 14:22:03 SQL> 14:22:03 SQL> 14:22:03   2  14:22:03   3  14:22:03   4  14:22:03   5  14:22:03   6  14:22:03   7  14:22:03   8  
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:02:30.77
+14:24:34 SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Procedimento executado com sucesso.
+Fri Mar  5 14:24:34 BRT 2010 => Processando Particao MENORQ_20090901..
+Fri Mar  5 14:24:34 BRT 2010 => Realiza bkp via export:
+
+Export: Release 10.2.0.4.0 - Production on Fri Mar 5 14:24:34 2010
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Export done in WE8ISO8859P1 character set and AL16UTF16 NCHAR character set
+
+About to export specified tables via Direct Path ...
+Current user changed to ACCT
+. . exporting table            TRR_MOVIMENTO_ERROS
+. . exporting partition                MENORQ_20090901
+                                                         1594 rows exported
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+EXP-00091: Exporting questionable statistics.
+Export terminated successfully with warnings.
+Fri Mar  5 14:24:35 BRT 2010 => Compacta o arquivo gerado
+Fri Mar  5 14:24:35 BRT 2010 => Copia o arquivo pra fita e remove do disco
+Fri Mar  5 14:24:35 BRT 2010 -> Inicio bkp fita...
+--------------------------------------------------
+PARAM_DIR.......:/home/oracle/bkp/dmp/enviando_pra_fita_20100305134551
+PARAM_DES.......:ORAEXP ACCT TRR_MOVIMENTO_ERROS-MENORQ_20090901
+NETBACKUP_CLIENT:/usr/openv/netbackup/bin/bparchive
+NETBACKUP_POLICY:MORTO-Oracle
+NETBACKUP_SCHED.:Morto
+NETBACKUP_SERVER:brasilia.terra.com.br
+NETBACKUP_TYPE..:0
+NETBACKUP_LOG...:/usr/local/oracle/oracledba/logs/BkpToNetbackup_20100305_142435.log
+DTATUAL.........:20100305_142435
+--------------------------------------------------
+....
+Fri Mar  5 14:26:29 BRT 2010 -> Retorno:0
+Backup pra fita com sucesso.
+
+SQL*Plus: Release 10.2.0.4.0 - Production on Fri Mar 5 14:26:29 2010
+
+Copyright (c) 1982, 2007, Oracle.  All Rights Reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 14:26:29 SQL> 14:26:29 SQL> 14:26:29 SQL> 14:26:29   2  14:26:29   3  14:26:29   4  14:26:29   5  14:26:29   6  14:26:29   7  14:26:29   8  
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:01:15.21
+14:27:44 SQL> Disconnected from Oracle Database 10g Enterprise Edition Release 10.2.0.4.0 - Production
+With the Partitioning, Oracle Label Security, OLAP, Data Mining Scoring Engine
+and Real Application Testing options
+Procedimento executado com sucesso.
+Fri Mar  5 14:27:44 BRT 2010 => Final com sucesso.

@@ -1,0 +1,1 @@
+select username, machine,  osuser, sql_hash_value from v$session where sql_hash_value in (select HASH_VALUE from v$sql_plan where HASH_VALUE in (select distinct sql_hash_value from v$session) and OBJECT_NAME = 'PANE_TIPANE_FK_I');

@@ -1,0 +1,53 @@
+set verify off
+define SQL_HANDLE=&SQL_HANDLE
+prompt 
+
+var plan varchar2(30);
+begin 
+	SELECT PLAN_NAME
+	into :plan
+	FROM   dba_sql_plan_baselines
+	WHERE SQL_HANDLE = '&SQL_HANDLE';
+end;
+/
+
+prompt INFO PLANO:
+SELECT SQL_HANDLE, PLAN_NAME, CREATOR, ORIGIN, PARSING_SCHEMA_NAME, CREATED, 
+       LAST_MODIFIED, LAST_EXECUTED, LAST_VERIFIED
+FROM   dba_sql_plan_baselines
+WHERE SQL_HANDLE = '&SQL_HANDLE';
+prompt 
+prompt 
+prompt INFO PLANO E BASELINE:
+SELECT ENABLED, ACCEPTED, FIXED, REPRODUCED, AUTOPURGE, OPTIMIZER_COST, MODULE, ACTION
+FROM   dba_sql_plan_baselines
+WHERE SQL_HANDLE = '&SQL_HANDLE';
+prompt 
+prompt 
+prompt MEDIA POR EXECUCAO:
+SELECT EXECUTIONS, 
+	ROUND((ELAPSED_TIME / 1000.0)  / NVL(EXECUTIONS, 1)), 
+	ROUND((CPU_TIME/ 1000.0) / NVL(EXECUTIONS, 1)), 
+	ROUND(BUFFER_GETS / NVL(EXECUTIONS, 1)), 
+	ROUND(DISK_READS / NVL(EXECUTIONS, 1)), 
+	ROUND(DIRECT_WRITES / NVL(EXECUTIONS, 1)), 
+	ROUND(ROWS_PROCESSED / NVL(EXECUTIONS, 1)), 
+	ROUND(FETCHES / NVL(EXECUTIONS, 1))
+FROM   dba_sql_plan_baselines
+WHERE SQL_HANDLE = '&SQL_HANDLE';
+prompt 
+prompt 
+
+SELECT SIGNATURE, PLAN_NAME, SQL_TEXT
+FROM   dba_sql_plan_baselines
+WHERE SQL_HANDLE = '&SQL_HANDLE';
+
+
+SET LONG 10000
+SELECT *
+FROM   TABLE(DBMS_XPLAN.display_sql_plan_baseline(plan_name=>:plan));
+
+prompt 
+prompt 
+undef SQL_HANDLE
+set verify on

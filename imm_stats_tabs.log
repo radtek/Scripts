@@ -1,0 +1,218 @@
+11:15:21 CERT>
+11:15:21 CERT>Define stat_tab = 'IMM$STATS_STATTAB';
+11:15:21 CERT>
+11:15:21 CERT>Begin
+11:15:21   2  	 dbms_stats.CREATE_STAT_TABLE
+11:15:21   3  	      (
+11:15:21   4  		      OWNNAME	=> Upper('&own'),
+11:15:21   5  		      STATTAB	=> '&stat_tab',
+11:15:21   6  		      TBLSPACE	=> '&data_tbs'
+11:15:21   7  	      );
+11:15:21   8  End;
+11:15:21   9  /
+
+Procedimento PL/SQL concluído com sucesso.
+
+11:15:25 CERT>
+11:15:25 CERT>
+11:15:25 CERT>create table &own..imm$stats_global_parameters (
+11:15:25   2  ESTIMATE_PERCENT		      number(02),
+11:15:25   3  METHOD_OPT			      varchar2(500),
+11:15:25   4  DEGREE				      number,
+11:15:25   5  GRANULARITY			      varchar2(100),
+11:15:25   6  CASCADE				      varchar2(10),
+11:15:25   7  STATTAB				      varchar2(30),
+11:15:25   8  STATOWN				      varchar2(30),
+11:15:25   9  Interval_days		      number )
+11:15:25  10  Tablespace &Data_Tbs;
+
+Tabela criada.
+
+11:15:25 CERT>
+11:15:25 CERT>Create or replace trigger &own..Trg_Bef_Ins_global_parm
+11:15:25   2  Before insert on &own..imm$stats_global_parameters
+11:15:25   3  for each row
+11:15:25   4  Declare
+11:15:25   5  	lv_num_rows integer := 0;
+11:15:25   6  Begin
+11:15:25   7  	Select Nvl(count(*),0)
+11:15:25   8  	      into lv_num_rows
+11:15:25   9  	  from imm$stats_global_parameters;
+11:15:25  10  	If (lv_num_rows >= 1) Then
+11:15:25  11  	       Raise_application_error (-20001,'IMM$STATS: This table must have only one row.');
+11:15:25  12  	End if;
+11:15:25  13  End;
+11:15:25  14  /
+
+Gatilho criado.
+
+11:15:27 CERT>
+11:15:27 CERT>Insert into &own..imm$stats_global_parameters (
+11:15:27   2  										ESTIMATE_PERCENT,
+11:15:27   3  										METHOD_OPT ,
+11:15:27   4  										DEGREE	   ,
+11:15:27   5  										GRANULARITY,
+11:15:27   6  										CASCADE    ,
+11:15:27   7  										STATTAB    ,
+11:15:27   8  										STATOWN    ,
+11:15:27   9  										Interval_days)
+11:15:27  10  								 Values (-1,	      --> Negative percent force the use of imm$stats_auto_percent_conf values
+11:15:27  11  										 'FOR ALL COLUMNS SIZE 1',
+11:15:27  12  										 NULL,
+11:15:27  13  										 'DEFAULT',
+11:15:27  14  										 'TRUE',
+11:15:27  15  										 '&stat_tab',
+11:15:27  16  										 Upper('&own'),
+11:15:27  17  										 30);
+
+1 linha criada.
+
+11:15:28 CERT>Commit;
+
+Commit concluído.
+
+11:15:28 CERT>
+11:15:28 CERT>create table &own..imm$stats_schema_parameters (
+11:15:28   2  Schema_name			      varchar2(30),
+11:15:28   3  ESTIMATE_PERCENT		      number(02),
+11:15:28   4  METHOD_OPT			      varchar2(500),
+11:15:28   5  DEGREE				      number,
+11:15:28   6  GRANULARITY			      varchar2(100),
+11:15:28   7  CASCADE				      varchar2(10),
+11:15:28   8  Interval_days		      number ,
+11:15:28   9  Constraint pk_imm$stats_schema_parm primary key (schema_name) Using index tablespace &indx_tbs,
+11:15:28  10  Constraint ck_Upper_schema_name01    check (schema_name = Upper(schema_name)))
+11:15:28  11  Tablespace &Data_Tbs;
+
+Tabela criada.
+
+11:15:28 CERT>
+11:15:28 CERT>create table &own..imm$stats_table_parameters (
+11:15:28   2  Schema_name    varchar2(30),
+11:15:28   3  Table_name    varchar2(30),
+11:15:28   4  ESTIMATE_PERCENT	number(02),
+11:15:28   5  METHOD_OPT    varchar2(500),
+11:15:28   6  DEGREE	     number,
+11:15:28   7  GRANULARITY    varchar2(100),
+11:15:28   8  CASCADE	     varchar2(10),
+11:15:28   9  Interval_days   number,
+11:15:28  10  Just_last_n_partitions  number,
+11:15:28  11  Last_Part_Is_current    Varchar2(1),
+11:15:28  12  Constraint pk_imm$stats_table_parms primary key (schema_name,table_name) Using index tablespace &indx_tbs,
+11:15:28  13  Constraint ck_Upper_schema_name02    check (schema_name = Upper(schema_name)),
+11:15:28  14  Constraint ck_Upper_Table_name02	   check (Table_name  = Upper(Table_name)),
+11:15:28  15  Constraint ck_Last_Part_Is_current   check (Last_Part_Is_current in ('Y','N'))
+11:15:28  16  )
+11:15:28  17  Tablespace &Data_Tbs;
+
+Tabela criada.
+
+11:15:28 CERT>
+11:15:28 CERT>create table &own..imm$stats_exclude_schemas (
+11:15:28   2  exclude_schema_name	      varchar2(30),
+11:15:28   3  Constraint Pk_imm$stats_exclude_schemas primary key (exclude_schema_name) Using index TABLESPACE &indx_tbs,
+11:15:28   4  Constraint ck_Upper_exclude_schema_name01 Check (exclude_schema_name = upper(exclude_schema_name)))
+11:15:28   5  Tablespace &data_tbs;
+
+Tabela criada.
+
+11:15:29 CERT>
+11:15:29 CERT>Insert into &own..imm$stats_exclude_schemas values ('SYS');
+
+1 linha criada.
+
+11:15:29 CERT>Insert into &own..imm$stats_exclude_schemas values ('SYSTEM');
+
+1 linha criada.
+
+11:15:29 CERT>Insert into &own..imm$stats_exclude_schemas values ('OUTLN');
+
+1 linha criada.
+
+11:15:29 CERT>Insert into &own..imm$stats_exclude_schemas values ('DBSNMP');
+
+1 linha criada.
+
+11:15:29 CERT>Insert into &own..imm$stats_exclude_schemas values ('CTXSYS');
+
+1 linha criada.
+
+11:15:29 CERT>Insert into &own..imm$stats_exclude_schemas values ('WMSYS');
+
+1 linha criada.
+
+11:15:29 CERT>Insert into &own..imm$stats_exclude_schemas values ('AURORA$ORB$UNAUTHENTICATED');
+
+1 linha criada.
+
+11:15:29 CERT>
+11:15:29 CERT>commit;
+
+Commit concluído.
+
+11:15:29 CERT>
+11:15:29 CERT>create table &own..imm$stats_exclude_tables (
+11:15:29   2  exclude_schema_name	      varchar2(30),
+11:15:29   3  exclude_table_name	      varchar2(30),
+11:15:29   4  Constraint Pk_imm$stats_exclude_tables primary key (exclude_table_name) Using index TABLESPACE &indx_tbs,
+11:15:29   5  Constraint ck_Upper_exclude_schema_name02 Check (exclude_schema_name = upper(exclude_schema_name)),
+11:15:29   6  Constraint ck_Upper_exclude_table_name Check (exclude_table_name = upper(exclude_table_name)))
+11:15:29   7  Tablespace &data_tbs;
+
+Tabela criada.
+
+11:15:29 CERT>
+11:15:29 CERT>create table &own..imm$stats_auto_perc_parameters (
+11:15:29   2  Low_limit_Mb	      number NOT NULL,
+11:15:29   3  High_limit_Mb	      number NOT NULL,
+11:15:29   4  Estimate_Percent	      number NOT NULL)
+11:15:29   5  Tablespace &data_tbs;
+
+Tabela criada.
+
+11:15:29 CERT>
+11:15:29 CERT>Insert into &own..imm$stats_auto_perc_parameters values (0,2000,100);
+
+1 linha criada.
+
+11:15:29 CERT>Insert into &own..imm$stats_auto_perc_parameters values (2001,5000,20);
+
+1 linha criada.
+
+11:15:29 CERT>Insert into &own..imm$stats_auto_perc_parameters values (5001,20000,10);
+
+1 linha criada.
+
+11:15:29 CERT>Insert into &own..imm$stats_auto_perc_parameters values (20001,99999999999999999999,1);
+
+1 linha criada.
+
+11:15:29 CERT>commit;
+
+Commit concluído.
+
+11:15:29 CERT>
+11:15:29 CERT>create table &own..imm$stats_log (
+11:15:29   2  Time_stamp			      date not null,
+11:15:29   3  Message				      varchar2(2000),
+11:15:29   4  Error				      varchar2(2000),
+11:15:29   5  Schema_name			      varchar2(30),
+11:15:29   6  Seg_name				      varchar2(30),
+11:15:29   7  Seg_type				      varchar2(30),
+11:15:29   8  Partition_name		      varchar2(30),
+11:15:29   9  base_table_conf		      varchar2(30),
+11:15:29  10  ESTIMATE_PERCENT		      number(02),
+11:15:29  11  METHOD_OPT			      varchar2(500),
+11:15:29  12  DEGREE				      number,
+11:15:29  13  GRANULARITY			      varchar2(100),
+11:15:29  14  CASCADE				      varchar2(10),
+11:15:29  15  Interval_days		      number,
+11:15:29  16  Just_last_n_partitions  number)
+11:15:29  17  Tablespace &data_tbs;
+
+Tabela criada.
+
+11:15:29 CERT>
+11:15:29 CERT>
+11:15:29 CERT>
+11:15:29 CERT>Spool off;

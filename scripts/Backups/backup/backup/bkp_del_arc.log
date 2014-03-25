@@ -1,0 +1,72 @@
+
+Recovery Manager: Release 9.2.0.6.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> ##########################################################################
+2> # ULTSEQ           =                                               
+3> # CLASSAR          =                                              
+4> # SCHEDAR          = Archives                                             
+5> # NRO_CANAIS_AR    = 9                                       
+6> # TIPO_CANAL_AR    = 'sbt_tape'                                       
+7> # LIMITE_TAM_CANAL = 3145728                                    
+8> # FORMATO_AR       = 'bkp_arc_20060125_012249_%d_s%s_p%p.rman'                                          
+9> # ARC_POR_SET      = 30                                         
+10> # ARQ_CMD_RMAN_AR  = /u/local/oracle/oracledba/backup/rman_cmd_ar.rcv                                     
+11> # USE_CATALOG      = Y                                         
+12> ##########################################################################
+13> run
+14> {
+15> allocate channel c1 type 'sbt_tape';
+16> send 'NB_ORA_CLASS=TRR_Linux-Oracle-Misc';
+17> send 'NB_ORA_SCHED=Archives';
+18> setlimit channel c1 kbytes 3145728;
+19> backup 
+20> filesperset 5
+21> format 'bkp_arc_20060125_012249_%d_s%s_p%p.rman'
+22> archivelog
+23> all delete input;
+24> release channel c1;
+25> release channel c2;
+26> release channel c3;
+27> release channel c4;
+28> release channel c5;
+29> release channel c6;
+30> release channel c7;
+31> release channel c8;
+32> release channel c9;
+33> }
+34> exit;
+allocated channel: c1
+channel c1: sid=41 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle - Release 4.5FP_6 (2004102519)
+
+sent command to channel: c1
+
+sent command to channel: c1
+
+
+Starting backup at 25/01/2006
+current log archived
+channel c1: starting archive log backupset
+channel c1: specifying archive log(s) in backup set
+input archive log thread=1 sequence=98234 recid=98240 stamp=580522530
+input archive log thread=1 sequence=98235 recid=98241 stamp=580522545
+input archive log thread=1 sequence=98236 recid=98242 stamp=580522560
+input archive log thread=1 sequence=98237 recid=98243 stamp=580522575
+input archive log thread=1 sequence=98238 recid=98244 stamp=580522588
+channel c1: starting piece 1 at 25/01/2006
+released channel: c1
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03009: failure of backup command on c1 channel at 01/25/2006 02:14:32
+ORA-19506: failed to create sequential file, name="bkp_arc_20060125_012249_ORAACCT2_s86784_p1.rman", parms=""
+ORA-27028: skgfqcre: sbtbackup returned error
+ORA-19511: Error received from media manager layer, error text:
+   Failed to open for backup.
+
+Recovery Manager complete.

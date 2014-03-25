@@ -1,0 +1,82 @@
+
+SQL*Plus: Release 9.2.0.6.0 - Production on Thu Nov 17 10:03:12 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5  
+Data tablespace:ACCT_MOV_DATA_P46
+Indx tablespace:ACCT_MOV_INDX_P46
+
+SQL> SQL> Disconnected from Oracle9i Enterprise Edition Release 9.2.0.6.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.6.0 - Production
+Processando tablespace ACCT_MOV_DATA_P46..
+Realiza bkp morto:
+Iniciando backup da tablespace ACCT_MOV_DATA_P46 ...
+Gera comando para o rman ...
+Gera_cmd_tbl_rman TRR_Linux-Oracle-Misc Controle-Full-5anos ACCT_MOV_DATA_P46
+Executa o rman para realizar o bkp:
+RMAN> 2> 3> 4> 5> 6> 7> 8> 9> 10> 11> 12> 13> 14> 15> 16> 17> 18> 19> 20> 21> 22> 23> 24> 25> 26> 27> 28> 29> 30> 31> 32> 33> 34> 35> 36> 37> 38> 39> 40> 41> 42> 43> 44> 45> 46>  
+Final do bkp da tablespace ACCT_MOV_DATA_P46 com SUCESSO:17/11/2005 10:24:19
+ 
+Verificar detalhes no arquivo de log:/u/local/oracle/oracledba/logs/rman_tb_ACCT_MOV_DATA_P46.log.17112005100312
+ 
+Final do processo.
+Passa tablespace para offline e remove os datafiles:
+
+SQL*Plus: Release 9.2.0.6.0 - Production on Thu Nov 17 10:24:19 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 10:24:20 SQL> 10:24:20 SQL> 10:24:20 SQL> 
+Tablespace altered.
+
+Elapsed: 00:00:01.12
+10:24:21 SQL> 10:24:21 SQL> 10:24:21 SQL> 10:24:21 SQL> 
+rm /o04/oradata/oraacct2/acct_mov_data_p46_1.dbf
+rm /o06/oradata/oraacct2/acct_mov_data_p46_2.dbf
+rm /o08/oradata/oraacct2/acct_mov_data_p46_3.dbf
+rm /o10/oradata/oraacct2/acct_mov_data_p46_4.dbf
+rm /o02/oradata/oraacct2/acct_mov_data_p46_5.dbf
+Elapsed: 00:00:00.12
+10:24:21 SQL> 10:24:21 SQL> Disconnected from Oracle9i Enterprise Edition Release 9.2.0.6.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.6.0 - Production
+Final do processamento da tablespace ACCT_MOV_DATA_P46.
+Processando tablespace ACCT_MOV_INDX_P46..
+Realiza bkp morto:
+Iniciando backup da tablespace ACCT_MOV_INDX_P46 ...
+Gera comando para o rman ...
+Gera_cmd_tbl_rman TRR_Linux-Oracle-Misc Controle-Full-5anos ACCT_MOV_INDX_P46
+Executa o rman para realizar o bkp:
+RMAN> 2> 3> 4> 5> 6> 7> 8> 9> 10> 11> 12> 13> 14> 15> 16> 17> 18> 19> 20> 21> 22> 23> 24> 25> 26> 27> 28> 29> 30> 31> 32> 33> 34> 35> 36> 37> 38> 39> 40> 41> 42> 43> 44> 45> 46>  
+Final do bkp da tablespace ACCT_MOV_INDX_P46 com SUCESSO:17/11/2005 10:43:05
+ 
+Verificar detalhes no arquivo de log:/u/local/oracle/oracledba/logs/rman_tb_ACCT_MOV_INDX_P46.log.17112005102421
+ 
+Final do processo.
+Passa tablespace para offline e remove os datafiles:
+
+SQL*Plus: Release 9.2.0.6.0 - Production on Thu Nov 17 10:43:05 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+SQL> Connected.
+SQL> SQL> SQL> 10:43:05 SQL> 10:43:05 SQL> 10:43:05 SQL> 
+Tablespace altered.
+
+Elapsed: 00:00:01.10
+10:43:06 SQL> 10:43:06 SQL> 10:43:06 SQL> 10:43:06 SQL> 
+rm /o05/oradata/oraacct2/acct_mov_indx_p46_1.dbf
+rm /o09/oradata/oraacct2/acct_mov_indx_p46_2.dbf
+rm /o11/oradata/oraacct2/acct_mov_indx_p46_3.dbf
+rm /o07/oradata/oraacct2/acct_mov_indx_p46_4.dbf
+rm /o03/oradata/oraacct2/acct_mov_indx_p46_5.dbf
+rm /o01/oradata/oraacct2/acct_mov_indx_p46_6.dbf
+Elapsed: 00:00:00.33
+10:43:06 SQL> 10:43:06 SQL> Disconnected from Oracle9i Enterprise Edition Release 9.2.0.6.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.6.0 - Production
+Final do processamento da tablespace ACCT_MOV_INDX_P46.

@@ -1,0 +1,663 @@
+18:23:05 orahlg04>
+18:25:23 orahlg04>
+18:25:23 orahlg04>
+18:25:24 orahlg04>
+18:25:24 orahlg04>
+18:25:24 orahlg04>@TraceGP_5.2.0.22.sql
+
+Tabela alterada.
+
+
+Tabela alterada.
+
+alter table mapa_indicador_quebra add vigente varchar2(1)default 'Y' not null
+                                      *
+ERRO na linha 1:
+ORA-01430: column being added already exists in table 
+
+
+
+Tabela alterada.
+
+
+View criada.
+
+
+View criada.
+
+
+Pacote criado.
+
+
+Corpo de Pacote criado.
+
+
+Pacote criado.
+
+
+Corpo de Pacote criado.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+0 linhas deletadas.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.22                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.22                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:26:15 orahlg04>@TraceGP_5.2.0.23.sql
+
+Tabela alterada.
+
+
+Tabela alterada.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.23                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.23                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:26:19 orahlg04>@TraceGP_5.2.0.24.sql
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Tabela alterada.
+
+
+Tabela alterada.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+Pacote criado.
+
+
+Corpo de Pacote criado.
+
+
+Pacote criado.
+
+
+Advertência: Package Body criado com erros de compilação.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.24                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.24                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:26:49 orahlg04>@TraceGP_5.2.0.25.sql
+Informe o valor para tablespace_dados: TRACEGP_DATA
+Informe o valor para tablespace_indices: TRACEGP_INDX
+
+View criada.
+
+antigo   4:   constraint PK_RESPONSAVEL_EQUIPE primary key (EQUIPE_ID, USUARIO_ID) using index tablespace &CS_TBL_IND
+novo   4:   constraint PK_RESPONSAVEL_EQUIPE primary key (EQUIPE_ID, USUARIO_ID) using index tablespace TRACEGP_INDX
+antigo   5: ) tablespace &CS_TBL_DAT
+novo   5: ) tablespace TRACEGP_DATA
+
+Tabela criada.
+
+
+Tabela alterada.
+
+
+Tabela alterada.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+antigo  10: constraint PK_MAPA_CONSULTA_PARAMS primary key (id) using index tablespace &CS_TBL_IND
+novo  10: constraint PK_MAPA_CONSULTA_PARAMS primary key (id) using index tablespace TRACEGP_INDX
+antigo  11: ) tablespace &CS_TBL_DAT
+novo  11: ) tablespace TRACEGP_DATA
+
+Tabela criada.
+
+
+Seqüência criada.
+
+
+Pacote criado.
+
+
+Corpo de Pacote criado.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.25                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.25                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:27:05 orahlg04>@TraceGP_5.2.0.26.sql
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.26                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.26                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:27:14 orahlg04>@TraceGP_5.2.0.29.sql
+
+View criada.
+
+
+View criada.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.29                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.29                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:27:17 orahlg04>@TraceGP_5.2.0.31.sql
+
+Tabela alterada.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.31                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.31                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:27:20 orahlg04>@TraceGP_5.2.0.32.sql
+
+Pacote criado.
+
+
+Corpo de Pacote criado.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.32                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.32                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:27:24 orahlg04>@TraceGP_5.2.0.37.sql
+
+Tabela alterada.
+
+
+4 linhas atualizadas.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Tabela alterada.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.37                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.37                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:27:27 orahlg04>@TraceGP_5.2.0.40.sql
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.40                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.40                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:27:30 orahlg04>@TraceGP_5.2.0.43.sql
+
+Tabela alterada.
+
+
+Tabela alterada.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.43                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.43                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:27:33 orahlg04>@TraceGP_5.2.0.46.sql
+Informe o valor para tablespace_dados: TRACEGP_DATA
+Informe o valor para tablespace_indices: TRACEGP_INDX
+antigo   4: constraint PK_DASHBOARD_PERFIL primary key (dashboard_id, perfil_id) using index tablespace &CS_TBL_IND
+novo   4: constraint PK_DASHBOARD_PERFIL primary key (dashboard_id, perfil_id) using index tablespace TRACEGP_INDX
+antigo   5: ) tablespace &CS_TBL_DAT
+novo   5: ) tablespace TRACEGP_DATA
+
+Tabela criada.
+
+
+Tabela alterada.
+
+
+Tabela alterada.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.46                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.46                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:27:45 orahlg04>@TraceGP_5.2.0.47.sql
+
+Pacote criado.
+
+
+Corpo de Pacote criado.
+
+
+Pacote criado.
+
+
+Corpo de Pacote criado.
+
+
+Gatilho criado.
+
+
+Gatilho criado.
+
+
+Gatilho criado.
+
+
+Gatilho criado.
+
+
+0 linhas deletadas.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Tabela alterada.
+
+
+1 linha criada.
+
+
+Commit concluído.
+
+
+Commit concluído.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.47                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+VERSAO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+---------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+5.2.0.47                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+18:28:00 orahlg04>@Adj5.sql
+declare
+*
+ERRO na linha 1:
+ORA-00942: table or view does not exist 
+ORA-06512: at line 15 
+
+
+
+Log de view materializada eliminado.
+
+
+Log de view materializada eliminado.
+
+
+Log de view materializada eliminado.
+
+
+Log de view materializada eliminado.
+
+
+Log de view materializada eliminado.
+
+
+Log de view materializada eliminado.
+
+
+Log de view materializada criado.
+
+
+Log de view materializada criado.
+
+
+Log de view materializada criado.
+
+
+Log de view materializada criado.
+
+
+Log de view materializada criado.
+
+
+Log de view materializada criado.
+
+  from custo_entidade   ce,
+       *
+ERRO na linha 8:
+ORA-12006: a materialized view with the same user.name already exists 
+
+
+  from usuario            u,
+       *
+ERRO na linha 10:
+ORA-12006: a materialized view with the same user.name already exists 
+
+
+
+View criada.
+
+
+View criada.
+
+
+View criada.
+
+
+View criada.
+
+
+View criada.
+
+Informe o valor para tablespace_indices: TRACEGP_INDX
+antigo   2:        on mv_custo_lancamento(entidade_id, tipo_entidade) tablespace &CS_TBL_IND
+novo   2:        on mv_custo_lancamento(entidade_id, tipo_entidade) tablespace TRACEGP_INDX
+create index idx_mv_custo_lancamento_01
+             *
+ERRO na linha 1:
+ORA-00955: name is already used by an existing object 
+
+
+antigo   2:        on mv_custo_lancamento(situacao) tablespace &CS_TBL_IND
+novo   2:        on mv_custo_lancamento(situacao) tablespace TRACEGP_INDX
+create index idx_mv_custo_lancamento_02
+             *
+ERRO na linha 1:
+ORA-00955: name is already used by an existing object 
+
+
+antigo   2:        on mv_custo_lancamento(custo_receita_id, custo_receita_tipo) tablespace &CS_TBL_IND
+novo   2:        on mv_custo_lancamento(custo_receita_id, custo_receita_tipo) tablespace TRACEGP_INDX
+create index idx_mv_custo_lancamento_03
+             *
+ERRO na linha 1:
+ORA-00955: name is already used by an existing object 
+
+
+antigo   2:        on mv_custo_lancamento(contabilizar_em) tablespace &CS_TBL_IND
+novo   2:        on mv_custo_lancamento(contabilizar_em) tablespace TRACEGP_INDX
+create index idx_mv_custo_lancamento_04
+             *
+ERRO na linha 1:
+ORA-00955: name is already used by an existing object 
+
+
+antigo   2:        on mv_valor_hora_simplificada(usuario_id) tablespace &CS_TBL_IND
+novo   2:        on mv_valor_hora_simplificada(usuario_id) tablespace TRACEGP_INDX
+create index IDX_MV_VALOR_HORA_SIMPL_01
+             *
+ERRO na linha 1:
+ORA-00955: name is already used by an existing object 
+
+
+antigo   2:        on mv_valor_hora_simplificada(data_inicio) tablespace &CS_TBL_IND
+novo   2:        on mv_valor_hora_simplificada(data_inicio) tablespace TRACEGP_INDX
+create index IDX_MV_VALOR_HORA_SIMPL_02
+             *
+ERRO na linha 1:
+ORA-00955: name is already used by an existing object 
+
+
+antigo   2:        on mv_valor_hora_simplificada(tipo_profissional) tablespace &CS_TBL_IND
+novo   2:        on mv_valor_hora_simplificada(tipo_profissional) tablespace TRACEGP_INDX
+create index IDX_MV_VALOR_HORA_SIMPL_03
+             *
+ERRO na linha 1:
+ORA-00955: name is already used by an existing object 
+
+
+create or replace type t_tipo_campos is object(
+*
+ERRO na linha 1:
+ORA-02303: cannot drop or replace a type with type or table dependents 
+
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+18:28:12 orahlg04>@Seq5.sql
+
+Procedimento PL/SQL concluído com sucesso.
+
+
+Procedimento PL/SQL concluído com sucesso.
+
+18:28:33 orahlg04>spool off

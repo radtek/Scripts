@@ -1,0 +1,6 @@
+FROM x$ksmlru
+     *
+ERRO na linha 2:
+ORA-00942: table or view does not exist 
+
+

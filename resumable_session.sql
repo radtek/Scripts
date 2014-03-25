@@ -1,0 +1,1 @@
+SELECT name, SQL_TEXT, STATUS, TIMEOUT FROM dba_resumable;

@@ -1,0 +1,153 @@
+14:01:11 orasig>
+14:01:11 orasig>
+14:01:11 orasig>alter session set current_schema=BI_DW ;
+
+Sessão alterada.
+
+Decorrido: 00:00:00.02
+14:01:18 orasig>@sesinfo
+14:01:23 orasig>column "SID" format a5
+14:01:23 orasig>column "SESSION_USER" format a15
+14:01:23 orasig>column "CURRENT_SCHEMA" format a15
+14:01:23 orasig>column "HOST" format a15
+14:01:23 orasig>column "INSTANCE" format a5
+14:01:23 orasig>column "DB_NAME" format a15
+14:01:23 orasig>column "IP_ADDRESS" format a12
+14:01:23 orasig>column "AUTHENTICATION_METHOD" format a10
+14:01:23 orasig>column "LANGUAGE" format a10
+14:01:23 orasig>column "NLS_DATE_FORMAT" format a10
+14:01:23 orasig>column "SERVICE_NAME" format a10
+14:01:23 orasig>column "CLIENT_IDENTIFIER" format a10
+14:01:23 orasig>column "CURRENT_SQL" format a40 wrapped
+14:01:23 orasig>
+14:01:23 orasig>SELECT SYS_CONTEXT('USERENV','SID') "SID",
+14:01:23   2   SYS_CONTEXT('USERENV','SESSION_USER') "SESSION_USER",
+14:01:23   3   SYS_CONTEXT('USERENV','CURRENT_SCHEMA') "CURRENT_SCHEMA",
+14:01:23   4   SYS_CONTEXT('USERENV','HOST') "HOST",
+14:01:23   5   SYS_CONTEXT('USERENV','INSTANCE') "INSTANCE",
+14:01:23   6   SYS_CONTEXT('USERENV','DB_NAME') "DB_NAME",
+14:01:23   7   SYS_CONTEXT('USERENV','IP_ADDRESS') "IP_ADDRESS",
+14:01:23   8   SYS_CONTEXT('USERENV','AUTHENTICATION_METHOD') "AUTHENTICATION_METHOD",
+14:01:23   9   SYS_CONTEXT('USERENV','LANGUAGE') "LANGUAGE",
+14:01:23  10   SYS_CONTEXT('USERENV','NLS_DATE_FORMAT') "NLS_DATE_FORMAT",
+14:01:23  11   SYS_CONTEXT('USERENV','SERVICE_NAME') "SERVICE_NAME",
+14:01:23  12   SYS_CONTEXT('USERENV','CLIENT_IDENTIFIER') "CLIENT_IDENTIFIER",
+14:01:23  13   SYS_CONTEXT('USERENV','CURRENT_SQL') "CURRENT_SQL"
+14:01:23  14  FROM DUAL;
+
+SID   SESSION_USER    CURRENT_SCHEMA  HOST            INSTA DB_NAME         IP_ADDRESS   AUTHENTICA LANGUAGE   NLS_DATE_F SERVICE_NA CLIENT_IDE CURRENT_SQL                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+----- --------------- --------------- --------------- ----- --------------- ------------ ---------- ---------- ---------- ---------- ---------- ----------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                
+399   SYSTEM          BI_DW           WORKGROUP\THIAG 1     ORASIG          10.225.79.64 PASSWORD   BRAZILIAN  dd/mm/rrrr orasig                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                      O-NOTE                                                        PORTUGUESE  hh24:mi:s                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                                                                                    _BRAZIL.WE s                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                    8ISO8859P1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+1 linha selecionada.
+
+Decorrido: 00:00:00.03
+14:01:23 orasig>
+14:01:23 orasig>create or replace public synonym FTO_ODS_MD_DART for BI_ODS.FTO_ODS_MD_DART;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:01:34 orasig>
+14:02:16 orasig>
+14:02:16 orasig>
+14:02:17 orasig>create or replace public synonym FTO_MD_INVENTARIO_AD for bi_dw.FTO_MD_INVENTARIO_AD;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig>create or replace public synonym DIM_FORMATO for bi_dw.DIM_FORMATO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.05
+14:02:29 orasig>create or replace public synonym DIM_ANUNCIANTE for bi_dw.DIM_ANUNCIANTE;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig>create or replace public synonym DIM_TIPO_ANUNCIO for bi_dw.DIM_TIPO_ANUNCIO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_TIPO_PROJETO for bi_dw.DIM_TIPO_PROJETO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_DONO_PROJETO for bi_dw.DIM_DONO_PROJETO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_PROJETO for bi_dw.DIM_PROJETO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.01
+14:02:29 orasig> create or replace public synonym DIM_TAMANHO_FORMATO for bi_dw.DIM_TAMANHO_FORMATO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_POSICAO_FORMATO for bi_dw.DIM_POSICAO_FORMATO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_CRIATIVIDADE for bi_dw.DIM_CRIATIVIDADE;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_TIPO_ENTREGA for bi_dw.DIM_TIPO_ENTREGA;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_TIPO_VENDA for bi_dw.DIM_TIPO_VENDA;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_PRODUTO for bi_dw.DIM_PRODUTO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_CLUSTER_COMERCIAL for bi_dw.DIM_CLUSTER_COMERCIAL;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_CAMPANHA for bi_dw.DIM_CAMPANHA;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_ANUNCIO for bi_dw.DIM_ANUNCIO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym FTO_MD_INVENTARIO for bi_dw.FTO_MD_INVENTARIO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_TIPO_CONTEUDO for bi_dw.DIM_TIPO_CONTEUDO;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:29 orasig> create or replace public synonym DIM_MOEDA for bi_dw.DIM_MOEDA;
+
+Sinônimo criado.
+
+Decorrido: 00:00:00.02
+14:02:31 orasig>spool off

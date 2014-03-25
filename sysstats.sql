@@ -1,0 +1,1 @@
+select * from sys.aux_stats$;

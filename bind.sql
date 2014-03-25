@@ -1,0 +1,7 @@
+undef hv;
+col VALUE_STRING for a50;
+select CHILD_ADDRESS ,
+CHILD_NUMBER ,  ADDRESS, sql_id, POSITION, name, VALUE_STRING, DATATYPE_STRING,CHARACTER_SID
+from V$SQL_BIND_CAPTURE
+where hash_value = &HV
+order by sql_id, CHILD_NUMBER, POSITION;

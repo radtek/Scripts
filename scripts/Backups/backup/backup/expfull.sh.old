@@ -1,0 +1,5 @@
+DIR_DEST=/home/oracle/bkp/dmp
+
+exp bkp/bkporadb1 file=$DIR_DEST/expfull_oradb1.dmp log=$DIR_DEST/expfull.log full=y consistent=y direct=y
+exp bkp/bkporadb1 file=$DIR_DEST/expfull_oradb1_nrows.dmp log=$DIR_DEST/expfull_nrows.log full=y consistent=y rows=n
+

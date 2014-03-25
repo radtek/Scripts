@@ -1,0 +1,45 @@
+##########################################################################
+# ULTSEQ           =                                               
+# CLASSAR          =                                              
+# SCHEDAR          = archive                                             
+# NRO_CANAIS_AR    = 9                                       
+# TIPO_CANAL_AR    = 'sbt_tape'                                       
+# LIMITE_TAM_CANAL = 3145728                                    
+# FORMATO_AR       = 'bkp_arc_20140108_140101_%d_s%s_p%p.rman'                                          
+# ARC_POR_SET      = 30                                         
+# ARQ_CMD_RMAN_AR  = /usr/local/oracle/oracledba/backup/rman_cmd_ar.rcv                                     
+# USE_CATALOG      = Y                                         
+##########################################################################
+resync catalog;
+run
+{
+allocate channel c1 type 'sbt_tape';
+allocate channel c2 type 'sbt_tape';
+allocate channel c3 type 'sbt_tape';
+allocate channel c4 type 'sbt_tape';
+allocate channel c5 type 'sbt_tape';
+allocate channel c6 type 'sbt_tape';
+allocate channel c7 type 'sbt_tape';
+allocate channel c8 type 'sbt_tape';
+allocate channel c9 type 'sbt_tape';
+send 'NB_ORA_CLASS=oracle-oraacct2-mia';
+send 'NB_ORA_SCHED=archive';
+setlimit channel c1 kbytes 3145728;
+setlimit channel c2 kbytes 3145728;
+setlimit channel c3 kbytes 3145728;
+setlimit channel c4 kbytes 3145728;
+setlimit channel c5 kbytes 3145728;
+setlimit channel c6 kbytes 3145728;
+setlimit channel c7 kbytes 3145728;
+setlimit channel c8 kbytes 3145728;
+setlimit channel c9 kbytes 3145728;
+crosscheck archivelog until time 'sysdate -1' ;
+backup 
+filesperset 30
+format 'bkp_arc_20140108_140101_%d_s%s_p%p.rman'
+archivelog
+all delete input;
+Backup current controlfile format 'bkp_ctl_20140108_140101_%d_s%s_p%p.rman';
+}
+resync catalog;
+exit;

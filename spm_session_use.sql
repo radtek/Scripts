@@ -1,0 +1,1 @@
+alter session set optimizer_use_sql_plan_baselines=true;

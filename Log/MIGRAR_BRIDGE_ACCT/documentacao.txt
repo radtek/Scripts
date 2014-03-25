@@ -1,0 +1,50 @@
+
+Favor copiar o dump para realizar o import no usdb3:
+
+Origem:
+	hostname:
+		1g3.tpn.terra.com
+	path:
+		/dump01/3531
+Destino:
+	hostname:
+		pinepoint.tpn.terra.com
+	path:
+		/dump01/3531
+
+
+Tempos:
+	Inicio exp: Mon Apr 11 17:06:22 BRT 2011
+	Final exp:  Mon Apr 11 17:22:32 BRT 2011
+	Total: 00:16:10
+
+	Inicio gzip: Mon Apr 11 17:44:25 BRT 2011
+	final gzip: 
+	Total:
+
+Passo a passo:
+	1) tablespaces 
+		1.1) Conectar origem ORADB1, executar script "CREATE_TABLESPACE_BRIDGE_ACCT.sql"
+		1.2) Coletar output
+		1.3) Ajustar path para base de destino USDB3
+		1.4) Conectar no destino USDB3, executar output do passo 1.1
+
+	2) Usuário
+		1.1) Conectar no destino USDB3, executar script "CR_USER_BRIDGE_ACCT.sql"
+	
+	3) Exportar dados
+		3.1) Conectar via ssh 1g3.tpn.terra.com, executar /dump01/3531/run.sh para gerar o dump "prod_bridge_acct.dmp" (6.9GB)
+		3.2) Para compress, executar /dump01/3531/compress.sh
+	
+	4) Copia
+		4.1) Solicitar copia do dump gerado
+			Origem: 1g3.tpn.terra.com -> /dump01/3531/*
+			Destino:pinepoint.tpn.terra.com -> /dump01/3531	
+
+	5) Importar 
+		5.1) Para decompress, executar /dump01/3531/decompress.sh
+		5.2) Conectar via ssh pinepoint.tpn.terra.com, executar /dump01/3531/run.sh para importa o dump
+
+	6) Validar
+	
+	

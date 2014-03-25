@@ -1,0 +1,4 @@
+. /home/oracle/.bash_profile
+echo "Realizando backup dos archives do banco: $ORACLE_SID"
+date
+$ORACLE_BASE/oracledba/backup/bkp_del_archives.sh $ORACLE_BASE/oracledba/backup/bkp_${ORACLE_SID}.conf

@@ -1,0 +1,117 @@
+######################################
+# Arquivo de configuracao de backup.
+# O script de backup deve receber esse
+# arquivo como parametro.
+######################################
+
+# Formato da data
+NLS_DATE_FORMAT="dd/mm/yyyy hh24:mi:ss"
+
+
+# Nome da instance oracle que ira para backup
+ORACLE_SID=base03
+
+# Diretorio onde se encontram os scripts de backup
+BASE_BKP=$ORACLE_BASE/oracledba/backup
+
+# Usuario e senha que vai se logar no Oracle para realizar backup.
+BKPUSER=bkp
+BKPPASS=bkporadb1
+
+# Usuario e senha que vai se logar no repositorio do rman.
+CONEXAO_RMAN=RMAN/RMAN@orarep
+
+# Diretorio de logs
+DIR_LOGS=$ORACLE_BASE/oracledba/logs
+
+# Diretorio intermediario no s.o para um bkp de seguranca dos archives.
+DIR_DEST_ARC=
+
+# Diretorio destino de backups pelo rman pra disco
+DIR_DEST_BD_BKP_01=/o03/oradata/oradb1/bkp
+DIR_DEST_BD_BKP_02=/o04/oradata/oradb1/bkp
+
+
+# Diretorio de destino do backup binario do controlfile.
+DIR_DEST_CTL=/home/oracle/bkp/control
+
+# Diretorio de destino para copia dos arquivos de configuracao.
+DIR_DEST_CONF=/home/oracle/bkp/conf
+
+# Lista de diretorios que devem sofrer uma limpeza periodica (entre aspas duplas e separados por espaco)
+LISTA_REMOVE_ANTIGOS="$ORACLE_BASE/admin/$ORACLE_SID/udump $ORACLE_BASE/admin/$ORACLE_SID/cdump $ORACLE_BASE/admin/$ORACLE_SID/bdump $ORACLE_HOME/network/log $DIR_DEST_ARC $DIR_LOGS"
+
+# Se os arquivos presentes em $LISTA_REMOVE_ANTIGOS forem mais velhos que esse proximo valor, eles serao excluidos.
+DIAS_REMOVE_ANTIGOS=7
+
+# Lista de emails que devem receber notificacao (entre aspas duplas e separados por virgula)
+LISTA_EMAILS="oracledba@terra.com.br"
+
+# Arquivo temporario de log do backup, que depois sera enviado por email.
+ARQ_LOG=$DIR_LOGS/bkp_$ORACLE_SID.log
+
+# Variavel que indica se os archives deve ser zipados no bkp pra disco.
+COMPACTA_ARC=Y
+
+##################################################
+# Configuracoes do rman.
+# Algumas sao diferentes para banco (BD) 
+# e para archives (ARC).
+##################################################
+
+# Nro de canais (paralelos) que o rman usara no backup do banco.
+NRO_CANAIS_BD=5
+NRO_CANAIS_AR=4
+
+# Tipo de canal (disk, 'sbt_tape');
+TIPO_CANAL_BD=\'sbt_tape\'
+TIPO_CANAL_AR=\'sbt_tape\'
+
+# Tamanho maximo de arquivo que o rman pode gerar (Vazio = unlimited)
+LIMITE_TAM_CANAL=3145728
+
+# Nome do arquivo de comandos do rman
+ARQ_CMD_RMAN_BD=$BASE_BKP/rman_cmd_bd.rcv
+ARQ_CMD_RMAN_AR=$BASE_BKP/rman_cmd_ar.rcv
+
+# Quantidade de archives por backup set do rman (stream).
+ARC_POR_SET=5
+
+# Realiza Backup apenas dos datafiles que nao foram pra backup na ultima janela de retentativa.
+# Por exemplo, se $JANELA_RETENTATIVA = 1 entao realiza backup somente dos datafiles que nao foram pra backup
+# no ultimo dia (nas ultimas 24 horas). Se $JANELA_RETENTATIVA = 0.5, entao realiza backup dos datafiles que
+# nao foram pra backup nas ultimas 12 horas.
+# Se essa variavel nao estiver setada, entao realiza backup de todos os datafiles.
+JANELA_RETENTATIVA=0.5
+
+
+# Parametros para o software de backup (Netbackup)
+###################################################
+
+# Variavel que indica o dia do backup mensal.
+DIA_MENSAL=01
+
+# Schedule para retencao no bkp mensal
+SCHED_MENSAL=Controle-Full-2meses
+
+# Dia e mes (DDMM) do backup anual
+DIA_MES_ANUAL=0105
+
+# Schedule que contem a retencao para o bkp anual.
+SCHED_ANUAL=Controle-Full-1ano
+
+# Classe default para realizar bkp dos archives.
+CLASS_AR_DEF=TRR_Linux-Oracle-RAC-Base
+
+# Schedule default para realizar bkp dos archives.
+SCHED_AR_DEF=Archives
+
+# Classe default para realizar bkp do banco.
+CLASS_BD_DEF=TRR_RETENTATIVA-Linux-Oracle-RAC-Base
+
+# Schedule default para realizar bkp do banco.
+SCHED_BD_DEF=Controle-Full
+
+# Script que realiza backup dos archives p/ disco local.
+#SCRIPT_BKP_ARCHIVES_LOCAL=${BASE_BKP}/bkp_local_archives.sh
+

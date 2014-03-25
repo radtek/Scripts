@@ -1,0 +1,24 @@
+run
+{
+sql 'alter system archive log current';
+allocate channel c1 type 'sbt_tape';
+allocate channel c2 type 'sbt_tape';
+allocate channel c3 type 'sbt_tape';
+allocate channel c4 type 'sbt_tape';
+allocate channel c5 type 'sbt_tape';
+allocate channel c6 type 'sbt_tape';
+allocate channel c7 type 'sbt_tape';
+allocate channel c8 type 'sbt_tape';
+allocate channel c9 type 'sbt_tape';
+send 'NB_ORA_CLASS=ORACLE-ACCT';
+send 'NB_ORA_SCHED=controle-full';
+backup full database include current controlfile
+filesperset 1
+skip offline
+not backed up since time 'sysdate - 0'
+format 'bkp_FULL0_20130224_130003_%d_s%s_p%p.rman';
+sql 'alter system archive log current';
+sql 'alter database backup controlfile to trace';
+Backup current controlfile format 'bkp_ctl_20130224_130000_%d_s%s_p%p.rman';
+}
+

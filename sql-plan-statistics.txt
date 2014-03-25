@@ -1,0 +1,125 @@
+Pessoal,
+
+Para quem precisa fazer tuning em acesso a tabelas com dados mal distribuídos, sempre vem aquele problema de ter que gerar um trace do 
+SQL para ver o retorno de linhas para cada passo do plano de execução e comparar esse retorno com o número estimado de linhas gerados com 
+explain para verificar onde a estimativa está errada e consequentemente o plano está escolhendo o caminho errado.
+
+A partir da Release 2 do Oracle 9i está disponível a view V$SQL_PLAN_STATISTICS que traz essas informações para cada passo do plano executado, 
+além do tempo para cada passo do SQL. Para popular os dados dela é necessário que a sessão tenha os parametros:
+
+STATISTICS_LEVEL = ALL
+AND
+SQL_TRACE = TRUE OR TIMED_STATISTICS = TRUE
+
+Criei o script e anexei abaixo se alguém quiser usar. 
+Em um exemplo de utilização peguei um típico caso onde os dados estão mal distribuídos, gerando um plano de acesso equivocado:
+
+
+dev001> @xplan-stats
+Informe o valor para hash_value: 757046146
+
+ cn       cost         card operation                                                            ROWS     ELAPSED     CR_GETS
+--- ---------- ------------ ------------------------------------------------------------ ------------ ----------- -----------
+  0         53              SELECT STATEMENT
+                          1  SORT AGGREGATE                                                    23,810      83.800     142,866
+             5            1   NESTED LOOPS                                                     23,775      83.710     142,866
+             3            1    NESTED LOOPS                                                    23,810      37.980      95,244
+             2            1     INDEX UNIQUE SCAN DSER_PK                                      23,810       5.040      47,622
+             1            1     INDEX UNIQUE SCAN CTOS_PK                                      23,810      32.830      47,622
+             2            1    FIRST ROW                                                       23,775      45.610      47,622
+             2            1     INDEX RANGE SCAN (MIN/MAX) NFCT_01_UK                          23,775      45.570      47,622
+                          1  SORT AGGREGATE                                                    23,810   1,019.210     271,329
+            12            1   NESTED LOOPS                                                          0   1,019.130     271,329
+             1            1    TABLE ACCESS BY INDEX ROWID EVENTO                              23,810       0.180      23,812
+                          1     INDEX UNIQUE SCAN EVEN_01_UK                                   23,810       0.060           2
+            11            1    TABLE ACCESS BY INDEX ROWID EVENTO_DOCUMENTO_SERVICO                 0   1,018.830     247,517
+             2           14     INDEX RANGE SCAN EVDS_DSER_FK_I                               290,655     155.440      48,320
+            53            1  SORT ORDER BY                                                     23,810     696.100     622,455
+                              FILTER                                                           23,810      95.830     207,596
+            49            1    NESTED LOOPS                                                    23,810      95.810     207,596
+            48            1     NESTED LOOPS                                                   23,810      95.560     183,784
+            47            1      HASH JOIN                                                     23,810      95.230     159,972
+            43           14       NESTED LOOPS                                                 23,810      94.950     159,957
+            15           14        HASH JOIN                                                   52,413       2.210       2,716
+            12           14         MERGE JOIN CARTESIAN                                       52,413       1.930       2,711
+             8            1          NESTED LOOPS                                                   1       0.500          15
+             5            1           NESTED LOOPS                                                  1       0.000          11
+             4            1            NESTED LOOPS                                                 1       0.000           8
+             4            1             NESTED LOOPS                                                1       0.000           7
+             2            1              TABLE ACCESS BY INDEX ROWID DOMINIO                        1       0.000           3
+             1            1               INDEX UNIQUE SCAN DOMI_01_UK                              1       0.000           2
+             2            1              TABLE ACCESS BY INDEX ROWID CLIENTE                        1       0.000           4
+             1            1               INDEX UNIQUE SCAN CLIE_PK                                 1       0.000           3
+                          1             INDEX UNIQUE SCAN FILI_PK                                   1       0.000           1
+             1            1            INDEX UNIQUE SCAN PESS_PK                                    1       0.000           3
+             3            1           TABLE ACCESS BY INDEX ROWID INSCRICAO_ESTADUAL                1       0.500           4
+             2            1            INDEX RANGE SCAN INES_01_UK                                  1       0.000           3
+             9           29          BUFFER SORT                                               52,413       1.390       2,696
+             4           29           TABLE ACCESS BY INDEX ROWID DEVEDOR_DOC_SERV_FAT         52,413       1.280       2,696
+             2           48            INDEX RANGE SCAN DDSF_CLIE_FK_I                        232,441       0.480         490
+             2          173         TABLE ACCESS FULL FILIAL                                      173       0.000           5
+             2            1        TABLE ACCESS BY INDEX ROWID DOCTO_SERVICO                   23,810      92.570     157,241
+             1            1         INDEX UNIQUE SCAN DSER_PK                                  52,413       9.020     104,828
+             3        1,590       TABLE ACCESS FULL VALOR_DOMINIO                               1,591       0.020          15
+             1            1      TABLE ACCESS BY INDEX ROWID FILIAL                            23,810       0.220      23,812
+                          1       INDEX UNIQUE SCAN FILI_PK                                    23,810       0.080           2
+             1            1     TABLE ACCESS BY INDEX ROWID FILIAL                             23,810       0.150      23,812
+                          1      INDEX UNIQUE SCAN FILI_PK                                     23,810       0.050           2
+
+
+
+
+--****************************************************************
+--*script 
+--****************************************************************
+
+
+set verify off echo off feed off
+set linesize 300 pagesize 3000
+col hv head 'hv' noprint
+col "cn" for 90 print
+col "card" for 999,999,990
+col "ROWS" for 999,999,990
+col "ELAPSED" for 99,990.999
+col "CPU" for 99,990.999
+col CR_GETS for 99,999,990
+col CU_GETS for 99,999,990
+col READS for 9,999,990
+col WRITES for 99,990
+col operation for a60
+break on hv skip 0 on "cn" skip 0
+SELECT 
+	P.HASH_VALUE hv
+	, P.CHILD_NUMBER "cn"
+	, P.COST "cost"
+	, P.CARDINALITY "card"
+	, LPAD(' ',depth)||P.OPERATION||' '||
+	P.OPTIONS||' '||
+	P.OBJECT_NAME||
+	DECODE(P.PARTITION_START,NULL,' ',':')||
+	TRANSLATE(P.PARTITION_START,'(NRUMBE','(NR')||
+	DECODE(P.PARTITION_STOP,NULL,' ','-')||
+	TRANSLATE(P.PARTITION_STOP,'(NRUMBE','(NR') "operation"
+	, ( SELECT S.LAST_OUTPUT_ROWS 
+		FROM V$SQL_PLAN_STATISTICS S
+		WHERE S.ADDRESS=P.ADDRESS and s.hash_value=p.hash_value
+		and s.child_number=p.child_number 
+		AND S.OPERATION_ID=P.ID) "ROWS"
+	, ( SELECT ROUND(S.LAST_ELAPSED_TIME/1000000,2)
+		FROM V$SQL_PLAN_STATISTICS S
+		WHERE S.ADDRESS=P.ADDRESS 
+		  and s.hash_value=p.hash_value
+		  and s.child_number=p.child_number AND S.OPERATION_ID=P.ID) "ELAPSED"
+	, ( SELECT S.LAST_CR_BUFFER_GETS 
+		FROM V$SQL_PLAN_STATISTICS S
+		WHERE S.ADDRESS=P.ADDRESS and s.hash_value=p.hash_value
+		and s.child_number=p.child_number AND S.OPERATION_ID=P.ID) "CR_GETS"
+FROM V$SQL_PLAN P
+where p.SQL_ID = &hash_value
+order by P.CHILD_NUMBER, p.id
+/
+
+
+Abraço,
+
+Ricardo Pinheiro

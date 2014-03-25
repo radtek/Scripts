@@ -1,0 +1,133 @@
+
+Recovery Manager: Release 10.2.0.4.0 - Production on Wed Jun 20 16:07:01 2012
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> 
+executing command: SET parallelmediarestore
+
+RMAN> 2> 3> 4> 5> 6> 7> 8> 9> 10> 11> 12> 13> 14> 15> 16> 17> 18> 
+allocated channel: c1
+channel c1: sid=232 devtype=SBT_TAPE
+channel c1: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+allocated channel: c2
+channel c2: sid=417 devtype=SBT_TAPE
+channel c2: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+allocated channel: c3
+channel c3: sid=175 devtype=SBT_TAPE
+channel c3: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+allocated channel: c4
+channel c4: sid=449 devtype=SBT_TAPE
+channel c4: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+allocated channel: c5
+channel c5: sid=382 devtype=SBT_TAPE
+channel c5: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+allocated channel: c6
+channel c6: sid=340 devtype=SBT_TAPE
+channel c6: Veritas NetBackup for Oracle - Release 6.5 (2009050106)
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+Starting restore at 20120620160707
+
+channel c2: starting datafile backupset restore
+channel c2: specifying datafile(s) to restore from backup set
+restoring datafile 00886 to /d08/oradata/resfp/FOOTPRINTS.dbf
+channel c2: reading from backup piece bkp_FULL0_20120620_000005_ORAACCT2_s497803_p1.rman
+channel c4: starting datafile backupset restore
+channel c4: specifying datafile(s) to restore from backup set
+restoring datafile 01184 to /d08/oradata/resfp/undotbs05.dbf
+channel c4: reading from backup piece bkp_FULL0_20120620_000005_ORAACCT2_s497809_p1.rman
+channel c5: starting datafile backupset restore
+channel c5: specifying datafile(s) to restore from backup set
+restoring datafile 00647 to /d08/oradata/resfp/undotbs03.dbf
+channel c5: reading from backup piece bkp_FULL0_20120620_000005_ORAACCT2_s497807_p1.rman
+channel c6: starting datafile backupset restore
+channel c6: specifying datafile(s) to restore from backup set
+restoring datafile 00896 to /d08/oradata/resfp/footprints_2.dbf
+channel c6: reading from backup piece bkp_FULL0_20120620_000005_ORAACCT2_s497802_p1.rman
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00648 to /d08/oradata/resfp/undotbs04.dbf
+channel c1: reading from backup piece bkp_FULL0_20120620_000005_ORAACCT2_s497808_p1.rman
+channel c3: starting datafile backupset restore
+channel c3: specifying datafile(s) to restore from backup set
+restoring datafile 00002 to /d08/oradata/resfp/undotbs01.dbf
+channel c3: reading from backup piece bkp_FULL0_20120620_000005_ORAACCT2_s497805_p1.rman
+channel c3: restored backup piece 1
+piece handle=bkp_FULL0_20120620_000005_ORAACCT2_s497805_p1.rman tag=TAG20120620T000041
+channel c3: restore complete, elapsed time: 00:02:25
+channel c3: starting datafile backupset restore
+channel c3: specifying datafile(s) to restore from backup set
+restoring datafile 00389 to /d08/oradata/resfp/undotbs02.dbf
+channel c3: reading from backup piece bkp_FULL0_20120620_000005_ORAACCT2_s497899_p1.rman
+channel c1: restored backup piece 1
+piece handle=bkp_FULL0_20120620_000005_ORAACCT2_s497808_p1.rman tag=TAG20120620T000041
+channel c1: restore complete, elapsed time: 00:02:28
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00001 to /d08/oradata/resfp/system01.dbf
+channel c1: reading from backup piece bkp_FULL0_20120620_000005_ORAACCT2_s497927_p1.rman
+channel c4: restored backup piece 1
+piece handle=bkp_FULL0_20120620_000005_ORAACCT2_s497809_p1.rman tag=TAG20120620T000041
+channel c4: restore complete, elapsed time: 00:02:31
+channel c5: restored backup piece 1
+piece handle=bkp_FULL0_20120620_000005_ORAACCT2_s497807_p1.rman tag=TAG20120620T000041
+channel c5: restore complete, elapsed time: 00:02:38
+channel c2: restored backup piece 1
+piece handle=bkp_FULL0_20120620_000005_ORAACCT2_s497803_p1.rman tag=TAG20120620T000041
+channel c2: restore complete, elapsed time: 00:02:41
+channel c1: restored backup piece 1
+piece handle=bkp_FULL0_20120620_000005_ORAACCT2_s497927_p1.rman tag=TAG20120620T000041
+channel c1: restore complete, elapsed time: 00:00:48
+channel c3: restored backup piece 1
+piece handle=bkp_FULL0_20120620_000005_ORAACCT2_s497899_p1.rman tag=TAG20120620T000041
+channel c3: restore complete, elapsed time: 00:00:58
+ORA-19870: error reading backup piece bkp_FULL0_20120620_000005_ORAACCT2_s497802_p1.rman
+ORA-19507: failed to retrieve sequential file, handle="bkp_FULL0_20120620_000005_ORAACCT2_s497802_p1.rman", parms=""
+ORA-27029: skgfrtrv: sbtrestore returned error
+ORA-19511: Error received from media manager layer, error text:
+   Failed to open backup file for restore.
+failover to previous backup
+
+channel c1: starting datafile backupset restore
+channel c1: specifying datafile(s) to restore from backup set
+restoring datafile 00896 to /d08/oradata/resfp/footprints_2.dbf
+channel c1: reading from backup piece bkp_FULL0_20120619_000005_ORAACCT2_s497604_p1.rman
+channel c1: restored backup piece 1
+piece handle=bkp_FULL0_20120619_000005_ORAACCT2_s497604_p1.rman tag=TAG20120619T000038
+channel c1: restore complete, elapsed time: 00:02:46
+Finished restore at 20120620162620
+released channel: c1
+released channel: c2
+released channel: c3
+released channel: c4
+released channel: c5
+released channel: c6
+
+RMAN> 
+
+Recovery Manager complete.
+Restore finalizado com sucesso.

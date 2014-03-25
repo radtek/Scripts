@@ -1,0 +1,10 @@
+run { 
+ALLOCATE CHANNEL C1 TYPE sbt;
+allocate auxiliary channel c2 type sbt;
+allocate auxiliary channel c3 type sbt;
+allocate auxiliary channel c4 type sbt;
+allocate auxiliary channel c5 type sbt;
+send 'NB_ORA_SERV=srv-pae-bkp01,NB_ORA_POLICY=dc1-oracle-ost,NB_ORA_CLIENT=sv-dc1-ora01';        
+set until time "TO_DATE('07-01-2013 03:00:00','DD-MM-YYYY HH24:MI:SS')";
+duplicate target database for standby  dorecover;
+}

@@ -1,0 +1,25 @@
+col BACKUP_TYPE format a15 heading 'BACKUP|TYPE'
+col CONTROLFILE_INCLUDED format a5 heading "CONTROLFILE"
+col INCREMENTAL_LEVEL format 99999 heading "INC_LEVEL"
+col MULTI_SECTION format a5 heading "MULTI|SECTION"
+
+SELECT *
+FROM (SELECT 
+			SET_STAMP,
+		   COMPLETION_TIME, 
+		   START_TIME, 
+		   DECODE(BACKUP_TYPE, 'L', 'ARCH', 
+								   'D', 'FULL', 
+								   'I', 'INC') AS TYPE, 
+		   INCREMENTAL_LEVEL, 
+		   TO_CHAR (TRUNC (SYSDATE) + NUMTODSINTERVAL (ELAPSED_SECONDS, 'second'),'hh24:mi:ss') ELAPSED, 
+		   ROUND(OUTPUT_BYTES / 1024/1024/1024) OUTPUT_GB, 
+		   DEVICE_TYPE, 
+		   COMPRESSED, 
+		   COMPRESSION_RATIO, 
+		   ENCRYPTED
+	FROM v$backup_set_details bkpdet
+	WHERE BACKUP_TYPE = 'L'		
+	order by COMPLETION_TIME desc) TBL
+WHERE rownum < 100
+order by COMPLETION_TIME asc;

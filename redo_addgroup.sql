@@ -1,0 +1,1 @@
+select 'ALTER DATABASE ADD LOGFILE  thread 1 GROUP &grp (''<redoname>'') SIZE  128m;' from dual;

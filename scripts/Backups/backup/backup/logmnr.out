@@ -1,0 +1,80 @@
+Thu Mar  3 11:03:08 BRT 2005 => Inicio do processamento da sequencia 40421 ate a 40450
+
+SQL*Plus: Release 9.2.0.5.0 - Production on Thu Mar 3 11:03:09 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+Connected to:
+Oracle9i Enterprise Edition Release 9.2.0.5.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.5.0 - Production
+
+SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21  
+PL/SQL procedure successfully completed.
+
+SQL> not spooling currently
+SQL> Disconnected from Oracle9i Enterprise Edition Release 9.2.0.5.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.5.0 - Production
+Thu Mar  3 11:18:50 BRT 2005 => Final do processamento da sequencia 40421 ate a 40450
+Thu Mar  3 11:33:55 BRT 2005 => Inicio do processamento da sequencia 40451 ate a 40625
+
+SQL*Plus: Release 9.2.0.5.0 - Production on Thu Mar 3 11:33:55 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+Connected to:
+Oracle9i Enterprise Edition Release 9.2.0.5.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.5.0 - Production
+
+SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21  
+PL/SQL procedure successfully completed.
+
+SQL> not spooling currently
+SQL> Disconnected from Oracle9i Enterprise Edition Release 9.2.0.5.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.5.0 - Production
+Thu Mar  3 12:45:41 BRT 2005 => Final do processamento da sequencia 40451 ate a 40625
+Thu Mar  3 13:02:02 BRT 2005 => Inicio do processamento da sequencia 40401 ate a 40420
+
+SQL*Plus: Release 9.2.0.5.0 - Production on Thu Mar 3 13:02:02 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+Connected to:
+Oracle9i Enterprise Edition Release 9.2.0.5.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.5.0 - Production
+
+SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21  
+PL/SQL procedure successfully completed.
+
+SQL> not spooling currently
+SQL> Disconnected from Oracle9i Enterprise Edition Release 9.2.0.5.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.5.0 - Production
+Thu Mar  3 13:09:37 BRT 2005 => Final do processamento da sequencia 40401 ate a 40420
+Thu Mar  3 13:10:53 BRT 2005 => Inicio do processamento da sequencia 40626 ate a 40738
+
+SQL*Plus: Release 9.2.0.5.0 - Production on Thu Mar 3 13:10:53 2005
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+Connected to:
+Oracle9i Enterprise Edition Release 9.2.0.5.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.5.0 - Production
+
+SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21  
+PL/SQL procedure successfully completed.
+
+SQL> not spooling currently
+SQL> Disconnected from Oracle9i Enterprise Edition Release 9.2.0.5.0 - Production
+With the Partitioning option
+JServer Release 9.2.0.5.0 - Production
+Thu Mar  3 13:50:07 BRT 2005 => Final do processamento da sequencia 40626 ate a 40738

@@ -1,0 +1,139 @@
+
+Recovery Manager: Release 9.2.0.2.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1229201917)
+connected to recovery catalog database
+
+RMAN> 2> 3> 4> 5> 6> 7> 8> 9> 10> 11> 12> 13> 14> 15> 16> 17> 18> 19> 20> 21> 22> 23> 24> 25> 26> 
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-00558: error encountered while parsing input commands
+RMAN-01005: syntax error: found "end-of-file": expecting one of: "allocate, alter, backup, beginline, blockrecover, catalog, change, copy, crosscheck, configure, duplicate, debug, delete, execute, endinline, host, mount, open, plsql, recover, release, replicate, report, restore, resync, }, set, setlimit, sql, switch, startup, shutdown, send, show, validate"
+RMAN-01007: at line 26 column 1 file: standard input
+
+RMAN> 
+RMAN> 
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-00558: error encountered while parsing input commands
+RMAN-01005: syntax error: found "identifier": expecting one of: "for"
+RMAN-01008: the bad identifier was: c1
+RMAN-01007: at line 1 column 18 file: standard input
+
+RMAN> 
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-00558: error encountered while parsing input commands
+RMAN-01005: syntax error: found "identifier": expecting one of: "for"
+RMAN-01008: the bad identifier was: c3
+RMAN-01007: at line 1 column 18 file: standard input
+
+RMAN> 
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-00558: error encountered while parsing input commands
+RMAN-01005: syntax error: found "identifier": expecting one of: "for"
+RMAN-01008: the bad identifier was: c4
+RMAN-01007: at line 1 column 18 file: standard input
+
+RMAN> 
+Starting restore at 07/01/2004
+
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: sid=73 devtype=DISK
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03002: failure of restore command at 01/07/2004 17:16:54
+RMAN-06026: some targets not found - aborting restore
+RMAN-06100: no channel to restore a backup or copy of datafile 208
+RMAN-06100: no channel to restore a backup or copy of datafile 194
+RMAN-06100: no channel to restore a backup or copy of datafile 193
+RMAN-06100: no channel to restore a backup or copy of datafile 192
+RMAN-06100: no channel to restore a backup or copy of datafile 187
+RMAN-06100: no channel to restore a backup or copy of datafile 186
+RMAN-06100: no channel to restore a backup or copy of datafile 185
+RMAN-06100: no channel to restore a backup or copy of datafile 161
+RMAN-06100: no channel to restore a backup or copy of datafile 32
+RMAN-06100: no channel to restore a backup or copy of datafile 31
+RMAN-06100: no channel to restore a backup or copy of datafile 160
+RMAN-06100: no channel to restore a backup or copy of datafile 158
+RMAN-06100: no channel to restore a backup or copy of datafile 148
+RMAN-06100: no channel to restore a backup or copy of datafile 147
+RMAN-06100: no channel to restore a backup or copy of datafile 146
+
+RMAN> 
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-00558: error encountered while parsing input commands
+RMAN-01005: syntax error: found "switch": expecting one of: "allocate, alter, backup, beginline, blockrecover, catalog, change, connect, copy, create, crosscheck, configure, duplicate, debug, delete, drop, exit, endinline, host, {, library, list, mount, open, print, quit, recover, register, release, replace, report, renormalize, reset, restore, resync, rman, run, rpctest, set, setlimit, sql, spool, startup, shutdown, send, show, test, upgrade, validate"
+RMAN-01007: at line 1 column 1 file: standard input
+
+RMAN> 
+sql statement: alter tablespace ACCT_MOV_DATA_P19 online
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03009: failure of sql command on default channel at 01/07/2004 17:16:55
+RMAN-11003: failure during parse/execution of SQL statement: alter tablespace ACCT_MOV_DATA_P19 online
+ORA-01157: cannot identify/lock data file 146 - see DBWR trace file
+ORA-01110: data file 146: '/o02/oradata/res_oraacct2/acct_mov_data_p1901.dbf'
+
+RMAN> 
+sql statement: alter tablespace ACCT_MOV_DATA_P20 online
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03009: failure of sql command on default channel at 01/07/2004 17:16:55
+RMAN-11003: failure during parse/execution of SQL statement: alter tablespace ACCT_MOV_DATA_P20 online
+ORA-01157: cannot identify/lock data file 31 - see DBWR trace file
+ORA-01110: data file 31: '/o05/oradata/res_oraacct2/acct_mov_data_p2001.dbf'
+
+RMAN> 
+sql statement: alter tablespace ACCT_MOV_DATA_P21 online
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03009: failure of sql command on default channel at 01/07/2004 17:16:55
+RMAN-11003: failure during parse/execution of SQL statement: alter tablespace ACCT_MOV_DATA_P21 online
+ORA-01157: cannot identify/lock data file 166 - see DBWR trace file
+ORA-01110: data file 166: '/o05/oradata/res_oraacct2/acct_mov_data_p2101.dbf'
+
+RMAN> 
+sql statement: alter tablespace ACCT_MOV_DATA_P22 online
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03009: failure of sql command on default channel at 01/07/2004 17:16:55
+RMAN-11003: failure during parse/execution of SQL statement: alter tablespace ACCT_MOV_DATA_P22 online
+ORA-01157: cannot identify/lock data file 185 - see DBWR trace file
+ORA-01110: data file 185: '/o06/oradata/oraacct2/acct_mov_data_p2201.dbf'
+
+RMAN> 
+sql statement: alter tablespace ACCT_MOV_DATA_P23 online
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03009: failure of sql command on default channel at 01/07/2004 17:16:56
+RMAN-11003: failure during parse/execution of SQL statement: alter tablespace ACCT_MOV_DATA_P23 online
+ORA-01157: cannot identify/lock data file 192 - see DBWR trace file
+ORA-01110: data file 192: '/f02/oradata/oraacct2/acct_mov_data_p2301.dbf'
+
+RMAN> 
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-00558: error encountered while parsing input commands
+RMAN-01005: syntax error: found "}": expecting one of: "allocate, alter, backup, beginline, blockrecover, catalog, change, connect, copy, create, crosscheck, configure, duplicate, debug, delete, drop, exit, endinline, host, {, library, list, mount, open, print, quit, recover, register, release, replace, report, renormalize, reset, restore, resync, rman, run, rpctest, set, setlimit, sql, spool, startup, shutdown, send, show, test, upgrade, validate"
+RMAN-01007: at line 1 column 1 file: standard input
+
+RMAN> 
+
+Recovery Manager complete.

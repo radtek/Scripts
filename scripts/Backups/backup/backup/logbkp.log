@@ -1,0 +1,299 @@
+
+Recovery Manager: Release 9.2.0.2.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1229201917)
+connected to recovery catalog database
+
+RMAN> ##########################################################################
+2> # TIPO_BKP         = FULL                                            
+3> # CLASSEBD         = TRR_Solaris-Oracle-Misc                                            
+4> # SCHEDBD          = Controle-Full                                             
+5> # NRO_CANAIS_BD    = 5                                       
+6> # TIPO_CANAL_BD    = 'sbt_tape'                                       
+7> # LIMITE_TAM_CANAL = 3145728                                    
+8> # NIVEL            = 0                                               
+9> # SKIP_OFFLINE     = Y                                        
+10> # SKIP_READONLY    = Y                                       
+11> # FORMATO_BD       = 'bkp_FULL0_20040210_140303_%d_s%s_p%p.rman'                                          
+12> # ARQ_CMD_RMAN_BD  = /o01/app/oracle//backup/rman_cmd_bd.rcv                                     
+13> # USE_CATALOG      = Y                                         
+14> ##########################################################################
+15> resync catalog;
+16> run
+17> {
+18> sql 'alter system archive log current';
+19> allocate channel c1 type 'sbt_tape';
+20> allocate channel c2 type 'sbt_tape';
+21> allocate channel c3 type 'sbt_tape';
+22> allocate channel c4 type 'sbt_tape';
+23> allocate channel c5 type 'sbt_tape';
+24> send 'NB_ORA_CLASS=TRR_Solaris-Oracle-Misc';
+25> send 'NB_ORA_SCHED=Controle-Full';
+26> backup full database include current controlfile
+27> filesperset 1
+28> skip offline
+29> skip readonly
+30> format 'bkp_FULL0_20040210_140303_%d_s%s_p%p.rman'
+31> not backed up since time 'sysdate - 1';
+32> sql 'alter system archive log current';
+33> sql 'alter database backup controlfile to trace';
+34> release channel c1;
+35> release channel c2;
+36> release channel c3;
+37> release channel c4;
+38> release channel c5;
+39> }
+40> resync catalog;
+41> exit;
+starting full resync of recovery catalog
+full resync complete
+
+sql statement: alter system archive log current
+
+allocated channel: c1
+channel c1: sid=83 devtype=SBT_TAPE
+channel c1: VERITAS NetBackup for Oracle8 - Release 3.4GA (030800)
+
+allocated channel: c2
+channel c2: sid=172 devtype=SBT_TAPE
+channel c2: VERITAS NetBackup for Oracle8 - Release 3.4GA (030800)
+
+allocated channel: c3
+channel c3: sid=156 devtype=SBT_TAPE
+channel c3: VERITAS NetBackup for Oracle8 - Release 3.4GA (030800)
+
+allocated channel: c4
+channel c4: sid=158 devtype=SBT_TAPE
+channel c4: VERITAS NetBackup for Oracle8 - Release 3.4GA (030800)
+
+allocated channel: c5
+channel c5: sid=131 devtype=SBT_TAPE
+channel c5: VERITAS NetBackup for Oracle8 - Release 3.4GA (030800)
+
+sent command to channel: c1
+sent command to channel: c2
+sent command to channel: c3
+sent command to channel: c4
+sent command to channel: c5
+
+sent command to channel: c1
+sent command to channel: c2
+sent command to channel: c3
+sent command to channel: c4
+sent command to channel: c5
+
+Starting backup at 10/02/2004
+skipping datafile 1; already backed up on 09/02/2004
+skipping datafile 2; already backed up on 09/02/2004
+skipping datafile 3; already backed up on 09/02/2004
+skipping read-only file 4
+skipping datafile 5; already backed up on 09/02/2004
+skipping datafile 6; already backed up on 09/02/2004
+skipping offline file 7
+skipping offline file 8
+skipping offline file 9
+skipping offline file 10
+skipping offline file 11
+skipping offline file 12
+skipping offline file 13
+skipping offline file 14
+skipping offline file 15
+skipping offline file 16
+skipping offline file 17
+skipping offline file 18
+skipping offline file 19
+skipping offline file 20
+skipping offline file 21
+skipping offline file 22
+skipping offline file 23
+skipping offline file 24
+skipping offline file 25
+skipping offline file 26
+skipping offline file 27
+skipping offline file 28
+skipping offline file 29
+skipping offline file 30
+skipping offline file 31
+skipping offline file 32
+skipping offline file 33
+skipping offline file 34
+skipping offline file 35
+skipping offline file 36
+skipping offline file 37
+skipping datafile 38; already backed up on 09/02/2004
+skipping offline file 39
+skipping datafile 40; already backed up on 09/02/2004
+skipping datafile 41; already backed up on 09/02/2004
+skipping offline file 42
+skipping offline file 43
+skipping offline file 44
+skipping offline file 45
+skipping offline file 46
+skipping offline file 47
+skipping offline file 48
+skipping offline file 49
+skipping offline file 50
+skipping offline file 51
+skipping offline file 52
+skipping offline file 53
+skipping offline file 54
+skipping offline file 55
+skipping offline file 56
+skipping offline file 57
+skipping offline file 58
+skipping offline file 59
+skipping offline file 60
+skipping offline file 61
+skipping offline file 62
+skipping offline file 63
+skipping offline file 64
+skipping offline file 65
+skipping offline file 66
+skipping offline file 67
+skipping offline file 68
+skipping offline file 69
+skipping offline file 70
+skipping offline file 71
+skipping offline file 72
+skipping offline file 73
+skipping offline file 74
+skipping offline file 75
+skipping offline file 76
+skipping offline file 77
+skipping offline file 78
+skipping offline file 79
+skipping offline file 80
+skipping offline file 81
+skipping offline file 82
+skipping offline file 83
+skipping datafile 84; already backed up on 09/02/2004
+skipping datafile 85; already backed up on 09/02/2004
+skipping datafile 86; already backed up on 09/02/2004
+skipping datafile 87; already backed up on 09/02/2004
+skipping datafile 88; already backed up on 09/02/2004
+skipping datafile 89; already backed up on 09/02/2004
+skipping datafile 90; already backed up on 09/02/2004
+skipping datafile 91; already backed up on 09/02/2004
+skipping offline file 92
+skipping offline file 93
+skipping offline file 94
+skipping offline file 95
+skipping offline file 96
+skipping offline file 97
+skipping offline file 98
+skipping offline file 99
+skipping offline file 100
+skipping offline file 101
+skipping offline file 102
+skipping offline file 103
+skipping offline file 104
+skipping offline file 105
+skipping offline file 106
+skipping offline file 107
+skipping offline file 108
+skipping offline file 109
+skipping offline file 110
+skipping offline file 111
+skipping offline file 112
+skipping offline file 113
+skipping offline file 114
+skipping offline file 115
+skipping offline file 116
+skipping offline file 117
+skipping offline file 118
+skipping offline file 119
+skipping offline file 120
+skipping offline file 121
+skipping offline file 122
+skipping offline file 123
+skipping offline file 124
+skipping read-only file 125
+skipping read-only file 126
+skipping read-only file 127
+skipping datafile 128; already backed up on 10/02/2004
+skipping datafile 129; already backed up on 09/02/2004
+skipping datafile 130; already backed up on 09/02/2004
+skipping datafile 131; already backed up on 09/02/2004
+skipping datafile 132; already backed up on 09/02/2004
+skipping datafile 133; already backed up on 09/02/2004
+skipping datafile 134; already backed up on 09/02/2004
+skipping datafile 135; already backed up on 09/02/2004
+skipping datafile 136; already backed up on 09/02/2004
+skipping datafile 137; already backed up on 09/02/2004
+skipping datafile 138; already backed up on 09/02/2004
+skipping offline file 139
+skipping offline file 140
+skipping offline file 141
+skipping offline file 142
+skipping offline file 143
+skipping offline file 144
+skipping offline file 145
+skipping offline file 146
+skipping offline file 147
+skipping offline file 148
+skipping offline file 149
+skipping offline file 150
+skipping offline file 151
+skipping offline file 152
+skipping offline file 153
+skipping datafile 154; already backed up on 09/02/2004
+skipping datafile 155; already backed up on 09/02/2004
+skipping datafile 156; already backed up on 09/02/2004
+skipping datafile 157; already backed up on 09/02/2004
+skipping offline file 158
+skipping offline file 159
+skipping offline file 160
+skipping offline file 161
+skipping offline file 162
+skipping offline file 163
+skipping offline file 164
+skipping offline file 165
+skipping offline file 166
+skipping offline file 167
+skipping offline file 168
+skipping offline file 169
+skipping offline file 170
+skipping offline file 171
+skipping offline file 172
+skipping read-only file 173
+skipping read-only file 174
+skipping datafile 175; already backed up on 10/02/2004
+skipping read-only file 176
+skipping read-only file 177
+skipping read-only file 178
+skipping read-only file 179
+skipping read-only file 180
+skipping read-only file 181
+skipping read-only file 182
+skipping offline file 183
+skipping offline file 184
+skipping read-only file 185
+skipping read-only file 186
+skipping read-only file 187
+skipping offline file 188
+skipping offline file 189
+skipping offline file 190
+skipping offline file 191
+skipping offline file 192
+skipping offline file 193
+skipping offline file 194
+skipping offline file 195
+skipping offline file 196
+skipping offline file 197
+skipping offline file 198
+skipping offline file 199
+released channel: c1
+released channel: c2
+released channel: c3
+released channel: c4
+released channel: c5
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03002: failure of backup command at 02/10/2004 15:52:59
+ORA-00235: controlfile fixed table inconsistent due to concurrent update
+RMAN-06010: error while looking up datafile: 200
+
+Recovery Manager complete.

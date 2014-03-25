@@ -1,0 +1,1232 @@
+
+Recovery Manager: Release 9.2.0.5.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+connected to target database: ORAACCT2 (DBID=1332977964)
+connected to recovery catalog database
+
+RMAN> list backup of tablespace ACCT_MOV_DATA_P36;
+2> list backup of tablespace ACCT_MOV_DATA_P37;
+3> list backup of tablespace ACCT_MOV_DATA_P38;
+4> list backup of tablespace ACCT_MOV_DATA_P39;
+5> list backup of tablespace ACCT_MOV_DATA_P40;
+6> list backup of tablespace ACCT_MOV_DATA_P41;
+7> list backup of tablespace ACCT_MOV_DATA_P42;
+8> list backup of tablespace ACCT_MOV_DATA_P43;
+9> 
+10> 
+
+List of Backup Sets
+===================
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074847 Full    1G         SBT_TAPE    00:09:03     20/05/2004     
+        BP Key: 3075141   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s149_p1.rman
+  List of Datafiles in backup set 3074847
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  252     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074862 Full    1G         SBT_TAPE    00:10:54     20/05/2004     
+        BP Key: 3075156   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s164_p1.rman
+  List of Datafiles in backup set 3074862
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  253     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074880 Full    1G         SBT_TAPE    00:08:20     20/05/2004     
+        BP Key: 3075174   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s179_p1.rman
+  List of Datafiles in backup set 3074880
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  254     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074896 Full    984M       SBT_TAPE    00:07:31     20/05/2004     
+        BP Key: 3075190   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s199_p1.rman
+  List of Datafiles in backup set 3074896
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  257     Full 6648691372569 20/05/2004 /o10/oradata/oraacct2/acct_mov_data_p36_6.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074956 Full    384M       SBT_TAPE    00:02:39     20/05/2004     
+        BP Key: 3075250   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s254_p1.rman
+  List of Datafiles in backup set 3074956
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  256     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074970 Full    96M        SBT_TAPE    00:01:29     20/05/2004     
+        BP Key: 3075264   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s271_p1.rman
+  List of Datafiles in backup set 3074970
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  255     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3181907 Full    96M        SBT_TAPE    00:02:07     02/06/2004     
+        BP Key: 3181912   Status: AVAILABLE   Tag: TAG20040602T113239
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P36_ORAACCT2_20040602_113235_s2328_p1.rman
+  List of Datafiles in backup set 3181907
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  255     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3181908 Full    384M       SBT_TAPE    00:04:17     02/06/2004     
+        BP Key: 3181913   Status: AVAILABLE   Tag: TAG20040602T113239
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P36_ORAACCT2_20040602_113235_s2324_p1.rman
+  List of Datafiles in backup set 3181908
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  256     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3181909 Full    1G         SBT_TAPE    00:11:34     02/06/2004     
+        BP Key: 3181914   Status: AVAILABLE   Tag: TAG20040602T113239
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P36_ORAACCT2_20040602_113235_s2327_p1.rman
+  List of Datafiles in backup set 3181909
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  254     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3181910 Full    1G         SBT_TAPE    00:11:36     02/06/2004     
+        BP Key: 3181915   Status: AVAILABLE   Tag: TAG20040602T113239
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P36_ORAACCT2_20040602_113235_s2326_p1.rman
+  List of Datafiles in backup set 3181910
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  253     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3181911 Full    2G         SBT_TAPE    00:15:18     02/06/2004     
+        BP Key: 3181916   Status: AVAILABLE   Tag: TAG20040602T113239
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P36_ORAACCT2_20040602_113235_s2325_p1.rman
+  List of Datafiles in backup set 3181911
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  252     Full 6648691372569 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p36_1.dbf
+  257     Full 6648691372569 20/05/2004 /o10/oradata/oraacct2/acct_mov_data_p36_6.dbf
+
+
+List of Backup Sets
+===================
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074819 Full    944M       SBT_TAPE    00:07:55     20/05/2004     
+        BP Key: 3075113   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s118_p1.rman
+  List of Datafiles in backup set 3074819
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  265     Full 6648691372789 20/05/2004 /o04/oradata/oraacct2/acct_mov_data_p37_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074826 Full    944M       SBT_TAPE    00:07:33     20/05/2004     
+        BP Key: 3075120   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s126_p1.rman
+  List of Datafiles in backup set 3074826
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  268     Full 6648691372789 20/05/2004 /o10/oradata/oraacct2/acct_mov_data_p37_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074879 Full    944M       SBT_TAPE    00:08:07     20/05/2004     
+        BP Key: 3075173   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s178_p1.rman
+  List of Datafiles in backup set 3074879
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  266     Full 6648691372789 20/05/2004 /o06/oradata/oraacct2/acct_mov_data_p37_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074894 Full    939M       SBT_TAPE    00:08:37     20/05/2004     
+        BP Key: 3075188   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s197_p1.rman
+  List of Datafiles in backup set 3074894
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  267     Full 6648691372789 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p37_3.dbf
+
+
+List of Backup Sets
+===================
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074810 Full    792M       SBT_TAPE    00:06:48     20/05/2004     
+        BP Key: 3075104   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s111_p1.rman
+  List of Datafiles in backup set 3074810
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  248     Full 6648691372794 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p38_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074822 Full    792M       SBT_TAPE    00:07:24     20/05/2004     
+        BP Key: 3075116   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s123_p1.rman
+  List of Datafiles in backup set 3074822
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  249     Full 6648691372794 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p38_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074834 Full    792M       SBT_TAPE    00:07:33     20/05/2004     
+        BP Key: 3075128   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s136_p1.rman
+  List of Datafiles in backup set 3074834
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  250     Full 6648691372794 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p38_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074921 Full    799M       SBT_TAPE    00:06:24     20/05/2004     
+        BP Key: 3075215   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s219_p1.rman
+  List of Datafiles in backup set 3074921
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  251     Full 6648691372794 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p38_4.dbf
+
+
+List of Backup Sets
+===================
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074764 Full    1G         SBT_TAPE    00:07:55     20/05/2004     
+        BP Key: 3075058   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s65_p1.rman
+  List of Datafiles in backup set 3074764
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  235     Full 6648691372799 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p39_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074766 Full    1G         SBT_TAPE    00:09:14     20/05/2004     
+        BP Key: 3075060   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s62_p1.rman
+  List of Datafiles in backup set 3074766
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  234     Full 6648691372799 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p39_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074772 Full    1G         SBT_TAPE    00:08:58     20/05/2004     
+        BP Key: 3075066   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s72_p1.rman
+  List of Datafiles in backup set 3074772
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  236     Full 6648691372799 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p39_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074934 Full    496M       SBT_TAPE    00:03:59     20/05/2004     
+        BP Key: 3075228   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s234_p1.rman
+  List of Datafiles in backup set 3074934
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  237     Full 6648691372799 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p39_4.dbf
+
+
+List of Backup Sets
+===================
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074770 Full    1G         SBT_TAPE    00:09:12     20/05/2004     
+        BP Key: 3075064   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s69_p1.rman
+  List of Datafiles in backup set 3074770
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  218     Full 6648691372804 20/05/2004 /o02/oradata/oraacct2/acct_mov_data_p40_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074777 Full    1G         SBT_TAPE    00:08:58     20/05/2004     
+        BP Key: 3075071   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s77_p1.rman
+  List of Datafiles in backup set 3074777
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  219     Full 6648691372804 20/05/2004 /o02/oradata/oraacct2/acct_mov_data_p40_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074785 Full    1G         SBT_TAPE    00:08:28     20/05/2004     
+        BP Key: 3075079   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s86_p1.rman
+  List of Datafiles in backup set 3074785
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  221     Full 6648691372804 20/05/2004 /o02/oradata/oraacct2/acct_mov_data_p40_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074973 Full    88M        SBT_TAPE    00:01:19     20/05/2004     
+        BP Key: 3075267   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s274_p1.rman
+  List of Datafiles in backup set 3074973
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  220     Full 6648691372804 20/05/2004 /o02/oradata/oraacct2/acct_mov_data_p40_3.dbf
+
+
+List of Backup Sets
+===================
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074781 Full    1G         SBT_TAPE    00:08:05     20/05/2004     
+        BP Key: 3075075   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s81_p1.rman
+  List of Datafiles in backup set 3074781
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  238     Full 6648691372809 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p41_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074792 Full    1G         SBT_TAPE    00:08:21     20/05/2004     
+        BP Key: 3075086   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s91_p1.rman
+  List of Datafiles in backup set 3074792
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  239     Full 6648691372809 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p41_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074802 Full    1G         SBT_TAPE    00:09:36     20/05/2004     
+        BP Key: 3075096   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s101_p1.rman
+  List of Datafiles in backup set 3074802
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  241     Full 6648691372809 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p41_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074944 Full    496M       SBT_TAPE    00:02:57     20/05/2004     
+        BP Key: 3075238   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s243_p1.rman
+  List of Datafiles in backup set 3074944
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  242     Full 6648691372809 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p41_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074978 Full    88M        SBT_TAPE    00:00:53     20/05/2004     
+        BP Key: 3075272   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s279_p1.rman
+  List of Datafiles in backup set 3074978
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  240     Full 6648691372809 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p41_3.dbf
+
+
+List of Backup Sets
+===================
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074829 Full    1G         SBT_TAPE    00:10:28     20/05/2004     
+        BP Key: 3075123   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s130_p1.rman
+  List of Datafiles in backup set 3074829
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  276     Full 6648691450475 20/05/2004 /o04/oradata/oraacct2/acct_mov_data_p42_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074838 Full    1G         SBT_TAPE    00:09:35     20/05/2004     
+        BP Key: 3075132   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s139_p1.rman
+  List of Datafiles in backup set 3074838
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  279     Full 6648691451208 20/05/2004 /o10/oradata/oraacct2/acct_mov_data_p42_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074898 Full    1G         SBT_TAPE    00:10:07     20/05/2004     
+        BP Key: 3075192   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s196_p1.rman
+  List of Datafiles in backup set 3074898
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  277     Full 6648691455200 20/05/2004 /o06/oradata/oraacct2/acct_mov_data_p42_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3074991 Full    88M        SBT_TAPE    00:01:29     20/05/2004     
+        BP Key: 3075285   Status: AVAILABLE   Tag: TAG20040520T190604
+        Piece Name: bkp_FULL0_20040520_180517_ORAACCT2_s290_p1.rman
+  List of Datafiles in backup set 3074991
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  278     Full 6648691458016 20/05/2004 /o08/oradata/oraacct2/acct_mov_data_p42_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3079308 Full    1G         SBT_TAPE    00:08:40     21/05/2004     
+        BP Key: 3079381   Status: EXPIRED   Tag: TAG20040521T102534
+        Piece Name: bkp_FULL0_20040521_102531_ORAACCT2_s429_p1.rman
+  List of Datafiles in backup set 3079308
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  279     Full 6648691491114 21/05/2004 /o10/oradata/oraacct2/acct_mov_data_p42_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3079311 Full    1G         SBT_TAPE    00:11:45     21/05/2004     
+        BP Key: 3079384   Status: EXPIRED   Tag: TAG20040521T102534
+        Piece Name: bkp_FULL0_20040521_102531_ORAACCT2_s434_p1.rman
+  List of Datafiles in backup set 3079311
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  276     Full 6648691491394 21/05/2004 /o04/oradata/oraacct2/acct_mov_data_p42_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3080238 Full    1G         SBT_TAPE    00:11:30     21/05/2004     
+        BP Key: 3080365   Status: EXPIRED   Tag: TAG20040521T160206
+        Piece Name: bkp_FULL0_20040521_160137_ORAACCT2_s477_p1.rman
+  List of Datafiles in backup set 3080238
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  277     Full 6648728231942 21/05/2004 /o06/oradata/oraacct2/acct_mov_data_p42_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3080310 Full    88M        SBT_TAPE    00:01:51     21/05/2004     
+        BP Key: 3080437   Status: EXPIRED   Tag: TAG20040521T160206
+        Piece Name: bkp_FULL0_20040521_160137_ORAACCT2_s549_p1.rman
+  List of Datafiles in backup set 3080310
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  278     Full 6648728795312 21/05/2004 /o08/oradata/oraacct2/acct_mov_data_p42_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3087959 Full    1G         SBT_TAPE    00:10:57     22/05/2004     
+        BP Key: 3088176   Status: EXPIRED   Tag: TAG20040522T160153
+        Piece Name: bkp_FULL0_20040522_160143_ORAACCT2_s657_p1.rman
+  List of Datafiles in backup set 3087959
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  279     Full 6648728862130 22/05/2004 /o10/oradata/oraacct2/acct_mov_data_p42_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3087964 Full    1G         SBT_TAPE    00:10:12     22/05/2004     
+        BP Key: 3088181   Status: EXPIRED   Tag: TAG20040522T160153
+        Piece Name: bkp_FULL0_20040522_160143_ORAACCT2_s662_p1.rman
+  List of Datafiles in backup set 3087964
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  276     Full 6648728862562 22/05/2004 /o04/oradata/oraacct2/acct_mov_data_p42_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3087979 Full    1G         SBT_TAPE    00:10:40     22/05/2004     
+        BP Key: 3088196   Status: EXPIRED   Tag: TAG20040522T160153
+        Piece Name: bkp_FULL0_20040522_160143_ORAACCT2_s677_p1.rman
+  List of Datafiles in backup set 3087979
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  277     Full 6648728863741 22/05/2004 /o06/oradata/oraacct2/acct_mov_data_p42_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3088059 Full    88M        SBT_TAPE    00:01:36     22/05/2004     
+        BP Key: 3088276   Status: EXPIRED   Tag: TAG20040522T160153
+        Piece Name: bkp_FULL0_20040522_160143_ORAACCT2_s755_p1.rman
+  List of Datafiles in backup set 3088059
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  278     Full 6648728866466 22/05/2004 /o08/oradata/oraacct2/acct_mov_data_p42_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3095128 Full    1G         SBT_TAPE    00:10:18     23/05/2004     
+        BP Key: 3095216   Status: EXPIRED   Tag: TAG20040523T070738
+        Piece Name: bkp_FULL0_20040523_070733_ORAACCT2_s884_p1.rman
+  List of Datafiles in backup set 3095128
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  279     Full 6648748310696 23/05/2004 /o10/oradata/oraacct2/acct_mov_data_p42_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3095133 Full    1G         SBT_TAPE    00:09:52     23/05/2004     
+        BP Key: 3095221   Status: EXPIRED   Tag: TAG20040523T070738
+        Piece Name: bkp_FULL0_20040523_070733_ORAACCT2_s888_p1.rman
+  List of Datafiles in backup set 3095133
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  276     Full 6648748332114 23/05/2004 /o04/oradata/oraacct2/acct_mov_data_p42_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3095146 Full    1G         SBT_TAPE    00:09:59     23/05/2004     
+        BP Key: 3095234   Status: EXPIRED   Tag: TAG20040523T070738
+        Piece Name: bkp_FULL0_20040523_070733_ORAACCT2_s902_p1.rman
+  List of Datafiles in backup set 3095146
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  277     Full 6648748343733 23/05/2004 /o06/oradata/oraacct2/acct_mov_data_p42_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3096870 Full    88M        SBT_TAPE    00:01:54     23/05/2004     
+        BP Key: 3097001   Status: EXPIRED   Tag: TAG20040523T160202
+        Piece Name: bkp_FULL0_20040523_160151_ORAACCT2_s960_p1.rman
+  List of Datafiles in backup set 3096870
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  278     Full 6648748491313 23/05/2004 /o08/oradata/oraacct2/acct_mov_data_p42_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3105630 Full    88M        SBT_TAPE    00:01:31     24/05/2004     
+        BP Key: 3105632   Status: AVAILABLE   Tag: TAG20040524T132840
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P42_ORAACCT2_20040524_132838_s1109_p1.rman
+  List of Datafiles in backup set 3105630
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  278     Full 6648753542944 24/05/2004 /o08/oradata/oraacct2/acct_mov_data_p42_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3105637 Full    88M        SBT_TAPE    00:01:42     24/05/2004     
+        BP Key: 3105642   Status: AVAILABLE   Tag: TAG20040524T153829
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P42_ORAACCT2_20040524_153822_s1114_p1.rman
+  List of Datafiles in backup set 3105637
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  278     Full 6648753542944 24/05/2004 /o08/oradata/oraacct2/acct_mov_data_p42_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3105638 Full    1G         SBT_TAPE    00:12:50     24/05/2004     
+        BP Key: 3105643   Status: AVAILABLE   Tag: TAG20040524T153829
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P42_ORAACCT2_20040524_153822_s1113_p1.rman
+  List of Datafiles in backup set 3105638
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  277     Full 6648753542944 24/05/2004 /o06/oradata/oraacct2/acct_mov_data_p42_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3105639 Full    1G         SBT_TAPE    00:12:58     24/05/2004     
+        BP Key: 3105644   Status: AVAILABLE   Tag: TAG20040524T153829
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P42_ORAACCT2_20040524_153822_s1112_p1.rman
+  List of Datafiles in backup set 3105639
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  279     Full 6648753542944 24/05/2004 /o10/oradata/oraacct2/acct_mov_data_p42_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3105640 Full    1G         SBT_TAPE    00:13:07     24/05/2004     
+        BP Key: 3105645   Status: AVAILABLE   Tag: TAG20040524T153829
+        Piece Name: bkp_tbl_ACCT_MOV_DATA_P42_ORAACCT2_20040524_153822_s1111_p1.rman
+  List of Datafiles in backup set 3105640
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  276     Full 6648753542944 24/05/2004 /o04/oradata/oraacct2/acct_mov_data_p42_1.dbf
+
+
+List of Backup Sets
+===================
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3080223 Full    1M         SBT_TAPE    00:08:54     21/05/2004     
+        BP Key: 3080350   Status: EXPIRED   Tag: TAG20040521T160206
+        Piece Name: bkp_FULL0_20040521_160137_ORAACCT2_s470_p1.rman
+  List of Datafiles in backup set 3080223
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648728188697 21/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3080233 Full    1M         SBT_TAPE    00:06:10     21/05/2004     
+        BP Key: 3080360   Status: EXPIRED   Tag: TAG20040521T160206
+        Piece Name: bkp_FULL0_20040521_160137_ORAACCT2_s476_p1.rman
+  List of Datafiles in backup set 3080233
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648728223414 21/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3080236 Full    1M         SBT_TAPE    00:05:57     21/05/2004     
+        BP Key: 3080363   Status: EXPIRED   Tag: TAG20040521T160206
+        Piece Name: bkp_FULL0_20040521_160137_ORAACCT2_s480_p1.rman
+  List of Datafiles in backup set 3080236
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648728240521 21/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3080254 Full    1M         SBT_TAPE    00:07:10     21/05/2004     
+        BP Key: 3080381   Status: EXPIRED   Tag: TAG20040521T160206
+        Piece Name: bkp_FULL0_20040521_160137_ORAACCT2_s496_p1.rman
+  List of Datafiles in backup set 3080254
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648728794090 21/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3080298 Full    112K       SBT_TAPE    00:00:54     21/05/2004     
+        BP Key: 3080425   Status: EXPIRED   Tag: TAG20040521T160206
+        Piece Name: bkp_FULL0_20040521_160137_ORAACCT2_s542_p1.rman
+  List of Datafiles in backup set 3080298
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648728795229 21/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3087899 Full    1M         SBT_TAPE    00:02:00     22/05/2004     
+        BP Key: 3088116   Status: EXPIRED   Tag: TAG20040522T160153
+        Piece Name: bkp_FULL0_20040522_160143_ORAACCT2_s602_p1.rman
+  List of Datafiles in backup set 3087899
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648728857906 22/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3087947 Full    1M         SBT_TAPE    00:03:44     22/05/2004     
+        BP Key: 3088164   Status: EXPIRED   Tag: TAG20040522T160153
+        Piece Name: bkp_FULL0_20040522_160143_ORAACCT2_s647_p1.rman
+  List of Datafiles in backup set 3087947
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648728861542 22/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3087949 Full    1M         SBT_TAPE    00:03:30     22/05/2004     
+        BP Key: 3088166   Status: EXPIRED   Tag: TAG20040522T160153
+        Piece Name: bkp_FULL0_20040522_160143_ORAACCT2_s651_p1.rman
+  List of Datafiles in backup set 3087949
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648728861721 22/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3087999 Full    1M         SBT_TAPE    00:02:33     22/05/2004     
+        BP Key: 3088216   Status: EXPIRED   Tag: TAG20040522T160153
+        Piece Name: bkp_FULL0_20040522_160143_ORAACCT2_s700_p1.rman
+  List of Datafiles in backup set 3087999
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648728865214 22/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3088043 Full    112K       SBT_TAPE    00:00:38     22/05/2004     
+        BP Key: 3088260   Status: EXPIRED   Tag: TAG20040522T160153
+        Piece Name: bkp_FULL0_20040522_160143_ORAACCT2_s744_p1.rman
+  List of Datafiles in backup set 3088043
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648728866349 22/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3095072 Full    96M        SBT_TAPE    00:02:48     23/05/2004     
+        BP Key: 3095160   Status: EXPIRED   Tag: TAG20040523T070738
+        Piece Name: bkp_FULL0_20040523_070733_ORAACCT2_s828_p1.rman
+  List of Datafiles in backup set 3095072
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648748238123 23/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3095115 Full    96M        SBT_TAPE    00:03:11     23/05/2004     
+        BP Key: 3095203   Status: EXPIRED   Tag: TAG20040523T070738
+        Piece Name: bkp_FULL0_20040523_070733_ORAACCT2_s873_p1.rman
+  List of Datafiles in backup set 3095115
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648748309669 23/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3095119 Full    97M        SBT_TAPE    00:04:21     23/05/2004     
+        BP Key: 3095207   Status: EXPIRED   Tag: TAG20040523T070738
+        Piece Name: bkp_FULL0_20040523_070733_ORAACCT2_s877_p1.rman
+  List of Datafiles in backup set 3095119
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648748309947 23/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3096834 Full    96M        SBT_TAPE    00:03:51     23/05/2004     
+        BP Key: 3096965   Status: EXPIRED   Tag: TAG20040523T160202
+        Piece Name: bkp_FULL0_20040523_160151_ORAACCT2_s926_p1.rman
+  List of Datafiles in backup set 3096834
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648748475368 23/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3096885 Full    96M        SBT_TAPE    00:00:53     23/05/2004     
+        BP Key: 3097016   Status: EXPIRED   Tag: TAG20040523T160202
+        Piece Name: bkp_FULL0_20040523_160151_ORAACCT2_s976_p1.rman
+  List of Datafiles in backup set 3096885
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648748491535 23/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3106749 Full    128M       SBT_TAPE    00:05:39     24/05/2004     
+        BP Key: 3106874   Status: EXPIRED   Tag: TAG20040524T160240
+        Piece Name: bkp_FULL0_20040524_160215_ORAACCT2_s1123_p1.rman
+  List of Datafiles in backup set 3106749
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648755267074 24/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3106760 Full    120M       SBT_TAPE    00:04:20     24/05/2004     
+        BP Key: 3106885   Status: EXPIRED   Tag: TAG20040524T160240
+        Piece Name: bkp_FULL0_20040524_160215_ORAACCT2_s1133_p1.rman
+  List of Datafiles in backup set 3106760
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648755364067 24/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3106801 Full    120M       SBT_TAPE    00:09:07     24/05/2004     
+        BP Key: 3106926   Status: EXPIRED   Tag: TAG20040524T160240
+        Piece Name: bkp_FULL0_20040524_160215_ORAACCT2_s1172_p1.rman
+  List of Datafiles in backup set 3106801
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648755482249 24/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3106802 Full    123M       SBT_TAPE    00:09:08     24/05/2004     
+        BP Key: 3106927   Status: EXPIRED   Tag: TAG20040524T160240
+        Piece Name: bkp_FULL0_20040524_160215_ORAACCT2_s1173_p1.rman
+  List of Datafiles in backup set 3106802
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648755482250 24/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3106839 Full    96M        SBT_TAPE    00:02:36     24/05/2004     
+        BP Key: 3106964   Status: EXPIRED   Tag: TAG20040524T160240
+        Piece Name: bkp_FULL0_20040524_160215_ORAACCT2_s1207_p1.rman
+  List of Datafiles in backup set 3106839
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648755486731 24/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3114738 Full    176M       SBT_TAPE    01:19:52     25/05/2004     
+        BP Key: 3114836   Status: EXPIRED   Tag: TAG20040525T160232
+        Piece Name: bkp_FULL0_20040525_160202_ORAACCT2_s1300_p1.rman
+  List of Datafiles in backup set 3114738
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648763915598 25/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3114742 Full    184M       SBT_TAPE    00:06:11     25/05/2004     
+        BP Key: 3114840   Status: EXPIRED   Tag: TAG20040525T160232
+        Piece Name: bkp_FULL0_20040525_160202_ORAACCT2_s1304_p1.rman
+  List of Datafiles in backup set 3114742
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648763937527 25/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3114775 Full    184M       SBT_TAPE    00:07:28     25/05/2004     
+        BP Key: 3114873   Status: EXPIRED   Tag: TAG20040525T160232
+        Piece Name: bkp_FULL0_20040525_160202_ORAACCT2_s1334_p1.rman
+  List of Datafiles in backup set 3114775
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648772189680 25/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3114776 Full    179M       SBT_TAPE    00:07:48     25/05/2004     
+        BP Key: 3114874   Status: EXPIRED   Tag: TAG20040525T160232
+        Piece Name: bkp_FULL0_20040525_160202_ORAACCT2_s1335_p1.rman
+  List of Datafiles in backup set 3114776
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648772201059 25/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3114813 Full    96M        SBT_TAPE    00:01:56     25/05/2004     
+        BP Key: 3114911   Status: EXPIRED   Tag: TAG20040525T160232
+        Piece Name: bkp_FULL0_20040525_160202_ORAACCT2_s1371_p1.rman
+  List of Datafiles in backup set 3114813
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648772579935 25/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3122302 Full    237M       SBT_TAPE    00:09:19     26/05/2004     
+        BP Key: 3122314   Status: AVAILABLE   Tag: TAG20040526T160230
+        Piece Name: bkp_FULL0_20040526_160213_ORAACCT2_s1412_p1.rman
+  List of Datafiles in backup set 3122302
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648784050879 26/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3122305 Full    240M       SBT_TAPE    00:04:55     26/05/2004     
+        BP Key: 3122317   Status: AVAILABLE   Tag: TAG20040526T160230
+        Piece Name: bkp_FULL0_20040526_160213_ORAACCT2_s1416_p1.rman
+  List of Datafiles in backup set 3122305
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648784052979 26/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3122608 Full    240M       SBT_TAPE    00:06:13     26/05/2004     
+        BP Key: 3122622   Status: AVAILABLE   Tag: TAG20040526T160230
+        Piece Name: bkp_FULL0_20040526_160213_ORAACCT2_s1452_p1.rman
+  List of Datafiles in backup set 3122608
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648784073579 26/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3122610 Full    240M       SBT_TAPE    00:06:14     26/05/2004     
+        BP Key: 3122624   Status: AVAILABLE   Tag: TAG20040526T160230
+        Piece Name: bkp_FULL0_20040526_160213_ORAACCT2_s1453_p1.rman
+  List of Datafiles in backup set 3122610
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648784074228 26/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3123616 Full    96M        SBT_TAPE    00:01:50     26/05/2004     
+        BP Key: 3123644   Status: AVAILABLE   Tag: TAG20040526T160230
+        Piece Name: bkp_FULL0_20040526_160213_ORAACCT2_s1491_p1.rman
+  List of Datafiles in backup set 3123616
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648784085709 26/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3131501 Full    296M       SBT_TAPE    00:10:06     27/05/2004     
+        BP Key: 3131511   Status: AVAILABLE   Tag: TAG20040527T160251
+        Piece Name: bkp_FULL0_20040527_160227_ORAACCT2_s1556_p1.rman
+  List of Datafiles in backup set 3131501
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648790221064 27/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3131507 Full    297M       SBT_TAPE    00:06:12     27/05/2004     
+        BP Key: 3131517   Status: AVAILABLE   Tag: TAG20040527T160251
+        Piece Name: bkp_FULL0_20040527_160227_ORAACCT2_s1560_p1.rman
+  List of Datafiles in backup set 3131507
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648790224811 27/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3131997 Full    296M       SBT_TAPE    00:04:54     27/05/2004     
+        BP Key: 3132061   Status: AVAILABLE   Tag: TAG20040527T160251
+        Piece Name: bkp_FULL0_20040527_160227_ORAACCT2_s1579_p1.rman
+  List of Datafiles in backup set 3131997
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648790243330 27/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3132009 Full    296M       SBT_TAPE    00:07:32     27/05/2004     
+        BP Key: 3132073   Status: AVAILABLE   Tag: TAG20040527T160251
+        Piece Name: bkp_FULL0_20040527_160227_ORAACCT2_s1591_p1.rman
+  List of Datafiles in backup set 3132009
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648790258070 27/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3132039 Full    96M        SBT_TAPE    00:01:15     27/05/2004     
+        BP Key: 3132103   Status: AVAILABLE   Tag: TAG20040527T160251
+        Piece Name: bkp_FULL0_20040527_160227_ORAACCT2_s1621_p1.rman
+  List of Datafiles in backup set 3132039
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648790269007 27/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3142527 Full    352M       SBT_TAPE    00:10:01     28/05/2004     
+        BP Key: 3142599   Status: AVAILABLE   Tag: TAG20040528T160252
+        Piece Name: bkp_FULL0_20040528_160234_ORAACCT2_s1697_p1.rman
+  List of Datafiles in backup set 3142527
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648800619637 28/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3142531 Full    352M       SBT_TAPE    00:07:14     28/05/2004     
+        BP Key: 3142603   Status: AVAILABLE   Tag: TAG20040528T160252
+        Piece Name: bkp_FULL0_20040528_160234_ORAACCT2_s1701_p1.rman
+  List of Datafiles in backup set 3142531
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648800622062 28/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3142562 Full    352M       SBT_TAPE    00:08:07     28/05/2004     
+        BP Key: 3142634   Status: AVAILABLE   Tag: TAG20040528T160252
+        Piece Name: bkp_FULL0_20040528_160234_ORAACCT2_s1731_p1.rman
+  List of Datafiles in backup set 3142562
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648800644915 28/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3142565 Full    352M       SBT_TAPE    00:08:53     28/05/2004     
+        BP Key: 3142637   Status: AVAILABLE   Tag: TAG20040528T160252
+        Piece Name: bkp_FULL0_20040528_160234_ORAACCT2_s1732_p1.rman
+  List of Datafiles in backup set 3142565
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648800657491 28/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3142592 Full    96M        SBT_TAPE    00:01:29     28/05/2004     
+        BP Key: 3142664   Status: AVAILABLE   Tag: TAG20040528T160252
+        Piece Name: bkp_FULL0_20040528_160234_ORAACCT2_s1761_p1.rman
+  List of Datafiles in backup set 3142592
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648800662480 28/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3149847 Full    408M       SBT_TAPE    00:10:08     29/05/2004     
+        BP Key: 3149931   Status: AVAILABLE   Tag: TAG20040529T160309
+        Piece Name: bkp_FULL0_20040529_160243_ORAACCT2_s1800_p1.rman
+  List of Datafiles in backup set 3149847
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648805004817 29/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3149852 Full    400M       SBT_TAPE    00:07:19     29/05/2004     
+        BP Key: 3149936   Status: AVAILABLE   Tag: TAG20040529T160309
+        Piece Name: bkp_FULL0_20040529_160243_ORAACCT2_s1803_p1.rman
+  List of Datafiles in backup set 3149852
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648805018651 29/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3149895 Full    406M       SBT_TAPE    00:08:45     29/05/2004     
+        BP Key: 3149979   Status: AVAILABLE   Tag: TAG20040529T160309
+        Piece Name: bkp_FULL0_20040529_160243_ORAACCT2_s1843_p1.rman
+  List of Datafiles in backup set 3149895
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648805066901 29/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3149896 Full    400M       SBT_TAPE    00:08:26     29/05/2004     
+        BP Key: 3149980   Status: AVAILABLE   Tag: TAG20040529T160309
+        Piece Name: bkp_FULL0_20040529_160243_ORAACCT2_s1844_p1.rman
+  List of Datafiles in backup set 3149896
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648805066989 29/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3149925 Full    96M        SBT_TAPE    00:02:26     29/05/2004     
+        BP Key: 3150009   Status: AVAILABLE   Tag: TAG20040529T160309
+        Piece Name: bkp_FULL0_20040529_160243_ORAACCT2_s1873_p1.rman
+  List of Datafiles in backup set 3149925
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648805079382 29/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3155795 Full    463M       SBT_TAPE    00:07:37     30/05/2004     
+        BP Key: 3155879   Status: AVAILABLE   Tag: TAG20040530T160305
+        Piece Name: bkp_FULL0_20040530_160238_ORAACCT2_s1908_p1.rman
+  List of Datafiles in backup set 3155795
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648808248067 30/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3155800 Full    456M       SBT_TAPE    00:05:22     30/05/2004     
+        BP Key: 3155884   Status: AVAILABLE   Tag: TAG20040530T160305
+        Piece Name: bkp_FULL0_20040530_160238_ORAACCT2_s1911_p1.rman
+  List of Datafiles in backup set 3155800
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648808248902 30/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3155841 Full    456M       SBT_TAPE    00:05:12     30/05/2004     
+        BP Key: 3155925   Status: AVAILABLE   Tag: TAG20040530T160305
+        Piece Name: bkp_FULL0_20040530_160238_ORAACCT2_s1951_p1.rman
+  List of Datafiles in backup set 3155841
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648808280565 30/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3155843 Full    456M       SBT_TAPE    00:05:14     30/05/2004     
+        BP Key: 3155927   Status: AVAILABLE   Tag: TAG20040530T160305
+        Piece Name: bkp_FULL0_20040530_160238_ORAACCT2_s1952_p1.rman
+  List of Datafiles in backup set 3155843
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648808280618 30/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3155872 Full    96M        SBT_TAPE    00:01:19     30/05/2004     
+        BP Key: 3155956   Status: AVAILABLE   Tag: TAG20040530T160305
+        Piece Name: bkp_FULL0_20040530_160238_ORAACCT2_s1981_p1.rman
+  List of Datafiles in backup set 3155872
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648808281717 30/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3162539 Full    519M       SBT_TAPE    00:10:16     31/05/2004     
+        BP Key: 3162562   Status: AVAILABLE   Tag: TAG20040531T160325
+        Piece Name: bkp_FULL0_20040531_160300_ORAACCT2_s2010_p1.rman
+  List of Datafiles in backup set 3162539
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648812268018 31/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3162540 Full    520M       SBT_TAPE    00:11:50     31/05/2004     
+        BP Key: 3162563   Status: AVAILABLE   Tag: TAG20040531T160325
+        Piece Name: bkp_FULL0_20040531_160300_ORAACCT2_s2013_p1.rman
+  List of Datafiles in backup set 3162540
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648812268021 31/05/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3162554 Full    520M       SBT_TAPE    00:06:55     31/05/2004     
+        BP Key: 3162577   Status: AVAILABLE   Tag: TAG20040531T160325
+        Piece Name: bkp_FULL0_20040531_160300_ORAACCT2_s2024_p1.rman
+  List of Datafiles in backup set 3162554
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648812281448 31/05/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3162679 Full    520M       SBT_TAPE    00:09:06     31/05/2004     
+        BP Key: 3162690   Status: AVAILABLE   Tag: TAG20040531T160325
+        Piece Name: bkp_FULL0_20040531_160300_ORAACCT2_s2053_p1.rman
+  List of Datafiles in backup set 3162679
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648812295121 31/05/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3163230 Full    96M        SBT_TAPE    00:02:13     31/05/2004     
+        BP Key: 3163243   Status: AVAILABLE   Tag: TAG20040531T160325
+        Piece Name: bkp_FULL0_20040531_160300_ORAACCT2_s2090_p1.rman
+  List of Datafiles in backup set 3163230
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648812304938 31/05/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3171824 Full    576M       SBT_TAPE    00:12:53     01/06/2004     
+        BP Key: 3171839   Status: AVAILABLE   Tag: TAG20040601T160351
+        Piece Name: bkp_FULL0_20040601_160321_ORAACCT2_s2180_p1.rman
+  List of Datafiles in backup set 3171824
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648824309296 01/06/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3171827 Full    584M       SBT_TAPE    00:15:52     01/06/2004     
+        BP Key: 3171842   Status: AVAILABLE   Tag: TAG20040601T160351
+        Piece Name: bkp_FULL0_20040601_160321_ORAACCT2_s2183_p1.rman
+  List of Datafiles in backup set 3171827
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648824309299 01/06/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3172729 Full    580M       SBT_TAPE    00:10:11     01/06/2004     
+        BP Key: 3172785   Status: AVAILABLE   Tag: TAG20040601T160351
+        Piece Name: bkp_FULL0_20040601_160321_ORAACCT2_s2214_p1.rman
+  List of Datafiles in backup set 3172729
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648824326556 01/06/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3172733 Full    576M       SBT_TAPE    00:09:47     01/06/2004     
+        BP Key: 3172789   Status: AVAILABLE   Tag: TAG20040601T160351
+        Piece Name: bkp_FULL0_20040601_160321_ORAACCT2_s2215_p1.rman
+  List of Datafiles in backup set 3172733
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648824327149 01/06/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3172759 Full    96M        SBT_TAPE    00:01:31     01/06/2004     
+        BP Key: 3172815   Status: AVAILABLE   Tag: TAG20040601T160351
+        Piece Name: bkp_FULL0_20040601_160321_ORAACCT2_s2244_p1.rman
+  List of Datafiles in backup set 3172759
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648824332965 01/06/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3183468 Full    632M       SBT_TAPE    00:14:38     02/06/2004     
+        BP Key: 3183476   Status: AVAILABLE   Tag: TAG20040602T160919
+        Piece Name: bkp_FULL0_20040602_160349_ORAACCT2_s2346_p1.rman
+  List of Datafiles in backup set 3183468
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  298     Full 6648830772513 02/06/2004 /o10/oradata/oraacct2/acct_mov_data_p43_4.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3183709 Full    640M       SBT_TAPE    00:11:23     02/06/2004     
+        BP Key: 3183721   Status: AVAILABLE   Tag: TAG20040602T160919
+        Piece Name: bkp_FULL0_20040602_160349_ORAACCT2_s2353_p1.rman
+  List of Datafiles in backup set 3183709
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  295     Full 6648830775867 02/06/2004 /o04/oradata/oraacct2/acct_mov_data_p43_1.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3184566 Full    640M       SBT_TAPE    00:07:41     02/06/2004     
+        BP Key: 3184597   Status: AVAILABLE   Tag: TAG20040602T160919
+        Piece Name: bkp_FULL0_20040602_160349_ORAACCT2_s2394_p1.rman
+  List of Datafiles in backup set 3184566
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  296     Full 6648830806923 02/06/2004 /o06/oradata/oraacct2/acct_mov_data_p43_2.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3184567 Full    635M       SBT_TAPE    00:07:23     02/06/2004     
+        BP Key: 3184598   Status: AVAILABLE   Tag: TAG20040602T160919
+        Piece Name: bkp_FULL0_20040602_160349_ORAACCT2_s2395_p1.rman
+  List of Datafiles in backup set 3184567
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  297     Full 6648830807147 02/06/2004 /o08/oradata/oraacct2/acct_mov_data_p43_3.dbf
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3184670 Full    96M        SBT_TAPE    00:01:29     02/06/2004     
+        BP Key: 3184698   Status: AVAILABLE   Tag: TAG20040602T160919
+        Piece Name: bkp_FULL0_20040602_160349_ORAACCT2_s2429_p1.rman
+  List of Datafiles in backup set 3184670
+  File LV Type Ckp SCN    Ckp Time   Name
+  ---- -- ---- ---------- ---------- ----
+  299     Full 6648830817210 02/06/2004 /o10/oradata/oraacct2/acct_mov_data_p43_5.dbf
+
+Recovery Manager complete.

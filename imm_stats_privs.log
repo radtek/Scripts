@@ -1,0 +1,78 @@
+11:15:19 CERT>
+11:15:19 CERT>grant select on dba_tables to &own;
+grant select on dba_tables to SYSTEM
+                *
+ERRO na linha 1:
+ORA-01031: privilégios insuficientes 
+
+
+11:15:19 CERT>grant select on dba_users to &own;
+grant select on dba_users to SYSTEM
+                *
+ERRO na linha 1:
+ORA-01031: privilégios insuficientes 
+
+
+11:15:19 CERT>grant select on dba_tables to &own;
+grant select on dba_tables to SYSTEM
+                *
+ERRO na linha 1:
+ORA-01031: privilégios insuficientes 
+
+
+11:15:19 CERT>grant select on dba_indexes to &own;
+grant select on dba_indexes to SYSTEM
+                *
+ERRO na linha 1:
+ORA-01031: privilégios insuficientes 
+
+
+11:15:19 CERT>grant select on dba_segments to &own;
+grant select on dba_segments to SYSTEM
+                *
+ERRO na linha 1:
+ORA-01031: privilégios insuficientes 
+
+
+11:15:19 CERT>grant select on dba_part_tables to &own;
+grant select on dba_part_tables to SYSTEM
+                *
+ERRO na linha 1:
+ORA-01031: privilégios insuficientes 
+
+
+11:15:20 CERT>grant select on dba_tab_partitions to &own;
+grant select on dba_tab_partitions to SYSTEM
+                *
+ERRO na linha 1:
+ORA-01031: privilégios insuficientes 
+
+
+11:15:20 CERT>grant select on dba_tab_columns to &own;
+grant select on dba_tab_columns to SYSTEM
+                *
+ERRO na linha 1:
+ORA-01031: privilégios insuficientes 
+
+
+11:15:20 CERT>grant select on dba_part_key_columns to &own;
+grant select on dba_part_key_columns to SYSTEM
+                *
+ERRO na linha 1:
+ORA-01031: privilégios insuficientes 
+
+
+11:15:20 CERT>grant analyze any to &own;
+
+Concessão bem-sucedida.
+
+11:15:20 CERT>grant select any table to &own;
+
+Concessão bem-sucedida.
+
+11:15:20 CERT>grant execute any procedure to &own;
+
+Concessão bem-sucedida.
+
+11:15:20 CERT>
+11:15:21 CERT>Spool off;

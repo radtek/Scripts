@@ -1,0 +1,37 @@
+##########################################################################
+# TABLESPACE       = ACCT_MOV_INDX_P146                                                 
+# CLASSTB          = oracle-oraacct2-mia                                            
+# SCHEDTB          = controle-full-anual                                             
+# FORMATO_TB       = 'bkp_tbl_ACCT_MOV_INDX_P146_%d_20131223_141311_s%s_p%p.rman'                                          
+# ARQ_CMD_RMAN_TB  = /usr/local/oracle/oracledba/backup/rman_cmd_tb.rcv                                     
+##########################################################################
+resync catalog;
+run
+{
+allocate channel c1 type 'sbt_tape';
+allocate channel c2 type 'sbt_tape';
+allocate channel c3 type 'sbt_tape';
+allocate channel c4 type 'sbt_tape';
+allocate channel c5 type 'sbt_tape';
+allocate channel c6 type 'sbt_tape';
+allocate channel c7 type 'sbt_tape';
+allocate channel c8 type 'sbt_tape';
+allocate channel c9 type 'sbt_tape';
+send 'NB_ORA_CLASS=oracle-oraacct2-mia';
+send 'NB_ORA_SCHED=controle-full-anual';
+setlimit channel c1 kbytes 3145728;
+setlimit channel c2 kbytes 3145728;
+setlimit channel c3 kbytes 3145728;
+setlimit channel c4 kbytes 3145728;
+setlimit channel c5 kbytes 3145728;
+setlimit channel c6 kbytes 3145728;
+setlimit channel c7 kbytes 3145728;
+setlimit channel c8 kbytes 3145728;
+setlimit channel c9 kbytes 3145728;
+backup tablespace ACCT_MOV_INDX_P146 include current controlfile
+format 'bkp_tbl_ACCT_MOV_INDX_P146_%d_20131223_141311_s%s_p%p.rman'
+;
+sql 'alter database backup controlfile to trace';
+}
+resync catalog;
+exit;

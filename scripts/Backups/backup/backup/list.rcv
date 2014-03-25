@@ -1,0 +1,9 @@
+list backup of tablespace ACCT_MOV_DATA_P36;
+list backup of tablespace ACCT_MOV_DATA_P37;
+list backup of tablespace ACCT_MOV_DATA_P38;
+list backup of tablespace ACCT_MOV_DATA_P39;
+list backup of tablespace ACCT_MOV_DATA_P40;
+list backup of tablespace ACCT_MOV_DATA_P41;
+list backup of tablespace ACCT_MOV_DATA_P42;
+list backup of tablespace ACCT_MOV_DATA_P43;
+
