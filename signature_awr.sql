@@ -1,3 +1,6 @@
+prompt 
+prompt ****sqls com literais e apenas poucas execuções tendem a não ser coletados pelo AWR
+prompt 
 undef force_matching_signature
 
 Accept dt1  prompt 'Begin (dd/mm/yyyy hh24:mi:ss):'

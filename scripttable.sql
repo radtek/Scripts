@@ -37,6 +37,14 @@ SELECT DBMS_METADATA.GET_DEPENDENT_DDL('MATERIALIZED_VIEW_LOG', &tablename, &own
 SELECT DBMS_METADATA.GET_DEPENDENT_DDL('MATERIALIZED_VIEW', &tablename, &owner) AS DDL FROM DUAL;
 
 set pages 200
+
+select constraint_name, constraint_type, status, validated 
+from dba_constraints 
+where owner= &owner
+and table_name = &tablename;
+
+
 undef tablename
 undef owner
 undef partitioning
+

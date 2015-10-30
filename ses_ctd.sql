@@ -5,7 +5,6 @@ compute SUM LABEL "Total Geral: " OF "CTD_SESSIONS" ON "REPORT"
 
 SELECT S.USERNAME AS "USERNAME", S.PROGRAM, S.MACHINE, COUNT(1)  "CTD_SESSIONS"
 from v$session s
-where S.USERNAME is not null
 group by s.machine, s.program, s.username
 order by 1, 2, 3, 4;
 

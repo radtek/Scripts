@@ -6,4 +6,5 @@ select table_name, num_rows, blocks, empty_blocks, chain_cnt, last_analyzed, avg
 from dba_tab_statistics ts
 where owner = upper('&owner')
 and table_name like upper('&table_name')
+order by partition_name
 /

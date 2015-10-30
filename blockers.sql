@@ -1,4 +1,4 @@
-
+col SQL_TEXT_BLOCKED for a100 wrapped
 column sql_text_blocking format a35 heading "SQL text blocking"
 column sql_text_blocker format a35 heading "SQL text blocker"
 column blocking_user format a8 Heading "Blocking|user"

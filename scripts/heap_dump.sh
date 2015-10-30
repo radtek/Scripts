@@ -1,3 +1,8 @@
+## ANALISAR A PGA
+##       oradebug setospid 9406
+##       ORADEBUG HEAPDUMP 12
+##       ORADEBUG tracefile_name
+
 if [ "$1" == "-t" ]; then
     EXCLUDE='dummy_nonexistent_12345'
     shift

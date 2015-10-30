@@ -1,5 +1,10 @@
-prompt informe % para todos do owner
-select mview_name, rewrite_enabled, refresh_mode , refresh_method , last_refresh_date, last_refresh_type, staleness, STALE_SINCE, compile_state, build_mode , fast_refreshable, updatable, UPDATE_LOG
-from dba_mviews
-where mview_name like upper('&mviewname')
-and owner = upper('&owner'); 
+col OWNER for a30
+col MVIEW_NAME for a30
+col MASTER_LINK for a30
+col REFRESH_MODE for a30
+col REFRESH_METHOD for a30
+
+SELECT OWNER, MVIEW_NAME, MASTER_LINK, UPDATABLE, REFRESH_MODE, REFRESH_METHOD, LAST_REFRESH_DATE, LAST_REFRESH_END_TIME, STALE_SINCE
+FROM DBA_MVIEWS
+WHERE OWNER LIKE UPPER('&OWNER')
+	  AND MVIEW_NAME LIKE UPPER('&MVIEW_NAME');

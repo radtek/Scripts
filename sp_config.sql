@@ -1,3 +1,4 @@
+
 prompt 
 prompt Although Statspack captures all segment statistics, it reports only the following statistics that exceed one of the predefined threshold parameters:
 prompt 
@@ -15,3 +16,4 @@ prompt
 prompt 
 SELECT * FROM stats$level_description ORDER BY snap_level;
 prompt
+prompt ex: exec statspack.modify_statspack_parameter(i_snap_level=>6, i_modify_parameter=>'true');

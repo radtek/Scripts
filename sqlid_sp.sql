@@ -5,7 +5,7 @@ prompt ignorar o primeiro registro da listagem devido ao calculo errado do delta
 
 Accept dt1  prompt 'Begin (dd/mm/yyyy hh24:mi:ss)......:'
 Accept dt2  prompt 'End   (dd/mm/yyyy hh24:mi:ss)......:'
-Accept inst prompt 'Instance Number....................:'
+Accept inst default '0' prompt 'Instance Number....................:'
 Accept sql_id_list prompt 'Informe a lista de SQL_ID...:'
 
 set verify off
@@ -18,19 +18,21 @@ prompt
 prompt ############ RESOURCES PER EXEC ###############			 
 SELECT 			
 	SQL_ID,
-	to_char(SNAP_TIME, 'dd/mm hh:mi') as data, 	
+	to_char(SNAP_TIME, 'dd/mm hh24:mi') as data, 	
 	EXECUTIONS,
-	round(ROWS_PROCESSED / EXECUTIONS) as ROWS_,
-	round((CPU_TIME / 1000) / EXECUTIONS) As CPU,
-	round((ELAPSED_TIME / 1000) / EXECUTIONS) as ELAPSED,
-	round(DISK_READS / EXECUTIONS) as DISK_READS,
-	round(DIRECT_WRITES / EXECUTIONS) as DIRECT_WRITES,
-	round(BUFFER_GETS / EXECUTIONS) as BUFER_GETS,
-	round(FETCHES	 / EXECUTIONS) as FETCHES,
+	round(ROWS_PROCESSED / NVL(NULLIF(EXECUTIONS,0), 1)) as ROWS_,
+	round((CPU_TIME / 1000) / NVL(NULLIF(EXECUTIONS,0), 1)) As CPU,
+	round((ELAPSED_TIME / 1000) / NVL(NULLIF(EXECUTIONS,0), 1)) as ELAPSED,
+	round(DISK_READS / NVL(NULLIF(EXECUTIONS,0), 1)) as DISK_READS,
+	round(DIRECT_WRITES / NVL(NULLIF(EXECUTIONS,0), 1)) as DIRECT_WRITES,
+	round(BUFFER_GETS / NVL(NULLIF(EXECUTIONS,0), 1)) as BUFER_GETS,
+	round(FETCHES	 / NVL(NULLIF(EXECUTIONS,0), 1)) as FETCHES,
 	SNAP_ID, 
+	INSTANCE_NUMBER,
 	STARTUP_TIME  
 FROM (SELECT 
 		   SNAP_ID,
+		   INSTANCE_NUMBER,
 		   SNAP_TIME,
 		   STARTUP_TIME,	
 		   SQL_ID,
@@ -45,6 +47,7 @@ FROM (SELECT
 	  FROM (SELECT 
 				   S.DBID, 
 				   S.SNAP_ID,
+				   s.INSTANCE_NUMBER,				   
 				   S.SNAP_TIME,
 				   S.STARTUP_TIME,	
 				   SS.SQL_ID,
@@ -66,10 +69,11 @@ FROM (SELECT
 			 and SQL_ID in (&sql_id_list)
 			group by S.DBID, 
 				   S.SNAP_ID,
+				   s.INSTANCE_NUMBER,
 				   S.SNAP_TIME,
 				   S.STARTUP_TIME,	
 				   SS.SQL_ID) TBL) TBL
-order by SQL_ID, snap_id;
+order by SQL_ID, snap_id, INSTANCE_NUMBER;
 
 prompt
 prompt	 
@@ -78,20 +82,22 @@ prompt ############ WAIT TIME PER EXEC ###############
 
 SELECT 			
 	SQL_ID,
-	to_char(SNAP_TIME, 'dd/mm hh:mi') as data, 	
-	round((APPLICATION_WAIT_TIME / 1000) / EXECUTIONS) as APPLICATION_WAIT_MS,
-	round((CONCURRENCY_WAIT_TIME / 1000) / EXECUTIONS) as CONCURRENCY_WAIT_MS,
-	round((CLUSTER_WAIT_TIME / 1000) / EXECUTIONS) as CLUSTER_WAIT_MS,
-	round((USER_IO_WAIT_TIME / 1000) / EXECUTIONS) AS USER_IO_WAIT_MS,
-	round((PLSQL_EXEC_TIME / 1000) / EXECUTIONS) as PLSQL_EXEC_MS,
-	round((JAVA_EXEC_TIME / 1000) / EXECUTIONS) as JAVA_EXEC_MS,
+	to_char(SNAP_TIME, 'dd/mm hh24:mi') as data, 	
+	round((APPLICATION_WAIT_TIME / 1000) / NVL(NULLIF(EXECUTIONS,0), 1)) as APPLICATION_WAIT_MS,
+	round((CONCURRENCY_WAIT_TIME / 1000) / NVL(NULLIF(EXECUTIONS,0), 1)) as CONCURRENCY_WAIT_MS,
+	round((CLUSTER_WAIT_TIME / 1000) / NVL(NULLIF(EXECUTIONS,0), 1)) as CLUSTER_WAIT_MS,
+	round((USER_IO_WAIT_TIME / 1000) / NVL(NULLIF(EXECUTIONS,0), 1)) AS USER_IO_WAIT_MS,
+	round((PLSQL_EXEC_TIME / 1000) / NVL(NULLIF(EXECUTIONS,0), 1)) as PLSQL_EXEC_MS,
+	round((JAVA_EXEC_TIME / 1000) / NVL(NULLIF(EXECUTIONS,0), 1)) as JAVA_EXEC_MS,
 	SNAP_ID, 
+	INSTANCE_NUMBER,
 	STARTUP_TIME  
 FROM (SELECT 
 		   SNAP_ID,
 		   SNAP_TIME,
 		   STARTUP_TIME,	
 		   SQL_ID,
+		   INSTANCE_NUMBER,
 		   round(EXECUTIONS - LAG(EXECUTIONS, 1, 0) OVER (PARTITION BY sql_id, startup_time  ORDER BY sql_id, snap_id, STARTUP_TIME)) as EXECUTIONS,
 		   round(APPLICATION_WAIT_TIME - LAG(APPLICATION_WAIT_TIME, 1, 0) OVER (PARTITION BY sql_id, startup_time  ORDER BY sql_id, snap_id, STARTUP_TIME)) as APPLICATION_WAIT_TIME,
 		   round(CONCURRENCY_WAIT_TIME - LAG(CONCURRENCY_WAIT_TIME, 1, 0) OVER (PARTITION BY sql_id, startup_time  ORDER BY sql_id, snap_id, STARTUP_TIME)) as CONCURRENCY_WAIT_TIME,
@@ -105,6 +111,7 @@ FROM (SELECT
 				   S.SNAP_TIME,
 				   S.STARTUP_TIME,	
 				   SS.SQL_ID,
+				   s.INSTANCE_NUMBER,
 				   SUM(EXECUTIONS) AS EXECUTIONS,				   
 				   SUM(APPLICATION_WAIT_TIME) AS APPLICATION_WAIT_TIME,
 				   SUM(CONCURRENCY_WAIT_TIME) AS CONCURRENCY_WAIT_TIME,
@@ -122,16 +129,17 @@ FROM (SELECT
 			 and SQL_ID in (&sql_id_list)
 			group by S.DBID, 
 				   S.SNAP_ID,
+				   s.INSTANCE_NUMBER,
 				   S.SNAP_TIME,
 				   S.STARTUP_TIME,	
 				   SS.SQL_ID) TBL) TBL
-order by SQL_ID, snap_id;	 	
+order by SQL_ID, snap_id, INSTANCE_NUMBER;	 	
 prompt
 prompt
 prompt ############ INFORMACOES GERAIS ###############			 
 SELECT 			
 	ss.SQL_ID,
-	to_char(SNAP_TIME, 'dd/mm hh:mi') as data, 
+	to_char(SNAP_TIME, 'dd/mm hh24:mi') as data, 
 	ss.VERSION_COUNT,
 	ss.LOADS,
 	ss.INVALIDATIONS,
@@ -143,7 +151,8 @@ SELECT
 	ss.HASH_VALUE,
 	ss.FORCE_MATCHING_SIGNATURE,
 	ss.AVG_HARD_PARSE_TIME,
-	s.SNAP_ID
+	s.SNAP_ID,
+	s.INSTANCE_NUMBER
 from stats$snapshot S
 	inner join stats$sql_summary ss
 		on S.snap_id         = SS.snap_id
@@ -179,12 +188,13 @@ break on sql_id skip 1 on PLAN_HASH_VALUE skip 1
 
 SELECT 
 	SQL_ID, 				
-	to_char(SNAP_TIME, 'dd/mm hh:mi') as data, 
+	to_char(SNAP_TIME, 'dd/mm hh24:mi') as data, 
 	PLAN_HASH_VALUE, 
 	COST, 
 	OPTIMIZER, 
 	LAST_ACTIVE_TIME, 
-	S.SNAP_ID
+	S.SNAP_ID, 
+	s.INSTANCE_NUMBER
 from stats$snapshot S
 	inner join STATS$SQL_PLAN_USAGE ss
 		on S.snap_id          = SS.snap_id

@@ -23,6 +23,8 @@
 
 			TASK RUNNING:
 				SELECT client_name, window_name, jobs_created, jobs_started, jobs_completed FROM dba_autotask_client_history WHERE client_name like '%stats%';
+				select * from DBA_AUTOTASK_WINDOW_HISTORY order by WINDOW_START_TIME;
+				
 
 			CHECK ENABLED
 				select client_name,status from Dba_Autotask_Client; 
@@ -129,7 +131,14 @@ Analyze
 									- database automaticamente criar histograma do tipo FREQUENCY quando a quantidade de valores distinto é menor que a quantidade de buckets
 									- USER_TAB_HISTOGRAMS para visualizar
 								3) nada NONE
-								
+
+			--> REMOVER HISTOGRAMA
+				exec dbms_stats.delete_column_stats(ownname=>'STELIOS',tabname=>'TEST3',colname=>'OBJECT_TYPE',col_stat_type=>'HISTOGRAM');
+				-- deve recoletar na proxima execução para tornar fixo:
+				exec dbms_stats.set_table_prefs( ownname=>'STELIOS',tabname=>'TEST3',pname=>'method_opt',pvalue=>'FOR ALL COLUMNS SIZE 1');
+				ou
+				exec dbms_stats.set_table_prefs( ownname=>'STELIOS',tabname=>'TEST3',pname=>'method_opt',pvalue=>'FOR COLUMNS OBJECT_TYPE SIZE 1');
+				
 -> statisticas extendidas
 	1) multicolumn
 		- combinação de mutiplas colunas da mesma tabela, seletividade é definida pelo grupo
@@ -278,7 +287,10 @@ Analyze
 				-> restore table_Stats
 					-> quando é feito o drop da tabela o history é perdido
 					-> não é possivel fazer restore user defined stats
-					exec DBMS_STATS.RESTORE_TABLE_STATS(ownname=>'SYSTEM', tabname=>'A', as_of_timestamp=>to_date('22/01/13 12:05:37', 'DD/MM/RR HH24:MI:SS'), force=>true, no_invalidate=>DBMS_STATS.AUTO_INVALIDATE);
+
+						exec DBMS_STATS.RESTORE_TABLE_STATS(ownname=>'SYSTEM', tabname=>'A', as_of_timestamp=>to_date('22/01/13 12:05:37', 'DD/MM/RR HH24:MI:SS'), force=>true, no_invalidate=>DBMS_STATS.AUTO_INVALIDATE);
+						exec dbms_stats.restore_table_stats('SUAT' ,'TRR_ALIAS_LOG_SATOP_TRAN', to_timestamp('20/07/14 19:02:31,510198', 'dd/mm/rr hh24:mi:ssXFF'));
+					
 					select num_rows, blocks, to_char(last_analyzed, 'DD-MON-YYYY HH24:MI:SS') from user_tables where table_name ='A';
 				
 -> para text indexes ela não é compa2tivel portanto devemos usar:	
@@ -323,7 +335,7 @@ Analyze
 		->>> Workload Statistics
 			- Single (sreadtime in ms) and multiblock read times(mreadtim in ms), lookup de indice
 			- mbrc = Multiblock count em média que é feito sequenciamente (blocks), necessário executa um fullscan para coletar
-				- se não existe usa DB_FILE_MULTIBLOCK_READ_COUNT ou se este for 0 usa 8 para determinar o custo
+				- se não existe usa DB_FILE_MULTIBLOCK_READ_COUNT ou s		e este for 0 usa 8 para determinar o custo
 			- CPU speed (cpuspeed) = ciclos médios por segundo (Millions/sec)
 			- Maximum system throughput
 			- Average slave throughput
@@ -587,3 +599,14 @@ exec DBMS_STATS.gather_table_stats(ownname => 'SYSTEM', tabname => 'X', method_o
 	
 	
 	
+------>	
+EXEC DBMS_STATS.gather_database_stats;
+EXEC DBMS_STATS.gather_dictionary_stats;
+EXEC DBMS_STATS.gather_system_stats;
+EXEC DBMS_STATS.gather_fixed_objects_stats;	
+
+
+
+
+user: 
+pass: 

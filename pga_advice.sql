@@ -13,7 +13,7 @@ prompt
 		 
 col pga_target_mb format 99,999 heading "Pga |MB"
 col pga_target_factor_pct format 9,999 heading "Pga Size|Pct"
-col estd_time format 999,999,999 heading "Estimated|Time (s)"
+col estd_time format 999,999,999,999,999 heading "Estimated|Time (s)"
 col estd_extra_mb_rw format 99,999,999 heading "Estd extra|MB"
 col estd_pga_cache_hit_percentage format 999.99 heading "Estd PGA|Hit Pct"
 col estd_overalloc_count format 999,999 heading "Estd|Overalloc"

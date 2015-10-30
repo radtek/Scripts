@@ -1,0 +1,21 @@
+define JOB_CLASS_NAME=&JOB_CLASS_NAME
+
+col JOB_CLASS_NAME for a30
+col COMMENTS for a100 wrapped
+col OWNER for a30
+col RESOURCE_CONSUMER_GROUP for a40
+col SERVICE for a40
+
+break on JOB_CLASS_NAME skip 1
+
+SELECT  OWNER
+ ,JOB_CLASS_NAME
+ ,RESOURCE_CONSUMER_GROUP
+ ,SERVICE
+ ,COMMENTS
+FROM dba_scheduler_job_classes
+WHERE JOB_CLASS_NAME LIKE '&JOB_CLASS_NAME';
+
+clear breaks
+
+undef JOB_CLASS_NAME

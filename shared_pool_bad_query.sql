@@ -1,4 +1,5 @@
 prompt identificar consultas não estão usando bind
+col SQL for a50
 SELECT 
 	substr(sql_text,1,40) "SQL",
 	count(*) ,

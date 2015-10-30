@@ -1,0 +1,35 @@
+01. size per heap
+    t_heap_dump
+    *
+ERRO na linha 4:
+ORA-00942: a tabela ou view não existe 
+
+
+02. size per chunk type
+        from t_heap_dump
+             *
+ERRO na linha 7:
+ORA-00942: a tabela ou view não existe 
+
+
+03. size per object type
+        from t_heap_dump
+             *
+ERRO na linha 7:
+ORA-00942: a tabela ou view não existe 
+
+
+04. size per subheap
+        from t_heap_dump
+             *
+ERRO na linha 7:
+ORA-00942: a tabela ou view não existe 
+
+
+05. freelists histogram
+            from t_heap_dump
+                 *
+ERRO na linha 8:
+ORA-00942: a tabela ou view não existe 
+
+

@@ -6,4 +6,5 @@ select column_name, num_distinct, low_value, high_value, density, num_nulls, las
 from dba_tab_col_statistics
 where owner = UPPER('&OWNER')
 and table_name like UPPER('&TABLE_NAME')
-and column_name like UPPER('&COLUMN_NAME');
+and column_name like UPPER('&COLUMN_NAME')
+order by column_name;

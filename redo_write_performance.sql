@@ -1,10 +1,12 @@
-prompt **** dicas ****
+﻿prompt **** dicas ****
 prompt desconsiderar sempre o primeiro valor, porque o delta dele é incorreto
 prompt informe instance_number 0 para todas
 prompt ***************
 Accept instance_number  prompt 'Instance number:'
 Accept dt1  prompt 'Begin (dd/mm/yyyy hh24:mi:ss):'
 Accept dt2  prompt 'End   (dd/mm/yyyy hh24:mi:ss):'
+
+col startup_time for a20
 
 break on report
 

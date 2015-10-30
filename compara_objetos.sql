@@ -30,4 +30,4 @@ WHERE  O.owner = D.owner (+)
        AND O.owner LIKE Upper('%&&owner') 
 ORDER  BY 5, 
           1, 
-          2; 
+          2; 	

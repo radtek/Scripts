@@ -9,6 +9,8 @@ s.sid db_sid
 , sql_id
 , prev_sql_id
 ,last_call_et/60 Idle_min
+,s.EVENT
+,SEQ#
 ,to_char(s.logon_time, 'YYYY/MM/DD HH24:MI:SS') db_logon_time
 ,nvl(s.username, 'SYS') db_user
 ,s.osuser os_user
@@ -24,8 +26,8 @@ round(PGA_ALLOC_MEM / 1024 / 1024, 2) AS PGA_ALLOC_MEM_MB,
 round(PGA_MAX_MEM   / 1024 / 1024, 2) as PGA_MAX_MEM_MB
 ,s.status
 ,s.BLOCKING_SESSION
-,s.BLOCKING_INSTANCE,
-s.EVENT, s.WAIT_CLASS
+,s.BLOCKING_INSTANCE
+,s.WAIT_CLASS
 from
 	v$session s
 	,v$process p

@@ -1,6 +1,6 @@
 define indexname=&indexname
 prompt execute antes um validate struture para atualizar as informações:
-prompt 		analyze index &indexname validate structure;
+prompt 		analyze index &indexname validate structure online;
 prompt gera lock se for OFFLINE, mas pode ser ONLINE
 SELECT 
 	NAME,

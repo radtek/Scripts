@@ -20,7 +20,7 @@ set pages 2000
 set feedback on
 
 select 
-	constraint_name, owner, TABLE_NAME
+	constraint_name, owner, TABLE_NAME,STATUS,DEFERRED, VALIDATED
 from dba_constraints
 where (r_owner, r_constraint_name) in (select owner, constraint_name
                                    from dba_constraints
@@ -30,4 +30,6 @@ and constraint_type = 'R';
 
 undefine owner
 undefine table_name
+
+
 

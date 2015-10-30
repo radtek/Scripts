@@ -1,9 +1,15 @@
+
 col "Initial (40) text" format a45
+col "Elapsed TimeMS" for 99999999999999999
+col "Cpu TimeMS" for  99999999999999999
+col "AVG_Elapsed TimeMS" for 99999999999999
+
 select rownum rnum, a.*, round((sysdate - min_first_load_time ) *24*60 / "Num Execs") execs_by_min 
 from (
 Select substr(sql_text,1,40) 	As "Initial (40) text",
-       sum(Elapsed_Time)        As "Elapsed Time",
-       sum(cpu_time)            As "Cpu Time",
+       sum(Elapsed_Time)        As "Elapsed TimeMS",
+       Round(sum(Elapsed_Time) / 1000 / Sum(Executions)) as "AVG_Elapsed TimeMS",
+       round(sum(cpu_time) / 1000)           As "Cpu TimeMS",
        Count(*) 		as "Num SQLs",
        Sum(Executions) 		As "Num Execs",
        Sum(Buffer_Gets) 	As "Read Blocks",
@@ -18,4 +24,5 @@ Select substr(sql_text,1,40) 	As "Initial (40) text",
  having Round(Sum(Buffer_Gets)/decode(Sum(Executions),0,1,Sum(Executions))) > 100
  Order by sum(Elapsed_Time) desc) A
 Where rownum <= 30	
+order by "Elapsed TimeMS" desc
 /

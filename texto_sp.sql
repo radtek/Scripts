@@ -4,6 +4,6 @@ undef hash_value
 
 Select sql_text
 from STATS$SQLTEXT 
-where hash_value = &hash_value
+where OLD_HASH_VALUE = &hash_value
 order by piece;
 

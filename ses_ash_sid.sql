@@ -23,7 +23,7 @@ from DBA_HIST_ACTIVE_SESS_HISTORY s
 		on u.user_id = s.user_id
 	left join V$ACTIVE_SERVICES sv
 		on sv.NAME_HASH = s.service_hash
-where s.sample_time between to_date('&dt1') and to_date('&dt2')
+where s.sample_time between to_date('&dt1', 'dd/mm/yyyy hh24:mi:ss') and to_date('&dt2', 'dd/mm/yyyy hh24:mi:ss')
 and s.session_id = &session_id
 and s.SESSION_SERIAL# = &serial
 and s.user_id is not null
@@ -35,7 +35,7 @@ select
 from DBA_HIST_ACTIVE_SESS_HISTORY s
    left join dba_users u
            on u.user_id = s.user_id
-where s.sample_time between to_date('&dt1') and to_date('&dt2')
+where s.sample_time between to_date('&dt1', 'dd/mm/yyyy hh24:mi:ss') and to_date('&dt2', 'dd/mm/yyyy hh24:mi:ss')
 and s.session_id = &session_id
 and s.SESSION_SERIAL# = &serial
 group by sql_id
@@ -47,7 +47,7 @@ select
 from DBA_HIST_ACTIVE_SESS_HISTORY s
    left join dba_users u
            on u.user_id = s.user_id
-where s.sample_time between to_date('&dt1') and to_date('&dt2')
+where s.sample_time between to_date('&dt1', 'dd/mm/yyyy hh24:mi:ss') and to_date('&dt2', 'dd/mm/yyyy hh24:mi:ss')
 and s.session_id = &session_id
 and s.SESSION_SERIAL# = &serial
 group by xid, sql_id
@@ -61,7 +61,7 @@ from DBA_HIST_ACTIVE_SESS_HISTORY s
 		on u.user_id = s.user_id
 	left join V$ACTIVE_SERVICES sv
 		on sv.NAME_HASH = s.service_hash
-where s.sample_time between to_date('&dt1') and to_date('&dt2')
+where s.sample_time between to_date('&dt1', 'dd/mm/yyyy hh24:mi:ss') and to_date('&dt2', 'dd/mm/yyyy hh24:mi:ss')
 and s.session_id = &session_id
 and s.SESSION_SERIAL# = &serial
 and s.user_id is not null
@@ -75,7 +75,7 @@ from DBA_HIST_ACTIVE_SESS_HISTORY s
 		on u.user_id = s.user_id
 	left join V$ACTIVE_SERVICES sv
 		on sv.NAME_HASH = s.service_hash
-where s.sample_time between to_date('&dt1') and to_date('&dt2')
+where s.sample_time between to_date('&dt1', 'dd/mm/yyyy hh24:mi:ss') and to_date('&dt2', 'dd/mm/yyyy hh24:mi:ss')
 and s.session_id = &session_id
 and s.SESSION_SERIAL# = &serial
 and s.user_id is not null

@@ -1,6 +1,7 @@
 prompt **** dicas ****
 prompt desconsiderar sempre o primeiro valor, porque o delta dele é incorreto
 prompt informe instance_number 0 para todas
+prompt Ideal para valores divididos por 1000, ou seja, miliseconds ou valores muito grandes 
 prompt ***************
 Accept instance_number  prompt 'Instance number:'
 Accept dt1  prompt 'Begin (dd/mm/yyyy hh24:mi:ss):'

@@ -1,3 +1,5 @@
+col Initial_text for a50
+
 select rownum rnum, a.* from (
 Select substr(sql_text,1,40) 	As "Initial_text",
        Count(*) 		as "Num SQLs",

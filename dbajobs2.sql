@@ -7,6 +7,8 @@ col NEXT_RUN_DATE for a20
 col LAST_START_DATE for a20
 col LAST_RUN_DURATION for a30
 col MAX_RUN_DURATION for a30
+define job_name = &job_name;
+
 select
     d.OWNER,
     d.job_name,
@@ -23,10 +25,8 @@ select
     d.max_run_duration, 
     d.job_action
 from
-    dba_scheduler_jobs d,
-    sys.scheduler$_job s 
+    dba_scheduler_jobs d 
 where
-    d.job_action = s.program_action 
-and
-    s.obj# = &jobnum;
+	 upper(d.job_name) like upper('&job_name') ;
 
+undefine job_name	

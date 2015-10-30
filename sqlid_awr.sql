@@ -6,6 +6,7 @@ define sqlid=&sqlid
 
 col VALUE_STRING for a20
 col END_INTERVAL_TIME format a17
+col end_interval format a20
 col ELAPSED_TIME_MS_AVG format 999999999999
 
 col EXECUTIONS for 999999999999 justify right
@@ -100,6 +101,30 @@ where sql_id='&sqlid'
 and  hs.snap_id between :Snap_ini and :Snap_fim
 group by hs.snap_id, to_char(hs.end_interval_time, 'DD/MM/YYYY HH24:MI'), PARSING_SCHEMA_NAME, PLAN_HASH_VALUE
 order by PARSING_SCHEMA_NAME, hs.snap_id;
+
+
+prompt ***********AVG Delta values por instance
+select  hs.instance_number,
+	trunc(hs.end_interval_time, 'HH24') AS end_interval,
+	SUM(ss.EXECUTIONS_DELTA) as EXEC_DELTA,
+	SUM(ROUND(ss.DISK_READS_DELTA / COALESCE(NULLIF(ss.EXECUTIONS_DELTA,0), 1))) as DISK_READS_AVG,
+	SUM(ROUND(ss.BUFFER_GETS_DELTA / COALESCE(NULLIF(ss.EXECUTIONS_DELTA,0), 1))) AS BUFFER_GETS_AVG,
+	SUM(ROUND(ss.ROWS_PROCESSED_DELTA / COALESCE(NULLIF(ss.EXECUTIONS_DELTA,0), 1))) AS ROWS_PROCESSED_AVG,
+	SUM(ROUND(ss.CPU_TIME_DELTA  / COALESCE(NULLIF(ss.EXECUTIONS_DELTA,0), 1) / 1000)) AS CPU_TIME_MS_AVG,
+	SUM(ROUND((ss.ELAPSED_TIME_DELTA  / COALESCE(NULLIF(ss.EXECUTIONS_DELTA,0), 1)) / 1000)) AS ELAPSED_TIME_MS_AVG,
+	SUM(ROUND(ss.FETCHES_DELTA  / COALESCE(NULLIF(ss.EXECUTIONS_DELTA,0), 1))) AS FETCHES_AVG,
+	SUM(ROUND(ss.SORTS_DELTA  / COALESCE(NULLIF(ss.EXECUTIONS_DELTA,0), 1))) AS SORTS_AVG,
+	SUM(ROUND(ss.PARSE_CALLS_DELTA  / COALESCE(NULLIF(ss.EXECUTIONS_DELTA,0), 1))) AS PARSE_CALLS_AVG,
+	SUM(ROUND(ss.PX_SERVERS_EXECS_DELTA  / COALESCE(NULLIF(ss.EXECUTIONS_DELTA,0), 1))) AS PX_SERVERS_EXECS_AVG, 
+	SUM(ROUND((ss.ELAPSED_TIME_DELTA  / nullif(ss.ROWS_PROCESSED_DELTA,0)) / 1000)) AS ELAPSED_TIME_MS_AVG_BY_ROW
+from dba_hist_snapshot hs
+	inner join dba_hist_sqlstat ss
+		on hs.snap_id = ss.snap_id
+		and hs.instance_number = ss.instance_number	
+where sql_id='&sqlid'
+and  hs.snap_id between :Snap_ini and :Snap_fim
+group by hs.instance_number, trunc(hs.end_interval_time, 'HH24')
+order by 1, 2;
 
 
 prompt ***********Outros Delta values por snap_id AWR

@@ -30,6 +30,8 @@ s.sid db_sid
 ,i.host_name
 ,s.module
 ,s.sql_id
+,s.prev_sql_id
+,s.event
 from
 gv$session s
 ,gv$process p

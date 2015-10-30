@@ -1,0 +1,27 @@
+define SCHEDULE_NAME=&SCHEDULE_NAME
+
+col SCHEDULE_NAME for a30
+col SCHEDULE_TYPE for a30
+col OWNER for a20
+col REPEAT_INTERVAL for a71
+col START_DATE for a32
+col END_DATE for a32
+col COMMENTS for a100 wrapped
+
+break on SCHEDULE_NAME skip 1
+
+SELECT 
+	OWNER,
+	SCHEDULE_NAME,
+	SCHEDULE_TYPE,
+	REPEAT_INTERVAL	,
+	START_DATE,
+	END_DATE,
+	COMMENTS
+FROM dba_scheduler_schedules
+WHERE SCHEDULE_NAME LIKE '&SCHEDULE_NAME';
+
+
+clear breaks
+
+undef SCHEDULE_NAME
